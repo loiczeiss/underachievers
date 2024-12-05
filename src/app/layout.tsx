@@ -3,7 +3,7 @@ import { Providers } from "./providers";
 import localFont from "next/font/local";
 import {Zen_Dots} from "next/font/google"
 import "./globals.css";
-import Header from "../components/Header";
+import Header from "../components/header/Header";
 import { fromJSON } from "postcss";
 
 const zenDots = Zen_Dots({

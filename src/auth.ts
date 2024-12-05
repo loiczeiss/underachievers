@@ -1,24 +1,25 @@
 import NextAuth from "next-auth"
-import GoogleProvider from "next-auth/providers/google";
-import { PrismaAdapter } from "@next-auth/prisma-adapter"
+import Google from "next-auth/providers/google"
+import { PrismaAdapter } from "@auth/prisma-adapter"
+import { db } from "./db"
 
-import {db} from "@/db"
 
-const  AUTH_GOOGLE_ID  = process.env.AUTH_GOOGLE_ID as string
-const AUTH_GOOGLE_SECRET = process.env.AUTH_GOOGLE_SECRET as string
 
-export const {
-    handlers: { GET, POST },
-    auth,
-    signOut,
-    signIn,
-  } = NextAuth({
-  providers: [
-   GoogleProvider ({
-      clientId:AUTH_GOOGLE_ID,
-      clientSecret:AUTH_GOOGLE_SECRET,
-    }),
-  ],
+
+export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(db),
- 
+  providers: [Google],
+  secret: process.env.AUTH_SECRET,
+
+  callbacks: {
+    async session({ session, user, token }) {
+      // Map session fields here
+      return session;
+    },
+    async signIn({ user, account, profile }) {
+      // Ensure data integrity here
+      console.log(user)
+      return true;
+    },
+  },
 })

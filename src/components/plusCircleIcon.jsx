@@ -1,7 +1,7 @@
 export const PlusCircle = ({
     fill = 'currentColor',
     filled,
-    size,
+    size = 8, 
     height,
     width,
     label,

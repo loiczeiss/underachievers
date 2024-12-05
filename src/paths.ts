@@ -2,8 +2,11 @@ const paths = {
     home(){
         return '/'
     },
-    createText(){
-        return '/createText/'
+    createTextPost(){
+        return '/posts/new'
+    },
+    postShow(postId: string){
+        return `/posts/${postId}`
     }
 }
 

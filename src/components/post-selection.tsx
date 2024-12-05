@@ -7,13 +7,11 @@ import {
 import { PlusCircle } from "./plusCircleIcon";
 import { redirect } from "next/navigation";
 import paths from "@/paths";
-export default function TopicSelection() {
+export default function PostSelection() {
   return (
-    <Popover placement="left">
+    <Popover placement="left" className="mr-8">
       <PopoverTrigger>
-        <div>
-          <PlusCircle />
-        </div>
+        <Button isIconOnly className="rounded-3xl" variant="ghost" ><PlusCircle/></Button>
       </PopoverTrigger>
       <PopoverContent className="p-4 bg-transparent shadow backdrop-blur-sm mt-4">
         <div>
@@ -21,7 +19,7 @@ export default function TopicSelection() {
           <div className="flex flex-col p-4">
             <Button
               className="mt-4 bg-transparent shadow hover:bg-[#f2faff]"
-              onClick={() => redirect(paths.createText())}
+              onClick={() => redirect(paths.createTextPost())}
             >
               Text
             </Button>
