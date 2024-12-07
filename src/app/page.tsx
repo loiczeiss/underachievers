@@ -31,7 +31,7 @@ export default async function Home() {
   } else {
     return (
       <>
-        <div className="flex">
+        <div className="flex w-full">
           <NavBar />
       <PostList posts={posts}/>
         </div>

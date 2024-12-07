@@ -1,6 +1,6 @@
-'use client'
+"use client";
 
-import { Card } from "@nextui-org/react";
+import { Button, Card } from "@nextui-org/react";
 import Link from "next/link";
 
 interface PostListProps {
@@ -11,26 +11,34 @@ interface PostListProps {
     userId: string;
     createdAt: Date;
     updatedAt: Date;
-  }[]
+  }[];
 }
+
+export const dynamicParams = true
+
 export default function PostList(props: PostListProps) {
-    const renderedPosts = props.posts.map((post) => {
-            return (
-    <Card isBlurred className="w-full mr-8">
-    {" "}
-    <Link
-      key={post.id}
-      href={`/posts/${post.id}`}
-      className="flex flex-col justify-between items-center p-2 border rounded"
-    >
-      <div> {post.title}</div>
-      <div>{post.content}</div>
-      <div>View</div>
-    </Link>
-  </Card>)})
+
+  const renderedPosts = props.posts.map((post) => {
+    return (
+      <Card isBlurred className="w-full mb-4 mr-8 py-4 px-8" key={post.id}>
+        <div className="uppercase text-2xl"> {post.title}</div>
+        <div className="py-4">{post.content}</div>
+
+        <Button className="w-64 bg-white/25">
+          <Link
+            href={`/posts/${post.id}`}
+          >
+            View
+          </Link>
+        </Button>
+      </Card>
+    );
+  });
   return (
     <>
-     <div className="w-full flex my-4">{renderedPosts}</div>
+      <div className="w-4/6 flex flex-col my-4 overscroll-contain">
+        {renderedPosts}
+      </div>
     </>
   );
 }

@@ -7,6 +7,9 @@ const paths = {
     },
     postShow(postId: string){
         return `/posts/${postId}`
+    },
+    postsListPage(){
+        return "/posts/all"
     }
 }
 
