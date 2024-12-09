@@ -2,6 +2,7 @@
 
 import { Button, Card } from "@nextui-org/react";
 import Link from "next/link";
+import paths from "@/paths";
 
 interface PostListProps {
   posts: {
@@ -26,7 +27,7 @@ export default function PostList(props: PostListProps) {
 
         <Button className="w-64 bg-white/25">
           <Link
-            href={`/posts/${post.id}`}
+            href={`${paths.postShow(post.id)}`}
           >
             View
           </Link>

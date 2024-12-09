@@ -4,7 +4,7 @@ import { db } from "@/db";
 import Link from "next/link";
 import { auth } from "@/auth";
 import NavBar from "@/components/nav";
-import PostList from "@/components/posts/Post-list";
+import PostList from "@/components/posts/text/PostTextList";
 export default async function Home() {
   const posts = await db.textPost.findMany();
 

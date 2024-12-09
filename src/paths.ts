@@ -3,13 +3,13 @@ const paths = {
         return '/'
     },
     createTextPost(){
-        return '/posts/new'
+        return '/posts/text/new'
     },
     postShow(postId: string){
-        return `/posts/${postId}`
+        return `/posts/text/${postId}`
     },
     postsListPage(){
-        return "/posts/all"
+        return "/posts/text/all"
     }
 }
 

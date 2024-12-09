@@ -1,5 +1,5 @@
 import NavBar from "@/components/nav";
-import PostList from "@/components/posts/Post-list";
+import PostList from "@/components/posts/text/PostTextList";
 import { db } from "@/db";
 
 export default async function PostsListPage() {

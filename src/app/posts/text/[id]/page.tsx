@@ -1,4 +1,4 @@
-import PostShow from "@/components/posts/Post-Show";
+import PostShow from "@/components/posts/text/PostTextShow";
 import { db } from "@/db";
 import * as actions from "@/actions";
 
