@@ -8,7 +8,7 @@ export default function NavBar() {
     <>
       <Card
         isBlurred
-        className="flex items-center justify-center w-1/6 mx-8 my-4 h-min"
+        className="flex items-center justify-center lg:w-1/6 mx-8 my-4 h-min"
       >
         <ul className="w-fit  text-center w-full  text-xl">
           <li className="hover:bg-white/25 py-2 px-4 rounded-xl">All</li>

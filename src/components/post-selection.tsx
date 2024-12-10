@@ -5,13 +5,58 @@ import {
   PopoverTrigger,
 } from "@nextui-org/react";
 import { PlusCircle } from "./plusCircleIcon";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import paths from "@/paths";
+import { useEffect, useState } from "react";
 export default function PostSelection() {
+  const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+
+
+function useMediaQuery(query) {
+  const [matches, setMatches] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia(query);
+    if (media.matches !== matches) {
+      setMatches(media.matches);
+    }
+    const listener = () => setMatches(media.matches);
+    media.addEventListener("change", listener);
+    return () => media.removeEventListener("change", listener);
+  }, [matches, query]);
+
+  return matches;
+}
+
+
+const isMobile = useMediaQuery("(max-width: 768px)"); // Change based on your breakpoint
+
+  const placement = isMobile ? "bottom" : "left"; // Adjust placement based on screen size
+
+
+  const handlePostTypeSelection = (postType) => {
+    if (postType === "text") {
+      router.push(paths.createTextPost());
+    } else if (postType === "image") {
+      router.push(paths.createImgPost());
+    } else if (postType === "sound") {
+      // Implement logic for sound post
+      console.log("Sound post creation is not implemented yet.");
+    }
+    setIsOpen(false);
+  };
   return (
-    <Popover placement="left" className="mr-8">
+    <Popover
+      placement={placement}
+      className="mr-8"
+      isOpen={isOpen}
+      onOpenChange={(open) => setIsOpen(open)}
+    >
       <PopoverTrigger>
-        <Button isIconOnly className="rounded-3xl" variant="ghost" ><PlusCircle/></Button>
+        <Button isIconOnly className="rounded-3xl " variant="ghost">
+          <PlusCircle />
+        </Button>
       </PopoverTrigger>
       <PopoverContent className="p-4 bg-transparent shadow backdrop-blur-sm mt-4">
         <div>
@@ -19,14 +64,20 @@ export default function PostSelection() {
           <div className="flex flex-col p-4">
             <Button
               className="mt-4 bg-transparent shadow hover:bg-[#f2faff]"
-              onClick={() => redirect(paths.createTextPost())}
+              onClick={() => handlePostTypeSelection("text")}
             >
               Text
             </Button>
-            <Button className="mt-4 bg-transparent shadow hover:bg-[#f2faff]">
+            <Button
+              className="mt-4 bg-transparent shadow hover:bg-[#f2faff]"
+              onClick={() => handlePostTypeSelection("image")}
+            >
               Image
             </Button>
-            <Button className="mt-4 bg-transparent shadow hover:bg-[#f2faff]">
+            <Button
+              className="mt-4 bg-transparent shadow hover:bg-[#f2faff]"
+              onClick={() => handlePostTypeSelection("sound")}
+            >
               Sound
             </Button>
           </div>

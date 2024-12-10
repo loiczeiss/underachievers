@@ -19,7 +19,7 @@ export default function HeaderAuth() {
             <PostSelection/>
             <Popover placement="left" >
               <PopoverTrigger>
-                <Avatar src={session.data.user?.image || ""} className="ml-8"/>
+                <Avatar src={session.data.user?.image || ""} className="lg:ml-8 ml-4 w-8 h-8"/>
               </PopoverTrigger>
               <PopoverContent>
                 <div className="p-4">

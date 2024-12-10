@@ -17,17 +17,17 @@ interface PostListProps {
 
 export const dynamicParams = true
 
-export default function PostList(props: PostListProps) {
+export default function TextPostList(props: PostListProps) {
 
   const renderedPosts = props.posts.map((post) => {
     return (
-      <Card isBlurred className="w-full mb-4 mr-8 py-4 px-8" key={post.id}>
-        <div className="uppercase text-2xl"> {post.title}</div>
-        <div className="py-4">{post.content}</div>
+      <Card isBlurred className="mx-8 mb-4 lg:mr-8 py-4 px-2 sm:px-8" key={post.id}>
+        <div className="uppercase lg:text-2xl"> {post.title}</div>
+        <div className="py-4 text-sm lg:text-xl">{post.content}</div>
 
-        <Button className="w-64 bg-white/25">
+        <Button className="w-48 lg:w-64 bg-white/25">
           <Link
-            href={`${paths.postShow(post.id)}`}
+            href={`${paths.textPostShow(post.id)}`}
           >
             View
           </Link>
@@ -37,7 +37,7 @@ export default function PostList(props: PostListProps) {
   });
   return (
     <>
-      <div className="w-4/6 flex flex-col my-4 overscroll-contain">
+      <div className="self-center lg:w-4/6 flex flex-col my-4 overscroll-contain">
         {renderedPosts}
       </div>
     </>

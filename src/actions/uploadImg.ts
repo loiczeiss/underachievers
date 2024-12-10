@@ -5,6 +5,7 @@ import paths from "@/paths";
 import { Image } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { retrieveImg } from "./retrieveImg";
 
 interface ResultProps {
   info: {
@@ -16,7 +17,7 @@ interface ResultProps {
   }
 }
 export async function uploadImg(result: ResultProps) {
-    console.log(result)
+  
   let img: Image;
   try {
     img = await db.image.create({
@@ -28,28 +29,8 @@ export async function uploadImg(result: ResultProps) {
         format: result.info.format,
       },
     });
-//   } catch (err: unknown) {
-//     if (err instanceof Error) {
-//         console.log("here")
-//       return {
-//         errors: {
-//           _form: [err.message],
-//         },
-//       };
-//     } else {
-//         console.log("here2")
-//       return {
-//         errors: {
-//           _form: ["Failed to create post"],
-//         },
-//       };
-//     }
-//   }
+   return result.info.secure_url
 
-//   //   revalidatePath(paths.postsListPage());
-//   //   redirect(paths.postsListPage());
-//   //TODO: revalidate the topic show page
-// }
 }catch (err: unknown) {
     if (err instanceof Error) {
       console.error("Database error:", err);
@@ -67,5 +48,8 @@ export async function uploadImg(result: ResultProps) {
       },
     };
   }
+  //   //   revalidatePath(paths.postsListPage());
+//   //   redirect(paths.postsListPage());
+//   //TODO: revalidate the topic show page
 }
 

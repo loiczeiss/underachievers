@@ -20,7 +20,7 @@ interface PostShowProps {
 }
 
 
-export default function PostShow({ post, deletePost }: PostShowProps) {
+export default function TextPostShow({ post, deletePost }: PostShowProps) {
   console.log(post.id)
   // revalidatePath(`${paths.postShow(post.id)}`)
   return (

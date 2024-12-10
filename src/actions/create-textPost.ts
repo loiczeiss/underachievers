@@ -70,8 +70,8 @@ const createPostSchema = z.object({
       }
     }
   
-    revalidatePath(paths.postsListPage());
-    redirect(paths.postsListPage())
+    revalidatePath(paths.textPostsListPage());
+    redirect(paths.textPostsListPage())
     //TODO: revalidate the topic show page
   }
   

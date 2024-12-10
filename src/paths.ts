@@ -5,11 +5,14 @@ const paths = {
     createTextPost(){
         return '/posts/text/new'
     },
-    postShow(postId: string){
+    textPostShow(postId: string){
         return `/posts/text/${postId}`
     },
-    postsListPage(){
+    textPostsListPage(){
         return "/posts/text/all"
+    },
+    createImgPost(){
+        return "/posts/images/new"
     }
 }
 

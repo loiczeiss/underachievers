@@ -10,16 +10,16 @@ export default function CreateTextPost() {
   return (
     <>
       <div className="flex justify-center">
-        <Card isBlurred className="w-2/3 mt-8 p-8 ">
+        <Card isBlurred className="mx-8 lg:mx-0 lg:w-2/3 mt-8 p-8 ">
           <form action={action}>
             <Input
-              className="pb-4"
+              className="pb-4 text-sm"
               variant="bordered"
                name="title"
-              label="title"
+
 
               classNames={{
-                input: "placeholder:text-black",
+                input: "placeholder:text-black ",
                 inputWrapper: "border-white/20",
               }}
               isClearable
@@ -36,10 +36,10 @@ export default function CreateTextPost() {
                 inputWrapper: "border-white/20",
               }}
                name="content"
-              label="Content"
+      
               placeholder="Text content"
             />
-            <Button className="mt-4 w-1/4 self-end bg-white/20 shadow" type="submit">
+            <Button className="mt-4 lg:w-1/4 self-end bg-white/20 shadow" type="submit">
               Create text post
             </Button>
             {formState.errors._form ? (
