@@ -13,6 +13,12 @@ const paths = {
     },
     createImgPost(){
         return "/posts/images/new"
+    },
+    imgPostShow(postId: string){
+        return `/posts/images/${postId}`
+    },
+    imgPostsListPage(){
+        return "/posts/images/all"
     }
 }
 

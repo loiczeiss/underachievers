@@ -23,6 +23,7 @@ export default function HeaderAuth() {
               </PopoverTrigger>
               <PopoverContent>
                 <div className="p-4">
+                  <p className="mb-4 text-center">{session.data.user.name}</p>
                   <form action={actions.signOut}>
                     <Button type="submit">Sign Out</Button>
                   </form>

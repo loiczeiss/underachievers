@@ -19,7 +19,7 @@ export const dynamicParams = true
 
 export default function TextPostList(props: PostListProps) {
 
-  const renderedPosts = props.posts.map((post) => {
+  const renderedPosts = [...props.posts].reverse().map((post) => {
     return (
       <Card isBlurred className="mx-8 mb-4 lg:mr-8 py-4 px-2 sm:px-8" key={post.id}>
         <div className="uppercase lg:text-2xl"> {post.title}</div>

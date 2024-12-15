@@ -14,18 +14,18 @@ const createPostSchema = z.object({
     content: z.string().min(10),
   });
   
-  interface CreatePostFormState {
+  interface CreateTextPostFormState {
     errors: {
       title?: string[];
       content?: string[];
       _form?: string[];
     };
   }
-  export async function createPost(
+  export async function createTextPostAction(
   
-    formState: CreatePostFormState,
+    formState: CreateTextPostFormState,
     formData: FormData
-  ): Promise<CreatePostFormState> {
+  ): Promise<CreateTextPostFormState> {
     const result = createPostSchema.safeParse({
       title: formData.get("title"),
       content: formData.get("content"),

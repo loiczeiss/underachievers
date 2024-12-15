@@ -6,7 +6,7 @@ import * as actions from "@/actions";
 import { Card, Textarea, Button, Input } from "@nextui-org/react";
 
 export default function CreateTextPost() {
-  const [formState, action] = useFormState(actions.createPost,{ errors:{}})
+  const [formState, action] = useFormState(actions.createTextPostAction,{ errors:{}})
   return (
     <>
       <div className="flex justify-center">
