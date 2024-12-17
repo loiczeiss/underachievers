@@ -92,7 +92,7 @@ model ImgPost {
 model Image {
   id        String   @id @default(uuid())
   publicId  String   @unique
-  url       String
+  url       String @unique
   width     Int
   height    Int
   format    String

@@ -29,7 +29,10 @@ export async function uploadImg(result: ResultProps) {
         format: result.info.format,
       },
     });
-   return result.info.secure_url
+    return {
+      url: result.info.secure_url,
+      publicId: result.info.public_id,
+    };
 
 }catch (err: unknown) {
     if (err instanceof Error) {
