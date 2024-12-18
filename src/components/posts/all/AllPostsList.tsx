@@ -6,26 +6,28 @@ import { CldImage } from "next-cloudinary";
 import Link from "next/link";
 
 interface ImgPostListprops {
+  mediaTypeFilter: number;
   posts: {
     title: string;
     content: string;
     id: string;
     userId: string;
-    imgUrl: string;
+    imgUrl?: string;
     createdAt: Date;
     updatedAt: Date;
-  }[];
+  }[]; // Correctly define `posts` as an array of objects
 }
 
 export const dynamicParams = true;
 
 export default function AllPostList(props: ImgPostListprops) {
+  console.log(props);
   const renderedImgPosts = [...props.posts].reverse().map((post) => {
     return (
       <Card
         isBlurred
         className="mx-8 mb-4 lg:mr-8 py-4 px-2 sm:px-8"
-        key={post.id}
+        key={Number(post.id)}
       >
         <div className="uppercase lg:text-2xl"> {post.title}</div>
         <div className="py-4 text-sm lg:text-xl">{post.content}</div>

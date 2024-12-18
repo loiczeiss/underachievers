@@ -7,7 +7,10 @@ import { useFormState } from "react-dom";
 import { useEffect, useState } from "react";
 
 export default function CreateImgPost() {
-  const [uploadedImage, setUploadedImage] = useState<{ url: string; publicId: string } | null>(null);
+  const [uploadedImage, setUploadedImage] = useState<{
+    url: string;
+    publicId: string;
+  } | null>(null);
 
   const CloudPresetName = process.env.NEXT_PUBLIC_CLOUDINARY_PRESET_NAME;
   const [formState, action] = useFormState(actions.createImgPostAction, {
@@ -17,7 +20,10 @@ export default function CreateImgPost() {
   const handleUploadSuccess = async (result) => {
     try {
       // Call the upload handler
-      const response = (await actions.uploadImg(result)) as { url: string; publicId: string };
+      const response = (await actions.uploadImg(result)) as {
+        url: string;
+        publicId: string;
+      };
 
       if (response?.url && response?.publicId) {
         setUploadedImage(response); // Set the image data in state
@@ -41,7 +47,10 @@ export default function CreateImgPost() {
   };
 
   useEffect(() => {
-    const handleBeforeUnload = async (event: { preventDefault: () => void; returnValue: string }) => {
+    const handleBeforeUnload = async (event: {
+      preventDefault: () => void;
+      returnValue: string;
+    }) => {
       if (uploadedImage) {
         await handleDeletingImg();
         // Show a confirmation dialog in case of accidental navigation
@@ -64,7 +73,9 @@ export default function CreateImgPost() {
   return (
     <>
       <Card isBlurred className="mx-8 lg:mx-0 lg:w-2/3 my-8 p-8">
-        <h1 className="pb-4">Give your post a title, image and a short description</h1>
+        <h1 className="pb-4">
+          Give your post a title, image and a short description
+        </h1>
         <form action={action}>
           <Input
             className="pb-4"
@@ -85,11 +96,15 @@ export default function CreateImgPost() {
                 uploadPreset={CloudPresetName}
                 options={{ sources: ["local", "url", "camera"] }}
                 className={`${
-                  formState.errors.imgUrl ? "border-rose-500" : "border-white/25"
+                  formState.errors.imgUrl
+                    ? "border-rose-500"
+                    : "border-white/25"
                 } rounded-xl border p-4`}
                 onSuccess={handleUploadSuccess}
               />
-              <p className="text-rose-500 text-[12px] mb-4">{formState.errors.imgUrl}</p>
+              <p className="text-rose-500 text-[12px] mb-4">
+                {formState.errors.imgUrl}
+              </p>
             </div>
           )}
           {uploadedImage && (
@@ -112,7 +127,11 @@ export default function CreateImgPost() {
             </div>
           )}
           <Input type="hidden" name="imgUrl" value={uploadedImage?.url || ""} />
-          <Input type="hidden" name="imgPublicId" value={uploadedImage?.publicId || ""} />
+          <Input
+            type="hidden"
+            name="imgPublicId"
+            value={uploadedImage?.publicId || ""}
+          />
           <Textarea
             isInvalid={!!formState.errors.content}
             errorMessage={formState.errors.content?.join(", ")}
@@ -124,7 +143,10 @@ export default function CreateImgPost() {
             name="content"
             placeholder="Content"
           />
-          <Button className="mt-4 lg:w-1/4 self-end bg-white/20 shadow" type="submit">
+          <Button
+            className="mt-4 lg:w-1/4 self-end bg-white/20 shadow"
+            type="submit"
+          >
             Create image post
           </Button>
           {formState.errors._form ? (
