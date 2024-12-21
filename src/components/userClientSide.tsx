@@ -34,7 +34,7 @@ interface ImgPostListprops {
     updatedAt: Date;
   }[];
 }
-export default function HomeClientSide(props: ImgPostListprops) {
+export default function UserClientSide(props: ImgPostListprops) {
   const [mediaTypeFilter, setMediaTypeFIlter] = useState(0);
   return (
     <>

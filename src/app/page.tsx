@@ -3,7 +3,7 @@ import { Card } from "@nextui-org/react";
 import { db } from "@/db";
 import Link from "next/link";
 import { auth } from "@/auth";
-import NavBar from "@/components/navFilter";
+import NavBar from "@/components/navLinks";
 
 import AllPostList from "@/components/posts/all/AllPostsList";
 import HomeClientSide from "@/components/homeClientSide";

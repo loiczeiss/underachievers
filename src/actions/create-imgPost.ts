@@ -6,6 +6,7 @@ import { db } from "@/db";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import paths from "@/paths";
+import { revalidatePath } from "next/cache";
 
 // Extend the schema to include imageUrl validation
 const createPostSchema = z.object({
@@ -82,5 +83,6 @@ export async function createImgPostAction(
 
 
   // Redirect to the post creation page or another destination
+  revalidatePath(paths.imgPostsListPage())
   redirect(paths.imgPostsListPage());
 }

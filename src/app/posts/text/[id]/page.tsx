@@ -3,12 +3,13 @@ import { db } from "@/db";
 import * as actions from "@/actions";
 
 interface PostShowPageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
-export default async function PostShowPage({ params }: PostShowPageProps) {
+export default async function PostShowPage(props: PostShowPageProps) {
+  const params = await props.params;
   const { id } = params;
-  
+
 
   const post = await db.textPost.findFirst({ where: { id } });
 

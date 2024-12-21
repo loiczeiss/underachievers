@@ -1,4 +1,4 @@
-import NavBar from "@/components/navFilter";
+import NavBar from "@/components/navLinks";
 import ImgPostList from "@/components/posts/images/imgPostList";
 
 import { db } from "@/db";

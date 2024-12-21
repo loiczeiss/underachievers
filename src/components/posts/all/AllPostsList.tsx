@@ -30,7 +30,6 @@ export default function AllPostList(props: ImgPostListprops) {
         key={Number(post.id)}
       >
         <div className="uppercase lg:text-2xl"> {post.title}</div>
-        <div className="py-4 text-sm lg:text-xl">{post.content}</div>
         {post.imgUrl && (
           <CldImage
             className="rounded-xl mb-4 "
@@ -41,6 +40,8 @@ export default function AllPostList(props: ImgPostListprops) {
             alt="Uploaded Image"
           />
         )}
+        <div className="py-4 text-sm lg:text-xl">{post.content}</div>
+
         <Button className="w-48 lg:w-64 bg-white/25">
           {post.imgUrl ? (
             <Link href={`${paths.imgPostShow(post.id)}`}>View</Link>

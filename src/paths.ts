@@ -19,6 +19,9 @@ const paths = {
     },
     imgPostsListPage(){
         return "/posts/images/all"
+    },
+    userPostsPage(userId: string){
+        return `/user/${userId}`
     }
 }
 

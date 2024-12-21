@@ -24,7 +24,7 @@ export default function ImgPostList(props: ImgPostListprops){
         return (
           <Card isBlurred className="mx-8 mb-4 lg:mr-8 py-4 px-2 sm:px-8" key={post.id}>
             <div className="uppercase lg:text-2xl"> {post.title}</div>
-            <div className="py-4 text-sm lg:text-xl">{post.content}</div>
+       
             <CldImage
                 className="rounded-xl mb-4 "
                 width={300} // Adjust width as needed
@@ -33,6 +33,7 @@ export default function ImgPostList(props: ImgPostListprops){
                 sizes="100vw"
                 alt="Uploaded Image"
               />
+                   <div className="py-4 text-sm lg:text-xl">{post.content}</div>
             <Button className="w-48 lg:w-64 bg-white/25">
               <Link
                 href={`${paths.imgPostShow(post.id)}`}
