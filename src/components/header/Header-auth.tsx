@@ -34,9 +34,9 @@ export default function HeaderAuth() {
             />
           </PopoverTrigger>
           <PopoverContent>
-            <div className="p-4">
+            <div className="p-4 flex flex-col items-center">
               <p className="mb-4 text-center">{session.data.user.name}</p>
-              <Button onClick={()=>redirect(paths.userPostsPage(session.data.user?.id as string))}>My posts</Button>
+              <Button className="mb-4" onClick={()=>redirect(paths.userPostsPage(session.data.user?.id as string))}>My posts</Button>
               <form action={actions.signOut}>
                 <Button type="submit">Sign Out</Button>
               </form>

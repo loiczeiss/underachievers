@@ -22,6 +22,12 @@ const paths = {
     },
     userPostsPage(userId: string){
         return `/user/${userId}`
+    },
+    userImgPostPage(userId:string, postId: string){
+        return `/user/${userId}/images/${postId} `
+    },
+    userTextPostPage(userId: string, postId: string){
+        return `/user/${userId}/text/${postId}`
     }
 }
 

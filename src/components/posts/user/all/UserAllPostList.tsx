@@ -20,7 +20,7 @@ interface ImgPostListprops {
 
 export const dynamicParams = true;
 
-export default function AllPostList(props: ImgPostListprops) {
+export default function UserAllPostList(props: ImgPostListprops) {
   const noPostYet = (
     <Card  isBlurred
     className="mx-8 mb-4 lg:mr-8 py-4 px-2 sm:px-8">
@@ -49,9 +49,9 @@ export default function AllPostList(props: ImgPostListprops) {
 
         <Button className="w-48 lg:w-64 bg-white/25">
           {post.imgUrl ? (
-            <Link href={`${paths.imgPostShow(post.id)}`}>View</Link>
+            <Link href={`${paths.userImgPostPage(post.userId,post.id)}`}>View</Link>
           ) : (
-            <Link href={`${paths.textPostShow(post.id)}`}>View</Link>
+            <Link href={`${paths.userTextPostPage(post.userId, post.id)}`}>View</Link>
           )}
         </Button>
       </Card>

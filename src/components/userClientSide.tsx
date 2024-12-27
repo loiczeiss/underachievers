@@ -2,11 +2,15 @@
 
 import { useState } from "react";
 
-import AllPostList from "./posts/all/AllPostsList";
+
 import TextPostList from "./posts/text/PostTextList";
 import ImgPostList from "./posts/images/imgPostList";
 
 import NavFilters from "./navFilters";
+import UserAllPostList from "./posts/user/all/UserAllPostList";
+import UserImgPostList from "./posts/user/images/UserImgPostList";
+import UserTextPostList from "./posts/user/text/UserTextPostList";
+import { Card } from "@nextui-org/react";
 interface ImgPostListprops {
   allPosts: {
     title: string;
@@ -39,16 +43,17 @@ export default function UserClientSide(props: ImgPostListprops) {
   const [mediaTypeFilter, setMediaTypeFIlter] = useState(0);
   return (
     <>
+    <Card isBlurred className="w-10/12 mx-8 text-center py-4 mt-4 text-2xl">My posts</Card>
       <div className="flex flex-col lg:flex-row w-full">
         <NavFilters setMediaTypeFilter={setMediaTypeFIlter} />
         {mediaTypeFilter === 0 && (
-          <AllPostList
+          <UserAllPostList
             posts={props.allPosts}
             mediaTypeFilter={mediaTypeFilter}
           />
         )}
-        {mediaTypeFilter === 1 && <ImgPostList posts={props.imgPosts} />}
-        {mediaTypeFilter === 2 && <TextPostList posts={props.textPosts} />}
+        {mediaTypeFilter === 1 && <UserImgPostList posts={props.imgPosts} />}
+        {mediaTypeFilter === 2 && <UserTextPostList posts={props.textPosts} />}
       </div>
     </>
   );
