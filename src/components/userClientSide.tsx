@@ -5,7 +5,8 @@ import { useState } from "react";
 import AllPostList from "./posts/all/AllPostsList";
 import TextPostList from "./posts/text/PostTextList";
 import ImgPostList from "./posts/images/imgPostList";
-import NavLinks from "./navLinks";
+
+import NavFilters from "./navFilters";
 interface ImgPostListprops {
   allPosts: {
     title: string;
@@ -39,7 +40,7 @@ export default function UserClientSide(props: ImgPostListprops) {
   return (
     <>
       <div className="flex flex-col lg:flex-row w-full">
-        <NavLinks setMediaTypeFilter={setMediaTypeFIlter} />
+        <NavFilters setMediaTypeFilter={setMediaTypeFIlter} />
         {mediaTypeFilter === 0 && (
           <AllPostList
             posts={props.allPosts}
