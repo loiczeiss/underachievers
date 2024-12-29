@@ -29,15 +29,19 @@ interface PostShowProps {
     createdAt: Date;
     updatedAt: Date;
   }[];
-  deleteCommentTextPost: (commentId: string, textPostId: string) => void;
+  // deleteCommentTextPost?: (commentId: string, textPostId: string) => void | Promise<void>;
 }
 
-export default function TextPostShow({ post, comments, deleteCommentTextPost }: PostShowProps) {
+export default function TextPostShow({ post, comments
+  // , deleteCommentTextPost 
+}: PostShowProps) {
   return (
     <Card isBlurred className="my-8 w-6/12 mx-8 px-8">
       <h1 className="my-4 text-xl uppercase">{post.title}</h1>
       <p className="mb-8">{post.content}</p>
-      <CommentsTextPost postId={post.id} comments={comments} deleteCommentTextPost={deleteCommentTextPost}/>
+      <CommentsTextPost postId={post.id} comments={comments} 
+      // deleteCommentTextPost={deleteCommentTextPost}
+      />
     </Card>
   );
 }

@@ -41,7 +41,7 @@ export default function UserTextPostShow({ post, deletePost }: PostShowProps) {
           {" "}
           <Button
             className="bg-transparent"
-            onClick={() => redirect(paths.userPostsPage(post.userId))}
+            onPress={() => redirect(paths.userPostsPage(post.userId))}
           >
             Back
           </Button>

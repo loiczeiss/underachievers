@@ -5,8 +5,10 @@ import * as actions from "@/actions";
 import { PostType } from "@prisma/client";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import paths from "@/paths";
 interface CommentProps {
   postId: string;
   comments: {
@@ -21,9 +23,11 @@ interface CommentProps {
     createdAt: Date;
     updatedAt: Date;
   }[];
-  deleteCommentTextPost: (commentId: string, textPostId: string) => void;
+  deleteCommentTextPost?: (commentId: string, textPostId: string) => void;
 }
 export default function CommentsTextPost(props: CommentProps) {
+  const [isDeleted, setIsDeleted] = useState(false);
+  const router = useRouter(); // Next.js router for client-side navigatio
   const [commentContentValue, setCommentContentValue] = useState("");
   const [formState, action] = useFormState(actions.createCommentTextAction, {
     errors: {},
@@ -31,9 +35,24 @@ export default function CommentsTextPost(props: CommentProps) {
 
   dayjs.extend(relativeTime);
 
+  const handleDeleteComment = async (commentId: string, textPostId: string) => {
+    try {
+      await actions.deleteCommentTextPost(commentId, textPostId); // Calling the server action directly
+      alert("Comment deleted successfully!");
+      setIsDeleted(true);
+      // Optionally, update the UI or refresh the comments
+    } catch (error) {
+      alert("Failed to delete comment.");
+    }
+  };
+  console.log(props.postId);
+  useEffect(() => {
+    if (isDeleted) {
+      // Redirect after the deletion
+      router.push(`${paths.textPostShow(props.postId)}`);
+    }
+  }, [isDeleted, router, props.postId]);
   const session = useSession();
-  console.log(session.data?.user?.id);
-  console.log(props.comments[0].userId);
 
   const CommentIcon = ({
     fill = "currentColor",
@@ -76,7 +95,9 @@ export default function CommentsTextPost(props: CommentProps) {
         </div>
         <p className="ml-12 break-words text-gray-800	">{comment.content}</p>
         <Button
-        onPress={(e)=> props.deleteCommentTextPost(comment.id, comment.textPostId as string)}
+          onPress={(e) =>
+            handleDeleteComment(comment.id, comment.textPostId as string)
+          }
           className={`${
             session.data?.user?.id === comment.userId ? "block" : "hidden"
           } w-48 rounded-xl bg-red-400 self-end mt-2`}
