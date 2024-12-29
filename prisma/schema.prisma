@@ -9,7 +9,7 @@ generator client {
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 
@@ -104,20 +104,18 @@ model Image {
 model Comment {
   id         String    @id @default(cuid())
   content    String
+    userName          String
+      userImage         String
   userId     String
-  parentId   String?
-  postId     String?
-  postType   PostType // Enum to differentiate post types
+  textPostId String?
+  imgPostId  String?
+  postType   PostType
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
 
-  parent     Comment?  @relation("Comments", fields: [parentId], references: [id], onDelete: Cascade)
   user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  children   Comment[] @relation("Comments")
-
-  // Post relation with unique constraint names
-  textPost   TextPost? @relation(fields: [postId], references: [id], onDelete: Cascade, map: "Comment_TextPost_postId_fkey")
-  imgPost    ImgPost?  @relation(fields: [postId], references: [id], onDelete: Cascade, map: "Comment_ImgPost_postId_fkey")
+  textPost   TextPost? @relation(fields: [textPostId], references: [id], onDelete: Cascade, map: "Comment_TextPost_textPostId_fkey")
+  imgPost    ImgPost?  @relation(fields: [imgPostId], references: [id], onDelete: Cascade, map: "Comment_ImgPost_imgPostId_fkey")
 }
 
 enum PostType {

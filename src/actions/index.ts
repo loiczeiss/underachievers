@@ -7,3 +7,4 @@ export {retrieveImg} from "./retrieveImg"
 export {createImgPostAction} from "./create-imgPost"
 export {deleteImgPost} from './delete-imgPost'
 export {deleteImg} from './delete-image'
+export {createCommentTextAction} from './create-comment-textPost'

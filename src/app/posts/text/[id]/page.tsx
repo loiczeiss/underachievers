@@ -12,7 +12,7 @@ export default async function PostShowPage(props: PostShowPageProps) {
 
 
   const post = await db.textPost.findFirst({ where: { id } });
-
+const comments = await db.comment.findMany({where:{textPostId: id}})
 
   if (!post) {
     return <div className="flex justify-center">Post not found.</div>;
@@ -22,7 +22,7 @@ export default async function PostShowPage(props: PostShowPageProps) {
 
   return (
     <div className="flex justify-center">
-      <PostShow post={post} deletePost={deletePostAction} />
+      <PostShow post={post} comments={comments} />
     </div>
   );
 }
