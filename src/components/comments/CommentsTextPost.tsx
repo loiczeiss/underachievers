@@ -6,6 +6,7 @@ import { PostType } from "@prisma/client";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 interface CommentProps {
   postId: string;
   comments: {
@@ -20,14 +21,19 @@ interface CommentProps {
     createdAt: Date;
     updatedAt: Date;
   }[];
+  deleteCommentTextPost: (commentId: string, textPostId: string) => void;
 }
 export default function CommentsTextPost(props: CommentProps) {
   const [commentContentValue, setCommentContentValue] = useState("");
-  console.log(commentContentValue);
   const [formState, action] = useFormState(actions.createCommentTextAction, {
     errors: {},
   });
+
   dayjs.extend(relativeTime);
+
+  const session = useSession();
+  console.log(session.data?.user?.id);
+  console.log(props.comments[0].userId);
 
   const CommentIcon = ({
     fill = "currentColor",
@@ -57,6 +63,7 @@ export default function CommentsTextPost(props: CommentProps) {
       <p>No Comments Yet</p>
     </Card>
   );
+
   const renderedComments = [...props.comments].reverse().map((comment) => {
     return (
       <Card isBlurred className="bg-white/25 p-4 mt-2" key={comment.id}>
@@ -67,10 +74,19 @@ export default function CommentsTextPost(props: CommentProps) {
             {dayjs().to(dayjs(comment.createdAt))}
           </p>
         </div>
-        <p className="ml-12">{comment.content}</p>
+        <p className="ml-12 break-words text-gray-800	">{comment.content}</p>
+        <Button
+        onPress={(e)=> props.deleteCommentTextPost(comment.id, comment.textPostId as string)}
+          className={`${
+            session.data?.user?.id === comment.userId ? "block" : "hidden"
+          } w-48 rounded-xl bg-red-400 self-end mt-2`}
+        >
+          Delete comment
+        </Button>
       </Card>
     );
   });
+
   return (
     <>
       <div className="mb-4">
