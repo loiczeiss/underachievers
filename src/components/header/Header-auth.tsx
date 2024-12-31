@@ -37,7 +37,7 @@ export default function HeaderAuth() {
               <p className="mb-4 text-center">{session.data.user.name}</p>
               <Button
                 className="mb-4"
-                onClick={() =>
+                onPress={() =>
                   redirect(paths.userPostsPage(session.data.user?.id as string))
                 }
               >

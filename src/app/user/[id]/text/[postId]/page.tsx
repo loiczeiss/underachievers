@@ -4,14 +4,18 @@ import * as actions from "@/actions";
 import UserTextPostShow from "@/components/posts/user/text/UserTextPostShow";
 
 interface PostShowPageProps {
-  params: Promise<{ id: string }>;
+  params: Promise<{
+    postId: any; id: string 
+}>;
 }
 
 export default async function PostShowPage(props: PostShowPageProps) {
   const params = await props.params;
-  const { id } = params.id;
 
-  const post = await db.textPost.findFirst({ where: { id } });
+
+  console.log(params)
+
+  const post = await db.textPost.findFirst({ where: { id: params.postId } });
 
   if (!post) {
     return <div className="flex justify-center">Post not found.</div>;

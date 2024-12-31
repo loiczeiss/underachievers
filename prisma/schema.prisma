@@ -101,6 +101,17 @@ model Image {
   format    String
   createdAt DateTime @default(now())
 }
+model Audio {
+  id String @id @default(uuid())
+  publicId String @unique
+  url String @unique
+  displayName String
+  playbackUrl String @unique
+  thumbnailUrl String
+  duration Int
+  format String
+  createdAt DateTime @default(now())
+}
 model Comment {
   id         String    @id @default(cuid())
   content    String

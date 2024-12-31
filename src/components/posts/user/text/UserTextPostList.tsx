@@ -34,10 +34,12 @@ export default function UserTextPostList(props: PostListProps) {
         <div className="uppercase lg:text-2xl"> {post.title}</div>
         <div className="py-4 text-sm lg:text-xl">{post.content}</div>
 
-        <Button className="w-48 lg:w-64 bg-white/25">
-          <Link href={`${paths.userTextPostPage(post.userId, post.id)}`}>
-            View
-          </Link>
+        <Button
+          as={Link} // Use Link as the underlying component
+          href={`${paths.userTextPostPage(post.userId, post.id)}`}
+          className="w-48 lg:w-64 bg-white/25"
+        >
+          View
         </Button>
       </Card>
     );

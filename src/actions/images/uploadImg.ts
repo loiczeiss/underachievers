@@ -1,11 +1,8 @@
 "use server";
 
 import { db } from "@/db";
-import paths from "@/paths";
 import { Image } from "@prisma/client";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-import { retrieveImg } from "./retrieveImg";
+
 
 interface ResultProps {
   info: {
@@ -51,8 +48,6 @@ export async function uploadImg(result: ResultProps) {
       },
     };
   }
-  //   //   revalidatePath(paths.postsListPage());
-//   //   redirect(paths.postsListPage());
-//   //TODO: revalidate the topic show page
+
 }
 

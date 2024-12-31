@@ -1,9 +1,11 @@
 "use client";
 
 import { deleteImgPost } from "@/actions";
+import CommentsImgPost from "@/components/comments/CommentsTextPost";
 import paths from "@/paths";
 import { Button, Card } from "@nextui-org/react";
-import { div } from "framer-motion/client";
+import { PostType } from "@prisma/client";
+
 import { CldImage } from "next-cloudinary";
 import { redirect } from "next/navigation";
 
@@ -20,11 +22,24 @@ interface ImgPost {
 interface ImgPostShowProps {
   post: ImgPost;
   deleteImgPost?: (formData: FormData) => void | Promise<void>;
+   comments: {
+      id: string;
+      content: string;
+      textPostId: string | null;
+      postType: PostType;
+      userName: string;
+      userImage: string;
+      userId: string;
+      imgPostId: string | null;
+      createdAt: Date;
+      updatedAt: Date;
+    }[];
 }
 
 export default function UserImgPostShow({
   post,
   deleteImgPost,
+  comments
 }: ImgPostShowProps) {
   return (
     <div className="w-full flex flex-col items-center">
@@ -40,9 +55,10 @@ export default function UserImgPostShow({
           alt="Uploaded Image"
         />
         <p className="mb-8">{post.content}</p>
+        <CommentsImgPost postId={post.id} comments={comments}/>
         <form action={deleteImgPost}>
           <Button
-            className="w-48 mb-4 border-white/25"
+            className="w-48 mb-4 border-white/25 bg-white/25"
             variant="bordered"
             type="submit"
           >
@@ -50,11 +66,11 @@ export default function UserImgPostShow({
           </Button>
         </form>
       </Card>{" "}
-      <Card isBlurred className="mt-8">
+      <Card isBlurred className="my-4">
         {" "}
         <Button
-          className="bg-transparent"
-          onClick={() => redirect(paths.userPostsPage(post.userId))}
+          className="bg-white/25"
+          onPress={() => redirect(paths.userPostsPage(post.userId))}
         >
           Back
         </Button>

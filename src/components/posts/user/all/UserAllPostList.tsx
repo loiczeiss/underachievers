@@ -47,13 +47,18 @@ export default function UserAllPostList(props: ImgPostListprops) {
         )}
         <div className="py-4 text-sm lg:text-xl">{post.content}</div>
 
-        <Button className="w-48 lg:w-64 bg-white/25">
-          {post.imgUrl ? (
-            <Link href={`${paths.userImgPostPage(post.userId,post.id)}`}>View</Link>
-          ) : (
-            <Link href={`${paths.userTextPostPage(post.userId, post.id)}`}>View</Link>
-          )}
-        </Button>
+        <Button
+  as={Link} // Use Link as the underlying component
+  href={
+    post.imgUrl
+      ? paths.userImgPostPage(post.userId, post.id)
+      : paths.userTextPostPage(post.userId, post.id)
+  }
+  className="w-48 lg:w-64 bg-white/25"
+>
+  View
+</Button>
+<p>{post.id}</p>
       </Card>
     );
   });

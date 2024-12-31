@@ -20,6 +20,9 @@ const paths = {
     imgPostsListPage(){
         return "/posts/images/all"
     },
+    createAudioPost(){
+        return `/posts/audio/new`
+    },
     userPostsPage(userId: string){
         return `/user/${userId}`
     },

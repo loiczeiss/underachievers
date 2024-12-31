@@ -35,14 +35,13 @@ const isMobile = useMediaQuery("(max-width: 768px)"); // Change based on your br
   const placement = isMobile ? "bottom" : "left"; // Adjust placement based on screen size
 
 
-  const handlePostTypeSelection = (postType) => {
+  const handlePostTypeSelection = (postType: string) => {
     if (postType === "text") {
       router.push(paths.createTextPost());
     } else if (postType === "image") {
       router.push(paths.createImgPost());
     } else if (postType === "sound") {
-      // Implement logic for sound post
-      console.log("Sound post creation is not implemented yet.");
+      router.push(paths.createAudioPost())
     }
     setIsOpen(false);
   };
@@ -64,19 +63,19 @@ const isMobile = useMediaQuery("(max-width: 768px)"); // Change based on your br
           <div className="flex flex-col p-4">
             <Button
               className="mt-4 bg-transparent shadow hover:bg-[#f2faff]"
-              onClick={() => handlePostTypeSelection("text")}
+              onPress={() => handlePostTypeSelection("text")}
             >
               Text
             </Button>
             <Button
               className="mt-4 bg-transparent shadow hover:bg-[#f2faff]"
-              onClick={() => handlePostTypeSelection("image")}
+              onPress={() => handlePostTypeSelection("image")}
             >
               Image
             </Button>
             <Button
               className="mt-4 bg-transparent shadow hover:bg-[#f2faff]"
-              onClick={() => handlePostTypeSelection("sound")}
+              onPress={() => handlePostTypeSelection("sound")}
             >
               Sound
             </Button>

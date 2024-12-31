@@ -47,13 +47,14 @@ export default function AllPostList(props: ImgPostListprops) {
         )}
         <div className="py-4 text-sm lg:text-xl">{post.content}</div>
 
-        <Button className="w-48 lg:w-64 bg-white/25">
-          {post.imgUrl ? (
-            <Link href={`${paths.imgPostShow(post.id)}`}>View</Link>
-          ) : (
-            <Link href={`${paths.textPostShow(post.id)}`}>View</Link>
-          )}
-        </Button>
+        <Button
+  as={Link} // Pass the Link component directly to the Button
+  className="w-48 lg:w-64 bg-white/25"
+  href={post.imgUrl ? paths.imgPostShow(post.id) : paths.textPostShow(post.id)}
+>
+  View
+</Button>
+
       </Card>
     );
   });

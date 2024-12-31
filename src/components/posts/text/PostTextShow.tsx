@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import paths from "@/paths";
 import CommentsTextPost from "@/components/comments/CommentsTextPost";
 import { PostType } from "@prisma/client";
+import { useRouter } from "next/navigation";
 
 interface Post {
   title: string;
@@ -29,18 +30,24 @@ interface PostShowProps {
     createdAt: Date;
     updatedAt: Date;
   }[];
-  // deleteCommentTextPost?: (commentId: string, textPostId: string) => void | Promise<void>;
 }
 
-export default function TextPostShow({ post, comments
-  // , deleteCommentTextPost 
-}: PostShowProps) {
+export default function TextPostShow({ post, comments }: PostShowProps) {
+  const router = useRouter();
   return (
-    <Card isBlurred className="my-8 w-6/12 mx-8 px-8">
-      <h1 className="my-4 text-xl uppercase">{post.title}</h1>
-      <p className="mb-8">{post.content}</p>
-      <CommentsTextPost postId={post.id} comments={comments} 
-      />
-    </Card>
+    <div className="w-full flex flex-col items-center">
+      {" "}
+      <Card isBlurred className="my-8 w-6/12 mx-8 px-8">
+        <h1 className="my-4 text-xl uppercase">{post.title}</h1>
+        <p className="mb-8">{post.content}</p>
+        <CommentsTextPost postId={post.id} comments={comments} />
+      </Card>{" "}
+      <Card isBlurred className="mb-4">
+        {" "}
+        <Button className="bg-white/25" onPress={() => router.back()}>
+          Back
+        </Button>
+      </Card>
+    </div>
   );
 }

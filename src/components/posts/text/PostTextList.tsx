@@ -15,28 +15,31 @@ interface PostListProps {
   }[];
 }
 
-export const dynamicParams = true
+export const dynamicParams = true;
 
 export default function TextPostList(props: PostListProps) {
   const noPostYet = (
-    <Card  isBlurred
-    className="mx-8 mb-4 lg:mr-8 py-4 px-2 sm:px-8">
+    <Card isBlurred className="mx-8 mb-4 lg:mr-8 py-4 px-2 sm:px-8">
       <p>No posts yet.</p>
     </Card>
   );
 
   const renderedPosts = [...props.posts].reverse().map((post) => {
     return (
-      <Card isBlurred className="mx-8 mb-4 lg:mr-8 py-4 px-2 sm:px-8" key={post.id}>
+      <Card
+        isBlurred
+        className="mx-8 mb-4 lg:mr-8 py-4 px-2 sm:px-8"
+        key={post.id}
+      >
         <div className="uppercase lg:text-2xl"> {post.title}</div>
         <div className="py-4 text-sm lg:text-xl">{post.content}</div>
 
-        <Button className="w-48 lg:w-64 bg-white/25">
-          <Link
-            href={`${paths.textPostShow(post.id)}`}
-          >
-            View
-          </Link>
+        <Button
+          as={Link} // Make Button act as a Link
+          href={`${paths.textPostShow(post.id)}`}
+          className="w-48 lg:w-64 bg-white/25"
+        >
+          View
         </Button>
       </Card>
     );
@@ -44,7 +47,7 @@ export default function TextPostList(props: PostListProps) {
   return (
     <>
       <div className="self-center lg:w-4/6 flex flex-col my-4 overscroll-contain">
-      {props.posts.length === 0 ? noPostYet : renderedPosts}
+        {props.posts.length === 0 ? noPostYet : renderedPosts}
       </div>
     </>
   );
