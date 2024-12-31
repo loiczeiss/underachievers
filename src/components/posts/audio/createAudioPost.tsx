@@ -4,7 +4,8 @@ import { Button, Card, Input, Textarea } from "@nextui-org/react";
 import * as actions from "@/actions";
 import { useFormState } from "react-dom";
 import { useEffect, useState } from "react";
-import { CldUploadButton } from "next-cloudinary";
+import { CldUploadButton, CldVideoPlayer } from "next-cloudinary";
+import "next-cloudinary/dist/cld-video-player.css";
 
 export default function CreateAudioPost() {
   const [uploadedAudio, setUploadedAudio] = useState<{
@@ -36,7 +37,7 @@ export default function CreateAudioPost() {
 
       if (response?.url && response?.publicId) {
         setUploadedAudio(response); // Set the image data in state
-        console.log(uploadedAudio)
+        console.log(uploadedAudio);
       } else {
         console.error("Failed to retrieve the uploaded image data.");
       }
@@ -66,26 +67,30 @@ export default function CreateAudioPost() {
           // isInvalid={!!formState.errors.title}
           // errorMessage={formState.errors.title?.join(", ")}
         />
-        {/* {!uploadedImage && ( */}
-        <div>
-          <CldUploadButton
-            uploadPreset={CloudPresetName}
-            options={{ sources: ["local", "url"] }}
-            // className={`
-            //   ${
-            //   formState.errors.imgUrl
-            //     ? "border-rose-500"
-            //     : "border-white/25"
-            // } rounded-xl border p-4`}
-            className="rounded-xl  p-4  bg-white/25 hover:bg-white/50"
-            onSuccess={handleUploadSuccess}
-          />
-          <p className="text-rose-500 text-[12px] mb-4">
-            {/* {formState.errors.imgUrl} */}
-          </p>
-        </div>
-        {/* )} */}
-
+        {!uploadedAudio && (
+          <div>
+            <CldUploadButton
+              uploadPreset={CloudPresetName}
+              options={{ sources: ["local", "url"] }}
+              // className={`
+              //   ${
+              //   formState.errors.imgUrl
+              //     ? "border-rose-500"
+              //     : "border-white/25"
+              // } rounded-xl border p-4`}
+              className="rounded-xl  p-4  bg-white/25 hover:bg-white/50"
+              onSuccess={handleUploadSuccess}
+            />
+            <p className="text-rose-500 text-[12px] mb-4">
+              {/* {formState.errors.imgUrl} */}
+            </p>
+          </div>
+        )}
+        {/* <CldVideoPlayer width={1000}
+         height={500}
+         src="https://res.cloudinary.com/dc2jjvynb/video/upload/v1735671393/ui1p8x0vkshfrnctlisy.mp4"/> */}
+        {uploadedAudio && <audio controls src={uploadedAudio.url}
+        className="bg-white/25 text-white"></audio>}
         {/* <Input type="hidden" name="imgUrl" value={uploadedImage?.url || ""} />
           <Input
             type="hidden"
