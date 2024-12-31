@@ -40,7 +40,6 @@ export default function TextPostShow({ post, comments
       <h1 className="my-4 text-xl uppercase">{post.title}</h1>
       <p className="mb-8">{post.content}</p>
       <CommentsTextPost postId={post.id} comments={comments} 
-      // deleteCommentTextPost={deleteCommentTextPost}
       />
     </Card>
   );

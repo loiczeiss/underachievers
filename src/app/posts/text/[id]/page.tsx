@@ -18,14 +18,12 @@ const comments = await db.comment.findMany({where:{textPostId: id}})
     return <div className="flex justify-center">Post not found.</div>;
   }
 
-  // const deleteCommentTextPost = (commentId: string, textPostId: string) => {
-  //   return actions.deleteCommentTextPost(commentId, textPostId);
-  // };
+
 
   return (
     <div className="flex justify-center">
       <PostShow post={post} comments={comments} 
-      // deleteCommentTextPost={deleteCommentTextPost}
+  
       />
     </div>
   );
