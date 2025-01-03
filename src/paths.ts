@@ -1,3 +1,5 @@
+
+
 const paths = {
     home(){
         return '/'
@@ -31,6 +33,12 @@ const paths = {
     },
     userTextPostPage(userId: string, postId: string){
         return `/user/${userId}/text/${postId}`
+    },
+    audioPostListPage(){
+        return "/posts/audio/all"
+    },
+    audioPostShowPage(postId: string){
+        return `/posts/audio/${postId}`
     }
 }
 

@@ -12,3 +12,4 @@ export {deleteCommentTextPost} from './comments/delete-comment-textPost'
 export {createCommentImgAction} from './comments/create-comment-imgPost'
 export {deleteCommentImgPost} from './comments/delete-comment-imgPost'
 export {uploadAudio} from "./audio/uploadAudio"
+export {createAudioPostAction} from './audio/create-audioPost'

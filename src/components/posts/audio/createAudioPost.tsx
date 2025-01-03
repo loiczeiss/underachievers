@@ -6,6 +6,9 @@ import { useFormState } from "react-dom";
 import { useEffect, useState } from "react";
 import { CldUploadButton, CldVideoPlayer } from "next-cloudinary";
 import "next-cloudinary/dist/cld-video-player.css";
+import AudioPlayer from 'react-h5-audio-player';
+import 'react-h5-audio-player/lib/styles.css';
+import "@/app/index.scss"
 
 export default function CreateAudioPost() {
   const [uploadedAudio, setUploadedAudio] = useState<{
@@ -18,10 +21,20 @@ export default function CreateAudioPost() {
     thumbnailUrl: string;
   } | null>(null);
   const CloudPresetName = process.env.NEXT_PUBLIC_CLOUDINARY_PRESET_NAME;
-  // const [formState, action] = useFormState(actions.createAudioPostAction, {
-  //   errors: {},
-  // });
-
+  const [formState, action] = useFormState(actions.createAudioPostAction, {
+    errors: {},
+  });
+  const Player = () => (
+    <AudioPlayer  
+    header={`${uploadedAudio?.displayName} `}
+    className="mb-4"
+      autoPlay={false}
+      src={uploadedAudio?.url}
+      onPlay={e => console.log("onPlay")}
+      // other props here
+    />
+  );
+console.log(formState?.errors?._form?.join(", "))
   const handleUploadSuccess = async (result) => {
     try {
       // Call the upload handler
@@ -53,7 +66,7 @@ export default function CreateAudioPost() {
           Give your post a title and a short description and upload an audio
           file.
         </h1>
-        {/* <form action={action}> */}
+        <form action={action}>
         <Input
           className="pb-4"
           variant="bordered"
@@ -64,42 +77,40 @@ export default function CreateAudioPost() {
           }}
           isClearable
           placeholder="Title"
-          // isInvalid={!!formState.errors.title}
-          // errorMessage={formState.errors.title?.join(", ")}
+          isInvalid={!!formState.errors.title}
+          errorMessage={formState.errors.title?.join(", ")}
         />
         {!uploadedAudio && (
           <div>
             <CldUploadButton
               uploadPreset={CloudPresetName}
               options={{ sources: ["local", "url"] }}
-              // className={`
-              //   ${
-              //   formState.errors.imgUrl
-              //     ? "border-rose-500"
-              //     : "border-white/25"
-              // } rounded-xl border p-4`}
-              className="rounded-xl  p-4  bg-white/25 hover:bg-white/50"
+              className={`rounded-xl  p-4  bg-white/25 hover:bg-white/50
+                ${
+                formState.errors.audioUrl
+                  ? "border-rose-500"
+                  : "border-white/25"
+              } rounded-xl border p-4`}
+       
               onSuccess={handleUploadSuccess}
             />
             <p className="text-rose-500 text-[12px] mb-4">
-              {/* {formState.errors.imgUrl} */}
+              {formState.errors.audioUrl}
             </p>
           </div>
         )}
-        {/* <CldVideoPlayer width={1000}
-         height={500}
-         src="https://res.cloudinary.com/dc2jjvynb/video/upload/v1735671393/ui1p8x0vkshfrnctlisy.mp4"/> */}
-        {uploadedAudio && <audio controls src={uploadedAudio.url}
-        className="bg-white/25 text-white"></audio>}
-        {/* <Input type="hidden" name="imgUrl" value={uploadedImage?.url || ""} />
+      
+        {uploadedAudio && <Player />}
+
+        <Input type="hidden" name="audioUrl" value={uploadedAudio?.url || ""} />
           <Input
             type="hidden"
-            name="imgPublicId"
-            value={uploadedImage?.publicId || ""}
-          /> */}
+            name="audioPublicId"
+            value={uploadedAudio?.publicId || ""}
+          />
         <Textarea
-          // isInvalid={!!formState.errors.content}
-          // errorMessage={formState.errors.content?.join(", ")}
+          isInvalid={!!formState.errors.content}
+          errorMessage={formState.errors.content?.join(", ")}
           variant="bordered"
           classNames={{
             input: "placeholder:text-black",
@@ -114,12 +125,12 @@ export default function CreateAudioPost() {
         >
           Create audio post
         </Button>
-        {/* {formState.errors._form ? (
-            <div className="rounded p-2 bg-red-200 border border-red-400">
-              {formState.errors._form.join(", ")} */}
-
-        {/* ) : null} */}
-        {/* </form> */}
+        {formState.errors._form ? (
+  <div className="rounded p-2 bg-red-200 border border-red-400">
+    {formState.errors._form.join(", ")}
+  </div>
+) : null}
+        </form>
       </Card>
     </>
   );

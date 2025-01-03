@@ -3,7 +3,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  
 }
 
 datasource db {
@@ -12,21 +11,20 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-
 model Account {
-  id                String   @id @default(cuid())
+  id                String  @id @default(cuid())
   userId            String
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String?  // Optional fields
-  access_token      String?  // Optional fields
-  expires_at        Int?     // Optional fields
-  token_type        String?  // Optional fields
-  scope             String?  // Optional fields
-  id_token          String?  // Optional fields
-  session_state     String?  // Optional fields
-  user              User     @relation(fields: [userId], references: [id])
+  refresh_token     String? // Optional fields
+  access_token      String? // Optional fields
+  expires_at        Int? // Optional fields
+  token_type        String? // Optional fields
+  scope             String? // Optional fields
+  id_token          String? // Optional fields
+  session_state     String? // Optional fields
+  user              User    @relation(fields: [userId], references: [id])
 
   @@unique([provider, providerAccountId]) // Compound unique constraint
 }
@@ -36,30 +34,31 @@ model Session {
   userId       String
   expires      DateTime
   sessionToken String   @unique
-  accessToken  String?   @unique
+  accessToken  String?  @unique
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String      @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?     @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
-  textPost          TextPost[]
-  imgPost ImgPost[]
+  textPost      TextPost[]
+  imgPost       ImgPost[]
   Comment       Comment[]
+  AudioPost     AudioPost[]
 }
 
 model VerificationToken {
   identifier String
   token      String
   expires    DateTime
- 
+
   @@unique([identifier, token])
 }
 
@@ -69,67 +68,85 @@ model TextPost {
   content String
   userId  String
 
-
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   comments Comment[]
 }
 
 model ImgPost {
-  id String @id @default(cuid())
-  title String
-  content String
-  
-  imgUrl String
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  imgUrl    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  userId  String
-  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   comments Comment[]
+}
+
+model AudioPost {
+  id        String    @id @default(cuid())
+  title     String
+  content   String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  userId    String
+  audioId   String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  audio     Audio     @relation(fields: [audioId], references: [id], onDelete: Cascade)
+  Comment   Comment[]
 }
 
 model Image {
   id        String   @id @default(uuid())
   publicId  String   @unique
-  url       String @unique
+  url       String   @unique
   width     Int
   height    Int
   format    String
   createdAt DateTime @default(now())
 }
-model Audio {
-  id String @id @default(uuid())
-  publicId String @unique
-  url String @unique
-  displayName String
-  playbackUrl String @unique
-  thumbnailUrl String
-  duration Int
-  format String
-  createdAt DateTime @default(now())
-}
-model Comment {
-  id         String    @id @default(cuid())
-  content    String
-    userName          String
-      userImage         String
-  userId     String
-  textPostId String?
-  imgPostId  String?
-  postType   PostType
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
 
-  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  textPost   TextPost? @relation(fields: [textPostId], references: [id], onDelete: Cascade, map: "Comment_TextPost_textPostId_fkey")
-  imgPost    ImgPost?  @relation(fields: [imgPostId], references: [id], onDelete: Cascade, map: "Comment_ImgPost_imgPostId_fkey")
+model Audio {
+  id           String   @id @default(uuid())
+  publicId     String   @unique
+  url          String   @unique
+  displayName  String
+  playbackUrl  String   @unique
+  thumbnailUrl String
+  duration     Int
+  format       String
+  createdAt    DateTime @default(now())
+
+  AudioPost AudioPost[]
+}
+
+model Comment {
+  id          String   @id @default(cuid())
+  content     String
+  userName    String
+  userImage   String
+  userId      String
+  textPostId  String?
+  imgPostId   String?
+  audioPostId String? // Add relation for AudioPost
+  postType    PostType
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  textPost  TextPost?  @relation(fields: [textPostId], references: [id], onDelete: Cascade, map: "Comment_TextPost_textPostId_fkey")
+  imgPost   ImgPost?   @relation(fields: [imgPostId], references: [id], onDelete: Cascade, map: "Comment_ImgPost_imgPostId_fkey")
+  audioPost AudioPost? @relation(fields: [audioPostId], references: [id], onDelete: Cascade) // Add relation for AudioPost
 }
 
 enum PostType {
   TEXT
   IMAGE
+  AUDIO // Add AUDIO type for AudioPost
 }
