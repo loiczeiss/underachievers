@@ -8,20 +8,18 @@ import NavBar from "@/components/navLinks";
 import AllPostList from "@/components/posts/all/AllPostsList";
 import HomeClientSide from "@/components/homeClientSide";
 export default async function Home() {
-  const textPosts = await db.textPost.findMany({
-    include: { user: true, comments: true },
-  });
+  const textPosts = await db.textPost.findMany();
 
-  const imgPosts = await db.imgPost.findMany({
-    include: { user: true, comments: true },
-  });
+  const imgPosts = await db.imgPost.findMany();
 
+  const audioPosts = await db.audioPost.findMany();
   // Combine the results into a unified array
   const allPosts = [
     ...textPosts.map((post) => ({ ...post, type: "TEXT" })),
     ...imgPosts.map((post) => ({ ...post, type: "IMAGE" })),
+    ...audioPosts.map((post)=> ({...post, type: "AUDIO"}))
   ];
-
+const audios = await db.audio.findMany()
   // // Sort posts by creation date
   // const sortedPosts = allPosts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
@@ -40,6 +38,8 @@ export default async function Home() {
           allPosts={allPosts}
           textPosts={textPosts}
           imgPosts={imgPosts}
+          audioPosts={audioPosts}
+          audios={audios}
         />
       </>
     );

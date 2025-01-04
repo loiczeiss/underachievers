@@ -7,6 +7,8 @@ import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import "@/app/index.scss";
 import { db } from "@/db";
+import CommentsAudioPost from "@/components/comments/CommentsAudioPost";
+import { PostType } from "@prisma/client";
 
 interface AudioPost {
   id: string;
@@ -16,11 +18,26 @@ interface AudioPost {
   updatedAt: Date;
   userId: string;
   audioId: string;
+   comments: {
+      id: string;
+      content: string;
+      textPostId: string | null;
+      postType: PostType;
+      userName: string;
+      userImage: string;
+      userId: string;
+      imgPostId: string | null;
+      createdAt: Date;
+      updatedAt: Date;
+    }[];
 }
+
+
 
 interface AudioPostShowProps {
   post: AudioPost;
   audio: AudioData
+  comments: Comment
 }
 interface AudioData {
     id: string;
@@ -34,7 +51,7 @@ interface AudioData {
     createdAt: Date;
   }
 
-export default function AudioPostShow({ post, audio }: AudioPostShowProps) {
+export default function AudioPostShow({ post, audio, comments }: AudioPostShowProps) {
   const router = useRouter();
 
 
@@ -57,7 +74,7 @@ export default function AudioPostShow({ post, audio }: AudioPostShowProps) {
         )}
         <p className="mb-8">{post.content}</p>
         {/* Uncomment when ready */}
-        {/* <CommentsImgPost postId={post.id} comments={comments} /> */}
+        <CommentsAudioPost postId={post.id} comments={comments} />
       </Card>
       <Card isBlurred className="mb-4">
         <Button

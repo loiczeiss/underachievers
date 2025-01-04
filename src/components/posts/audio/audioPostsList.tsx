@@ -64,10 +64,10 @@ export default function AudioPostList(props: AudioPostListProps) {
         {audio ? (
           <AudioPlayer
             header={`${audio.displayName}`}
-            className="mt-4 mb-4"
+            className="mt-4  mb-4"
             autoPlay={false}
             src={audio.url}
-            onPlay={() => console.log("onPlay")}
+   
           />
         ) : (
           <p>Loading audio...</p>
