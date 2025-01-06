@@ -52,6 +52,7 @@ model User {
   imgPost       ImgPost[]
   Comment       Comment[]
   AudioPost     AudioPost[]
+  Like          Like[]
 }
 
 model VerificationToken {
@@ -60,6 +61,23 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  userId    String
+  postId    String? // For likes on posts
+  commentId String? // For likes on comments
+  postType  PostType // Enum to determine the type of post
+  createdAt DateTime @default(now())
+
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  textPost  TextPost?  @relation(fields: [postId], references: [id], onDelete: Cascade, map: "Like_TextPost_postId_fkey")
+  imgPost   ImgPost?   @relation(fields: [postId], references: [id], onDelete: Cascade, map: "Like_ImgPost_postId_fkey")
+  audioPost AudioPost? @relation(fields: [postId], references: [id], onDelete: Cascade, map: "Like_AudioPost_postId_fkey")
+  comment   Comment?   @relation(fields: [commentId], references: [id], onDelete: Cascade, map: "Like_Comment_commentId_fkey")
+
+  @@unique([userId, postId, commentId]) // Ensures a user can only like an entity once
 }
 
 model TextPost {
@@ -71,9 +89,9 @@ model TextPost {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   comments Comment[]
+  likes    Like[]
 }
 
 model ImgPost {
@@ -87,6 +105,7 @@ model ImgPost {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   comments Comment[]
+  likes    Like[]
 }
 
 model AudioPost {
@@ -99,7 +118,8 @@ model AudioPost {
   audioId   String
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   audio     Audio     @relation(fields: [audioId], references: [id], onDelete: Cascade)
-  Comment   Comment[]
+  comments  Comment[]
+  likes     Like[]
 }
 
 model Image {
@@ -134,7 +154,7 @@ model Comment {
   userId      String
   textPostId  String?
   imgPostId   String?
-  audioPostId String? // Add relation for AudioPost
+  audioPostId String?
   postType    PostType
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -142,7 +162,8 @@ model Comment {
   user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   textPost  TextPost?  @relation(fields: [textPostId], references: [id], onDelete: Cascade, map: "Comment_TextPost_textPostId_fkey")
   imgPost   ImgPost?   @relation(fields: [imgPostId], references: [id], onDelete: Cascade, map: "Comment_ImgPost_imgPostId_fkey")
-  audioPost AudioPost? @relation(fields: [audioPostId], references: [id], onDelete: Cascade) // Add relation for AudioPost
+  audioPost AudioPost? @relation(fields: [audioPostId], references: [id], onDelete: Cascade)
+  likes     Like[]
 }
 
 enum PostType {

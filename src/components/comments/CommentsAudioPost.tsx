@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import paths from "@/paths";
+import LikeComponent from "../like/LikeComp";
 interface CommentProps {
   postId: string;
   comments: {
@@ -95,7 +96,9 @@ export default function CommentsAudioPost(props: CommentProps) {
           </p>
         </div>
         <p className="ml-12 break-words text-gray-800	">{comment.content}</p>
-        <Button
+        <div className="flex w-full justify-between mt-2">
+          <LikeComponent commentId={comment.id} userId={comment.userId}/>
+          <Button
           onPress={(e) =>
             handleDeleteComment(comment.id, comment.audioPostId as string)
           }
@@ -104,7 +107,7 @@ export default function CommentsAudioPost(props: CommentProps) {
           } w-48 rounded-xl bg-red-400 self-end mt-2`}
         >
           Delete comment
-        </Button>
+        </Button></div>
       </Card>
     );
   });

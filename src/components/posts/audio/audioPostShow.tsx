@@ -8,7 +8,7 @@ import "react-h5-audio-player/lib/styles.css";
 import "@/app/index.scss";
 import { db } from "@/db";
 import CommentsAudioPost from "@/components/comments/CommentsAudioPost";
-import { PostType } from "@prisma/client";
+import {  Comment } from "@prisma/client";
 
 interface AudioPost {
   id: string;
@@ -18,26 +18,14 @@ interface AudioPost {
   updatedAt: Date;
   userId: string;
   audioId: string;
-   comments: {
-      id: string;
-      content: string;
-      textPostId: string | null;
-      postType: PostType;
-      userName: string;
-      userImage: string;
-      userId: string;
-      imgPostId: string | null;
-      createdAt: Date;
-      updatedAt: Date;
-    }[];
+   
 }
-
 
 
 interface AudioPostShowProps {
   post: AudioPost;
   audio: AudioData
-  comments: Comment
+  comments: Comment[]
 }
 interface AudioData {
     id: string;
@@ -49,7 +37,7 @@ interface AudioData {
     duration: number;
     format: string;
     createdAt: Date;
-  }
+  } 
 
 export default function AudioPostShow({ post, audio, comments }: AudioPostShowProps) {
   const router = useRouter();
