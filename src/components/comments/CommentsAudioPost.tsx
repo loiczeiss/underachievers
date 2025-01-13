@@ -10,6 +10,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import paths from "@/paths";
 import LikeComponent from "../vote/VoteImg";
+import VoteCommentButton from "../vote/voteComment";
 interface CommentProps {
   postId: string;
   comments: {
@@ -37,7 +38,10 @@ export default function CommentsAudioPost(props: CommentProps) {
 
   dayjs.extend(relativeTime);
 
-  const handleDeleteComment = async (commentId: string, audioPostId: string) => {
+  const handleDeleteComment = async (
+    commentId: string,
+    audioPostId: string
+  ) => {
     try {
       await actions.deleteCommentAudioPost(commentId, audioPostId); // Calling the server action directly
       alert("Comment deleted successfully!");
@@ -56,7 +60,6 @@ export default function CommentsAudioPost(props: CommentProps) {
   }, [isDeleted, router, props.postId]);
   const session = useSession();
 
- 
   const NoCommentsYet = (
     <Card isBlurred className="bg-white/25 p-4 mt-2">
       <p>No Comments Yet</p>
@@ -74,18 +77,21 @@ export default function CommentsAudioPost(props: CommentProps) {
           </p>
         </div>
         <p className="ml-12 break-words text-gray-800	">{comment.content}</p>
-        <div className="flex w-full justify-between mt-2">
-          
+
+        <div className="flex justify-between">
+          {" "}
+          <VoteCommentButton commentId={comment.id} />
           <Button
-          onPress={(e) =>
-            handleDeleteComment(comment.id, comment.audioPostId as string)
-          }
-          className={`${
-            session.data?.user?.id === comment.userId ? "block" : "hidden"
-          } w-48 rounded-xl bg-red-400 self-end mt-2`}
-        >
-          Delete comment
-        </Button></div>
+            onPress={(e) =>
+              handleDeleteComment(comment.id, comment.audioPostId as string)
+            }
+            className={`${
+              session.data?.user?.id === comment.userId ? "block" : "hidden"
+            } w-48 rounded-xl bg-red-400 self-end mt-2`}
+          >
+            Delete comment
+          </Button>
+        </div>
       </Card>
     );
   });
@@ -93,8 +99,6 @@ export default function CommentsAudioPost(props: CommentProps) {
   return (
     <>
       <div className="mb-4">
-        
-
         <Card isBlurred className="bg-white/25 ">
           <Form
             action={action}
@@ -104,7 +108,6 @@ export default function CommentsAudioPost(props: CommentProps) {
             <Textarea
               isInvalid={!!formState.errors.content}
               errorMessage={formState.errors.content?.join(", ")}
-
               validate={(commentContentValue) => {
                 if (commentContentValue.length < 3) {
                   return formState.errors.content?.join(", ");

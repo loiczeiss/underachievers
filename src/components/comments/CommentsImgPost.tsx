@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import paths from "@/paths";
+import VoteCommentButton from "../vote/voteComment";
 interface CommentProps {
   postId: string;
   comments: {
@@ -71,16 +72,20 @@ export default function CommentsImgPost(props: CommentProps) {
           </p>
         </div>
         <p className="ml-12 break-words text-gray-800	">{comment.content}</p>
-        <Button
-          onPress={(e) =>
-            handleDeleteComment(comment.id, comment.imgPostId as string)
-          }
-          className={`${
-            session.data?.user?.id === comment.userId ? "block" : "hidden"
-          } w-48 rounded-xl bg-red-400 self-end mt-2`}
-        >
-          Delete comment
-        </Button>
+      <div className="flex justify-between">
+                {" "}
+                <VoteCommentButton commentId={comment.id} />
+                <Button
+                  onPress={(e) =>
+                    handleDeleteComment(comment.id, comment.imgPostId as string)
+                  }
+                  className={`${
+                    session.data?.user?.id === comment.userId ? "block" : "hidden"
+                  } w-48 rounded-xl bg-red-400 self-end mt-2`}
+                >
+                  Delete comment
+                </Button>
+              </div>
       </Card>
     );
   });

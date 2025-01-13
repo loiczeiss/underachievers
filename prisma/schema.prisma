@@ -145,6 +145,7 @@ model Comment {
   textPost  TextPost?  @relation(fields: [textPostId], references: [id], onDelete: Cascade, map: "Comment_TextPost_textPostId_fkey")
   imgPost   ImgPost?   @relation(fields: [imgPostId], references: [id], onDelete: Cascade, map: "Comment_ImgPost_imgPostId_fkey")
   audioPost AudioPost? @relation(fields: [audioPostId], references: [id], onDelete: Cascade)
+  Vote      Vote[]
 }
 
 model Vote {
@@ -157,6 +158,8 @@ model Vote {
   textPostId  String?
   AudioPost   AudioPost? @relation(fields: [audioPostId], references: [id])
   audioPostId String?
+  Comment     Comment?   @relation(fields: [commentId], references: [id])
+  commentId   String?
 }
 
 enum VoteType {
