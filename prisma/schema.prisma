@@ -52,7 +52,6 @@ model User {
   imgPost       ImgPost[]
   Comment       Comment[]
   AudioPost     AudioPost[]
-  Like          Like[]
 }
 
 model VerificationToken {
@@ -61,23 +60,6 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
-}
-
-model Like {
-  id        String   @id @default(cuid())
-  userId    String
-  postId    String? // For likes on posts
-  commentId String? // For likes on comments
-  postType  PostType // Enum to determine the type of post
-  createdAt DateTime @default(now())
-
-  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  textPost  TextPost?  @relation(fields: [postId], references: [id], onDelete: Cascade, map: "Like_TextPost_postId_fkey")
-  imgPost   ImgPost?   @relation(fields: [postId], references: [id], onDelete: Cascade, map: "Like_ImgPost_postId_fkey")
-  audioPost AudioPost? @relation(fields: [postId], references: [id], onDelete: Cascade, map: "Like_AudioPost_postId_fkey")
-  comment   Comment?   @relation(fields: [commentId], references: [id], onDelete: Cascade, map: "Like_Comment_commentId_fkey")
-
-  @@unique([userId, postId, commentId]) // Ensures a user can only like an entity once
 }
 
 model TextPost {
@@ -91,7 +73,7 @@ model TextPost {
 
   user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   comments Comment[]
-  likes    Like[]
+  Vote     Vote[]
 }
 
 model ImgPost {
@@ -105,7 +87,7 @@ model ImgPost {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   comments Comment[]
-  likes    Like[]
+  Vote     Vote[]
 }
 
 model AudioPost {
@@ -119,7 +101,7 @@ model AudioPost {
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   audio     Audio     @relation(fields: [audioId], references: [id], onDelete: Cascade)
   comments  Comment[]
-  likes     Like[]
+  Vote      Vote[]
 }
 
 model Image {
@@ -163,7 +145,23 @@ model Comment {
   textPost  TextPost?  @relation(fields: [textPostId], references: [id], onDelete: Cascade, map: "Comment_TextPost_textPostId_fkey")
   imgPost   ImgPost?   @relation(fields: [imgPostId], references: [id], onDelete: Cascade, map: "Comment_ImgPost_imgPostId_fkey")
   audioPost AudioPost? @relation(fields: [audioPostId], references: [id], onDelete: Cascade)
-  likes     Like[]
+}
+
+model Vote {
+  id          String     @id @default(cuid())
+  voteType    VoteType
+  ImgPost     ImgPost?   @relation(fields: [imgPostId], references: [id])
+  imgPostId   String?
+  userId      String
+  TextPost    TextPost?  @relation(fields: [textPostId], references: [id])
+  textPostId  String?
+  AudioPost   AudioPost? @relation(fields: [audioPostId], references: [id])
+  audioPostId String?
+}
+
+enum VoteType {
+  UP
+  DOWN
 }
 
 enum PostType {

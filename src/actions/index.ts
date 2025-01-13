@@ -15,3 +15,9 @@ export {uploadAudio} from "./audio/uploadAudio"
 export {createAudioPostAction} from './audio/create-audioPost'
 export {deleteCommentAudioPost} from "./comments/delete-comment-audioPost"
 export {createCommentAudioAction} from "./comments/create-comment-audioPost"
+export {handleVoteImg} from './vote/img/handleVoteImg'
+export {getVoteDataImg}  from './vote/img/getVoteDataImg'
+export {getVoteDataText} from "./vote/text/getVoteDataText"
+export {handleVoteText} from "./vote/text/handleVoteText"
+export {handleVoteAudio} from "./vote/audio/handleVoteAudio"
+export {getVoteDataAudio} from "./vote/audio/getVoteDataAudio"

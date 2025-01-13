@@ -14,7 +14,7 @@ export default async function AudioPostShowPage(props: PostShowPageProps) {
   const audio = await db.audio.findFirst({where:{id: post?.audioId}})
 
   const comments = await db.comment.findMany({where:{audioPostId: id}})
-  const likes = await db.like.count({where:{postId: post?.id}})
+
   if(!post){
       return <div className="flex justify-center">Post not found.</div>;
   }
