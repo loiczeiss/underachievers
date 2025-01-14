@@ -72,20 +72,20 @@ export default function CommentsImgPost(props: CommentProps) {
           </p>
         </div>
         <p className="ml-12 break-words text-gray-800	">{comment.content}</p>
-      <div className="flex justify-between">
-                {" "}
-                <VoteCommentButton commentId={comment.id} />
-                <Button
-                  onPress={(e) =>
-                    handleDeleteComment(comment.id, comment.imgPostId as string)
-                  }
-                  className={`${
-                    session.data?.user?.id === comment.userId ? "block" : "hidden"
-                  } w-48 rounded-xl bg-red-400 self-end mt-2`}
-                >
-                  Delete comment
-                </Button>
-              </div>
+        <div className="flex justify-between">
+          {" "}
+          <VoteCommentButton commentId={comment.id} />
+          <Button
+            onPress={(e) =>
+              handleDeleteComment(comment.id, comment.imgPostId as string)
+            }
+            className={`${
+              session.data?.user?.id === comment.userId ? "block" : "hidden"
+            } w-48 rounded-xl bg-red-400 self-end mt-2`}
+          >
+            Delete comment
+          </Button>
+        </div>
       </Card>
     );
   });
@@ -100,9 +100,8 @@ export default function CommentsImgPost(props: CommentProps) {
             validationBehavior="native"
           >
             <Textarea
-              // isInvalid={!!formState.errors.content}
-              // errorMessage={formState.errors.content?.join(", ")}
-
+              isInvalid={!!formState.errors.content}
+              errorMessage={formState.errors.content?.join(", ")}
               validate={(commentContentValue) => {
                 if (commentContentValue.length < 3) {
                   return formState.errors.content?.join(", ");

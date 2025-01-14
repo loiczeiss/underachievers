@@ -1,15 +1,11 @@
 "use client";
 
-import Link from "next/link";
-import { Card } from "@nextui-org/react";
-import { Dispatch, SetStateAction } from "react";
 
+import { Card } from "@nextui-org/react";
 import { redirect } from "next/navigation";
 import paths from "@/paths";
-interface NavBarProps {
-  setMediaTypeFilter: Dispatch<SetStateAction<number>>;
-}
-export default function NavLinks({ setMediaTypeFilter }: NavBarProps) {
+
+export default function NavLinks() {
   return (
     <>
       <Card

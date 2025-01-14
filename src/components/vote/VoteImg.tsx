@@ -18,33 +18,40 @@ export default function VoteImgButton({ postId }: VoteButtonProps) {
   const session = useSession();
   // Fetch vote count on initial render
   useEffect(() => {
-    const fetchVoteCount = async () => {
+    // Ensure session data is available before fetching
+    if (!session.data?.user?.id) return;
+
+    const fetchVoteData = async () => {
+      setLoading(true); // Set loading state before fetching
       try {
-        const result = await actions.getVoteDataImg(
+        const result = await actions.getVoteDataText(
           postId,
           session.data?.user?.id as string
         );
 
         if (typeof result.voteCount === "number") {
           setVoteCount(result.voteCount);
-          setLoading(false);
-        } else if (result.errors?._form) {
-          setError(result.errors._form[0]);
         }
+
         if (result.existingLike) {
           setVoted(true);
+        } else {
+          setVoted(false);
         }
+
       } catch (err: unknown) {
         if (err instanceof Error) {
           setError(err.message);
         } else {
           setError("An unknown error occurred while fetching the vote count.");
         }
+      } finally {
+        setLoading(false); // Stop loading once done
       }
     };
 
-    fetchVoteCount();
-  }, [postId]);
+    fetchVoteData();
+  }, [session.data?.user?.id, postId]);
 
   const handleVoteClick = async () => {
     setLoading(true);

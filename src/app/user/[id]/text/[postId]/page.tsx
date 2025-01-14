@@ -13,7 +13,9 @@ export default async function PostShowPage(props: PostShowPageProps) {
   const params = await props.params;
 
 
-  console.log(params)
+  const comments = await db.comment.findMany({
+    where: { textPostId: params.postId },
+  });
 
   const post = await db.textPost.findFirst({ where: { id: params.postId } });
 
@@ -25,7 +27,7 @@ export default async function PostShowPage(props: PostShowPageProps) {
 
   return (
     <div className="flex justify-center">
-      <UserTextPostShow post={post} deletePost={deletePostAction} />
+      <UserTextPostShow post={post} deletePost={deletePostAction} comments={comments} />
     </div>
   );
 }

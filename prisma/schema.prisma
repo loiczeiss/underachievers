@@ -116,6 +116,7 @@ model Image {
 
 model Audio {
   id           String   @id @default(uuid())
+  userId String
   publicId     String   @unique
   url          String   @unique
   displayName  String

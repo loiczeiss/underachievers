@@ -11,6 +11,7 @@ import UserAllPostList from "./posts/user/all/UserAllPostList";
 import UserImgPostList from "./posts/user/images/UserImgPostList";
 import UserTextPostList from "./posts/user/text/UserTextPostList";
 import { Card } from "@nextui-org/react";
+import { AudioPost, ImgPost, TextPost } from "@prisma/client";
 interface ImgPostListprops {
   allPosts: {
     title: string;
@@ -18,26 +19,13 @@ interface ImgPostListprops {
     id: string;
     userId: string;
     imgUrl?: string;
+    audioUrl?: string
     createdAt: Date;
     updatedAt: Date;
   }[];
-  textPosts: {
-    title: string;
-    content: string;
-    id: string;
-    userId: string;
-    createdAt: Date;
-    updatedAt: Date;
-  }[];
-  imgPosts: {
-    title: string;
-    content: string;
-    id: string;
-    userId: string;
-    imgUrl: string;
-    createdAt: Date;
-    updatedAt: Date;
-  }[];
+  textPosts: TextPost[];
+  imgPosts:ImgPost[];
+  audioPosts: AudioPost[]
 }
 export default function UserClientSide(props: ImgPostListprops) {
   const [mediaTypeFilter, setMediaTypeFIlter] = useState(0);

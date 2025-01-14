@@ -13,6 +13,7 @@ export default async function Home() {
   const imgPosts = await db.imgPost.findMany();
 
   const audioPosts = await db.audioPost.findMany();
+
   // Combine the results into a unified array
   const allPosts = [
     ...textPosts.map((post) => ({ ...post, type: "TEXT" })),
@@ -22,7 +23,11 @@ export default async function Home() {
 const audios = await db.audio.findMany()
   // // Sort posts by creation date
   // const sortedPosts = allPosts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+const comments = await db.comment.findMany();
 
+const votes = await db.vote.findMany(
+
+)
   const session = await auth();
 
   if (!session || !session.user) {
@@ -40,6 +45,8 @@ const audios = await db.audio.findMany()
           imgPosts={imgPosts}
           audioPosts={audioPosts}
           audios={audios}
+          comments={comments}
+          votes={votes}
         />
       </>
     );

@@ -51,7 +51,7 @@ export default function CommentsAudioPost(props: CommentProps) {
       alert("Failed to delete comment.");
     }
   };
-  console.log(props.postId);
+
   useEffect(() => {
     if (isDeleted) {
       // Redirect after the deletion

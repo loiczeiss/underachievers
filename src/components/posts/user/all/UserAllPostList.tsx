@@ -12,6 +12,7 @@ interface ImgPostListprops {
     content: string;
     id: string;
     userId: string;
+    audioId?: string;
     imgUrl?: string;
     createdAt: Date;
     updatedAt: Date;
@@ -21,6 +22,7 @@ interface ImgPostListprops {
 export const dynamicParams = true;
 
 export default function UserAllPostList(props: ImgPostListprops) {
+  console.log(props.posts)
   const noPostYet = (
     <Card  isBlurred
     className="mx-8 mb-4 lg:mr-8 py-4 px-2 sm:px-8">
@@ -37,7 +39,7 @@ export default function UserAllPostList(props: ImgPostListprops) {
         <div className="uppercase lg:text-2xl"> {post.title}</div>
         {post.imgUrl && (
           <CldImage
-            className="rounded-xl mb-4 "
+            className="rounded-xl mb-0 mt-4"
             width={300} // Adjust width as needed
             height={200} // Adjust height as needed
             src={post.imgUrl}
@@ -45,20 +47,19 @@ export default function UserAllPostList(props: ImgPostListprops) {
             alt="Uploaded Image"
           />
         )}
-        <div className="py-4 text-sm lg:text-xl">{post.content}</div>
+    <Card isBlurred className="mt-2 mb-4 p-2 text-sm lg:text-base">{post.content}</Card>
 
         <Button
   as={Link} // Use Link as the underlying component
   href={
     post.imgUrl
       ? paths.userImgPostPage(post.userId, post.id)
-      : paths.userTextPostPage(post.userId, post.id)
+      : post.audioId? paths.userAudioPostPage(post.userId, post.id) :paths.userTextPostPage(post.userId, post.id)
   }
   className="w-48 lg:w-64 bg-white/25"
 >
   View
 </Button>
-<p>{post.id}</p>
       </Card>
     );
   });

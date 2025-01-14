@@ -8,6 +8,11 @@ import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import "@/app/index.scss";
 import { useState, useEffect } from "react";
+import { Comment, Vote } from "@prisma/client";
+import VoteAudioButton from "@/components/vote/voteAudio";
+import VoteImgButton from "@/components/vote/VoteImg";
+import VoteTextButton from "@/components/vote/VoteText";
+import CommentButton from "@/components/comments/CommentButton";
 
 interface AudioData {
   id: string;
@@ -15,7 +20,7 @@ interface AudioData {
   displayName: string;
 }
 
-interface ImgPostListprops {
+interface AllPostListprops {
   audios: AudioData[];
   mediaTypeFilter: number;
   posts: {
@@ -24,16 +29,21 @@ interface ImgPostListprops {
     id: string;
     userId: string;
     audioId?: string; // Optional, since not all posts have `audioId`
-    imgUrl?: string;  // Optional for non-image posts
+    imgUrl?: string; // Optional for non-image posts
     createdAt: Date;
     updatedAt: Date;
+    type: string;
   }[];
+  comments: Comment[];
+  votes: Vote[];
 }
 
 export const dynamicParams = true;
 
-export default function AllPostList(props: ImgPostListprops) {
-  const [audioMap, setAudioMap] = useState<{ [key: string]: AudioData | null }>({});
+export default function AllPostList(props: AllPostListprops) {
+  const [audioMap, setAudioMap] = useState<{ [key: string]: AudioData | null }>(
+    {}
+  );
 
   // Associate audios with posts on initial render
   useEffect(() => {
@@ -53,13 +63,20 @@ export default function AllPostList(props: ImgPostListprops) {
 
   const renderedImgPosts = [...props.posts].reverse().map((post) => {
     const audio = post.audioId ? audioMap[post.audioId] : null; // Get associated audio for the post
-    const handleRedirect = (post: typeof props.posts[number]) => {
+    const postComments = props.comments.filter((comment) => {
+      if (post.type === "TEXT") return comment.textPostId === post.id;
+      if (post.type === "IMAGE") return comment.imgPostId === post.id;
+      if (post.type === "AUDIO") return comment.audioPostId === post.id;
+      return false;
+    });
+
+    const handleRedirect = (post: (typeof props.posts)[number]) => {
       if (post.imgUrl) {
         return paths.imgPostShow(post.id);
-      } else if(post.audioId) {
+      } else if (post.audioId) {
         return paths.audioPostShowPage(post.id);
-      }else{
-        return paths.textPostShow(post.id)
+      } else {
+        return paths.textPostShow(post.id);
       }
     };
     return (
@@ -72,7 +89,7 @@ export default function AllPostList(props: ImgPostListprops) {
         {audio ? (
           <AudioPlayer
             header={audio.displayName}
-            className="mt-4 mb-4"
+            className="mt-4 mb-2"
             autoPlay={false}
             src={audio.url}
           />
@@ -81,7 +98,7 @@ export default function AllPostList(props: ImgPostListprops) {
         ) : null}
         {post.imgUrl && (
           <CldImage
-            className="rounded-xl mb-4"
+            className="rounded-xl mb-0 mt-4"
             width={300} // Adjust width as needed
             height={200} // Adjust height as needed
             src={post.imgUrl}
@@ -89,14 +106,33 @@ export default function AllPostList(props: ImgPostListprops) {
             alt="Uploaded Image"
           />
         )}
-        <div className="py-4 text-sm lg:text-xl">{post.content}</div>
-        <Button
-          as={Link} // Pass the Link component directly to the Button
-          className="w-48 lg:w-64 bg-white/25"
-          href={handleRedirect(post)}
-        >
-          View
-        </Button>
+        <Card isBlurred className="mt-2 mb-4 p-2 text-sm lg:text-base">
+          {post.content}
+        </Card>
+        <div className="flex w-full justify-between">
+          <div className="flex">
+            {" "}
+            {post.audioId ? (
+              <VoteAudioButton postId={post.id} />
+            ) : post.imgUrl ? (
+              <VoteImgButton postId={post.id} />
+            ) : (
+              <VoteTextButton postId={post.id} />
+            )}
+            <CommentButton commentsLength={postComments.length} />
+          </div>
+
+          <div className="">
+            {" "}
+            <Button
+              as={Link} // Pass the Link component directly to the Button
+              className="w-48 lg:w-64 bg-white/25"
+              href={handleRedirect(post)}
+            >
+              View
+            </Button>
+          </div>
+        </div>
       </Card>
     );
   });

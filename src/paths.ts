@@ -34,6 +34,9 @@ const paths = {
     userTextPostPage(userId: string, postId: string){
         return `/user/${userId}/text/${postId}`
     },
+    userAudioPostPage(userId: string, postId:string){
+        return`/user/${userId}/audio/${postId}`
+    },
     audioPostListPage(){
         return "/posts/audio/all"
     },

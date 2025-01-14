@@ -7,6 +7,11 @@ import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import "@/app/index.scss";
 import Link from "next/link";
+import { Comment } from "@prisma/client";
+import CommentButton from "@/components/comments/CommentButton";
+import VoteAudioButton from "@/components/vote/voteAudio";
+import VoteImgButton from "@/components/vote/VoteImg";
+import VoteTextButton from "@/components/vote/VoteText";
 
 interface AudioData {
   id: string;
@@ -27,14 +32,16 @@ interface AudioPost {
 interface AudioPostListProps {
   posts: AudioPost[];
   audios: AudioData[];
+  comments: Comment[];
 }
 
 export const dynamicParams = true;
 
 export default function AudioPostList(props: AudioPostListProps) {
-  const [audioMap, setAudioMap] = useState<{ [key: string]: AudioData | null }>({});
+  const [audioMap, setAudioMap] = useState<{ [key: string]: AudioData | null }>(
+    {}
+  );
 
-  // Associate audios with posts on initial render
   useEffect(() => {
     const audioDataMap = props.audios.reduce((acc, audio) => {
       acc[audio.id] = audio;
@@ -51,7 +58,7 @@ export default function AudioPostList(props: AudioPostListProps) {
   );
 
   const renderedAudioPosts = [...props.posts].reverse().map((post) => {
-    const audio = audioMap[post.audioId]; // Find the audio associated with the post
+    const audio = audioMap[post.audioId];
 
     return (
       <Card
@@ -67,20 +74,31 @@ export default function AudioPostList(props: AudioPostListProps) {
             className="mt-4  mb-4"
             autoPlay={false}
             src={audio.url}
-   
           />
         ) : (
           <p>Loading audio...</p>
         )}
 
-        <div className="py-4 text-sm lg:text-xl">{post.content}</div>
-        <Button
-          as={Link}
-          href={`${paths.audioPostShowPage(post.id)}`}
-          className="w-48 lg:w-64 bg-white/25"
-        >
-          View
-        </Button>
+        <Card isBlurred className="mt-2 mb-4 p-2 text-sm lg:text-base">
+          {post.content}
+        </Card>
+        <div className="flex w-full justify-between">
+          <div className="flex">
+            <VoteAudioButton postId={post.id} />
+
+            <CommentButton commentsLength={props.comments.length} />
+          </div>
+          <div>
+            {" "}
+            <Button
+              as={Link}
+              href={`${paths.audioPostShowPage(post.id)}`}
+              className="w-48 lg:w-64 bg-white/25"
+            >
+              View
+            </Button>
+          </div>
+        </div>
       </Card>
     );
   });

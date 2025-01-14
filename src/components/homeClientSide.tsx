@@ -6,7 +6,7 @@ import AllPostList from "./posts/all/AllPostsList";
 import TextPostList from "./posts/text/PostTextList";
 import ImgPostList from "./posts/images/imgPostList";
 import NavLinks from "./navLinks";
-import { Audio, AudioPost, ImgPost, TextPost } from "@prisma/client";
+import { Audio, AudioPost, Comment, ImgPost, TextPost, Vote } from "@prisma/client";
 import AudioPostList from "./posts/audio/audioPostsList";
 interface ImgPostListprops {
   audios: Audio[]
@@ -22,6 +22,8 @@ interface ImgPostListprops {
   textPosts: TextPost[];
   imgPosts:ImgPost[];
   audioPosts:AudioPost[]
+  comments: Comment[];
+  votes: Vote[]
 }
 export default function HomeClientSide(props: ImgPostListprops) {
   const [mediaTypeFilter, setMediaTypeFIlter] = useState(0);
@@ -34,6 +36,8 @@ export default function HomeClientSide(props: ImgPostListprops) {
             posts={props.allPosts}
             audios={props.audios}
             mediaTypeFilter={mediaTypeFilter}
+            comments={props.comments}
+            votes={props.votes}
           />
         )}
         {mediaTypeFilter === 1 && <ImgPostList posts={props.imgPosts} />}

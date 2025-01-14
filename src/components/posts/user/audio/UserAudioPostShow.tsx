@@ -23,8 +23,9 @@ interface AudioPost {
 
 interface AudioPostShowProps {
   post: AudioPost;
-  audio: AudioData;
+  audio: AudioData | null;
   comments: Comment[];
+  deleteAudioPost?: (formData: FormData) => void | Promise<void>;
 }
 interface AudioData {
   id: string;
@@ -56,13 +57,21 @@ export default function AudioPostShow(props: AudioPostShowProps) {
         ) : (
           <p>Loading audio...</p>
         )}
-        <p className="mb-8">{props.post.content}</p>
+ <Card isBlurred className="mt-2 mb-4 p-2 text-sm lg:text-base">{props.post.content}</Card>
         <div className="flex mb-2">
           {" "}
           <VoteAudioButton postId={props.post.id} />
           <CommentButton commentsLength={props.comments.length} />
         </div>
         <CommentsAudioPost postId={props.post.id} comments={props.comments} />
+        <form action={props.deleteAudioPost}>
+          <Button
+            className="w-48 mb-4 bg-red-400"
+            type="submit"
+          >
+            Delete the post
+          </Button>
+        </form>
       </Card>
       <Card isBlurred className="mb-4">
         <Button

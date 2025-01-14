@@ -1,5 +1,6 @@
 "use server"
 
+import { auth } from "@/auth";
 import {db} from"@/db"
 import { Audio} from "@prisma/client"
 
@@ -18,7 +19,7 @@ info:{
 }
 
 export async function uploadAudio(result: ResultProps){
-
+const session = await auth()
 
 
     let audio: Audio;
@@ -32,6 +33,7 @@ export async function uploadAudio(result: ResultProps){
                 thumbnailUrl: result.info.thumbnail_url,
                 duration: result.info.duration,
                 format: result.info.format,
+                userId: session?.user?.id as string
             }
         })
         return {
@@ -42,6 +44,7 @@ export async function uploadAudio(result: ResultProps){
             displayName: result.info.display_name,
             playbackUrl: result.info.playback_url,
             thumbnailUrl: result.info.thumbnail_url,
+            userId: session?.user?.id as string
           };
 
 
