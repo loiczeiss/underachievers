@@ -1,4 +1,4 @@
-import UserClientSide from "@/components/UserClientSide";
+import UserClientSide from "@/components/userClientSide";
 import { db } from "@/db";
 
 interface Props {
