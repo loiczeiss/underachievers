@@ -10,6 +10,19 @@ import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import "@/app/index.scss";
 
+interface ResultProps {
+  info: {
+    display_name: string;
+    public_id: string;
+    duration: number;
+    format: string;
+    secure_url: string;
+    thumbnail_url: string;
+    playback_url: string;
+  };
+}
+
+
 export default function CreateAudioPost() {
   const [uploadedAudio, setUploadedAudio] = useState<{
     url: string;
@@ -34,7 +47,7 @@ export default function CreateAudioPost() {
     />
   );
 
-  const handleUploadSuccess = async (result) => {
+  const handleUploadSuccess = async (result: ResultProps) => {
     try {
       // Call the upload handler
       const response = (await actions.uploadAudio(result)) as {
