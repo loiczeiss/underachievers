@@ -17,7 +17,7 @@ export default function CreateImgPost() {
     errors: {},
   });
 console.log(uploadedImage)
-  const handleUploadSuccess = async (result) => {
+  const handleUploadSuccess = async (result: any) => {
     try {
       // Call the upload handler
       const response = (await actions.uploadImg(result)) as {
