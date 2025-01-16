@@ -79,7 +79,7 @@ export default function CommentsTextPost(props: CommentProps) {
                   {" "}
                   <VoteCommentButton commentId={comment.id} />
                   <Button
-                    onPress={(_e) =>
+                    onPress={() =>
                       handleDeleteComment(comment.id, comment.textPostId as string)
                     }
                     className={`${

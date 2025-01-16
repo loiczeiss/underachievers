@@ -77,7 +77,7 @@ export default function CommentsImgPost(props: CommentProps) {
           {" "}
           <VoteCommentButton commentId={comment.id} />
           <Button
-            onPress={(_e) =>
+            onPress={() =>
               handleDeleteComment(comment.id, comment.imgPostId as string)
             }
             className={`${

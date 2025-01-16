@@ -82,7 +82,7 @@ export default function CommentsAudioPost(props: CommentProps) {
           {" "}
           <VoteCommentButton commentId={comment.id} />
           <Button
-            onPress={(_e) =>
+            onPress={() =>
               handleDeleteComment(comment.id, comment.audioPostId as string)
             }
             className={`${

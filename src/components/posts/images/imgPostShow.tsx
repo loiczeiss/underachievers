@@ -4,7 +4,7 @@ import CommentButton from "@/components/comments/CommentButton";
 import CommentsImgPost from "@/components/comments/CommentsImgPost";
 import VoteImgButton from "@/components/vote/VoteImg";
 import { Button, Card } from "@nextui-org/react";
-import { PostType, Vote } from "@prisma/client";
+import { PostType } from "@prisma/client";
 import { CldImage } from "next-cloudinary";
 import { useRouter } from "next/navigation";
 

@@ -1,11 +1,8 @@
 "use client";
 
-import { useState } from "react";
-
 import AllPostList from "./posts/all/AllPostsList";
-
 import NavLinks from "./navLinks";
-import { Audio, AudioPost, Comment, ImgPost, TextPost, Vote } from "@prisma/client";
+import { Audio, AudioPost, Comment, ImgPost, TextPost } from "@prisma/client";
 
 interface AllPostListprops {
   audios: Audio[]
