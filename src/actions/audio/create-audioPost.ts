@@ -71,7 +71,7 @@ export async function createAudioPostAction(
     }
 
     // Create the audio post and associate it with the existing audio
-    audioPost = await db.audioPost.create({
+  await db.audioPost.create({
       data: {
         title,
         content,
