@@ -1,16 +1,12 @@
 "use client";
 
 import { useState } from "react";
-
-import TextPostList from "./posts/text/PostTextList";
-import ImgPostList from "./posts/images/imgPostList";
-
 import NavFilters from "./navFilters";
 import UserAllPostList from "./posts/user/all/UserAllPostList";
 import UserImgPostList from "./posts/user/images/UserImgPostList";
 import UserTextPostList from "./posts/user/text/UserTextPostList";
 import { Card } from "@nextui-org/react";
-import { AudioPost, Comment, ImgPost, TextPost, Vote } from "@prisma/client";
+import { AudioPost, Comment, ImgPost, TextPost } from "@prisma/client";
 import UserAudioPostList from "./posts/user/audio/UserAudioPostsList";
 interface AllPostListprops {
   allPosts: {
@@ -59,8 +55,12 @@ export default function UserClientSide(props: AllPostListprops) {
             comments={props.comments}
           />
         )}
-        {mediaTypeFilter === 1 && <UserImgPostList posts={props.imgPosts} comments={props.comments} />}
-        {mediaTypeFilter === 2 && <UserTextPostList posts={props.textPosts} comments={props.comments} />}
+        {mediaTypeFilter === 1 && (
+          <UserImgPostList posts={props.imgPosts} comments={props.comments} />
+        )}
+        {mediaTypeFilter === 2 && (
+          <UserTextPostList posts={props.textPosts} comments={props.comments} />
+        )}
         {mediaTypeFilter === 3 && (
           <UserAudioPostList
             posts={props.audioPosts}

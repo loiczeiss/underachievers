@@ -1,7 +1,6 @@
 "use client";
 
 import { Button, Card } from "@nextui-org/react";
-import { revalidatePath } from "next/cache";
 import CommentsTextPost from "@/components/comments/CommentsTextPost";
 import { PostType } from "@prisma/client";
 import { useRouter } from "next/navigation";

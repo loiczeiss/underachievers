@@ -9,12 +9,11 @@ import "next-cloudinary/dist/cld-video-player.css";
 import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
 import "@/app/index.scss"
-import { useRouter } from "next/navigation";
+
 
 export default function CreateAudioPost() {
 
-  const router = useRouter();
-  
+
   const [uploadedAudio, setUploadedAudio] = useState<{
     url: string;
     publicId: string;
@@ -40,7 +39,7 @@ export default function CreateAudioPost() {
     />
   );
 
-  const handleUploadSuccess = async (result) => {
+  const handleUploadSuccess = async (result ) => {
     try {
       // Call the upload handler
       const response = (await actions.uploadAudio(result)) as {

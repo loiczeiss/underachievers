@@ -10,8 +10,6 @@ import Link from "next/link";
 import { Comment } from "@prisma/client";
 import CommentButton from "@/components/comments/CommentButton";
 import VoteAudioButton from "@/components/vote/voteAudio";
-import VoteImgButton from "@/components/vote/VoteImg";
-import VoteTextButton from "@/components/vote/VoteText";
 
 interface AudioData {
   id: string;

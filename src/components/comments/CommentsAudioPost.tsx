@@ -9,7 +9,6 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import paths from "@/paths";
-import LikeComponent from "../vote/VoteImg";
 import VoteCommentButton from "../vote/voteComment";
 interface CommentProps {
   postId: string;
@@ -48,6 +47,7 @@ export default function CommentsAudioPost(props: CommentProps) {
       setIsDeleted(true);
       // Optionally, update the UI or refresh the comments
     } catch (error) {
+    console.log(error)
       alert("Failed to delete comment.");
     }
   };
@@ -82,7 +82,7 @@ export default function CommentsAudioPost(props: CommentProps) {
           {" "}
           <VoteCommentButton commentId={comment.id} />
           <Button
-            onPress={(e) =>
+            onPress={(_e) =>
               handleDeleteComment(comment.id, comment.audioPostId as string)
             }
             className={`${

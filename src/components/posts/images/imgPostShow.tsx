@@ -16,7 +16,6 @@ interface ImgPost {
   userId: string;
   createdAt: Date;
   updatedAt: Date;
-  vote: Vote[];
 }
 
 interface ImgPostShowProps {

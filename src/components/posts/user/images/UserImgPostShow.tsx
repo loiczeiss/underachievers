@@ -5,17 +5,15 @@ import CommentsImgPost from "@/components/comments/CommentsTextPost";
 import VoteImgButton from "@/components/vote/VoteImg";
 import paths from "@/paths";
 import { Button, Card } from "@nextui-org/react";
-import { Comment, ImgPost, PostType } from "@prisma/client";
+import { Comment, ImgPost } from "@prisma/client";
 
 import { CldImage } from "next-cloudinary";
 import { redirect } from "next/navigation";
 
-
-
 interface ImgPostShowProps {
-  post: ImgPost
+  post: ImgPost;
   deleteImgPost?: (formData: FormData) => void | Promise<void>;
-   comments:Comment[];
+  comments: Comment[];
 }
 
 export default function UserImgPostShow(props: ImgPostShowProps) {
@@ -32,18 +30,17 @@ export default function UserImgPostShow(props: ImgPostShowProps) {
           sizes="100vw"
           alt="Uploaded Image"
         />
-       <Card isBlurred className="mt-2 mb-4 p-2 text-sm lg:text-base">{props.post.content}</Card>
-         <div className="flex mb-2">
-                  {" "}
-                  <VoteImgButton postId={props.post.id} />
-                  <CommentButton commentsLength={props.comments.length} />
-                </div>
-        <CommentsImgPost postId={props.post.id} comments={props.comments}/>
+        <Card isBlurred className="mt-2 mb-4 p-2 text-sm lg:text-base">
+          {props.post.content}
+        </Card>
+        <div className="flex mb-2">
+          {" "}
+          <VoteImgButton postId={props.post.id} />
+          <CommentButton commentsLength={props.comments.length} />
+        </div>
+        <CommentsImgPost postId={props.post.id} comments={props.comments} />
         <form action={props.deleteImgPost}>
-          <Button
-            className="w-48 mb-4 bg-red-400"
-            type="submit"
-          >
+          <Button className="w-48 mb-4 bg-red-400" type="submit">
             Delete the post
           </Button>
         </form>

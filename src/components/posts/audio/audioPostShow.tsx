@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Button, Card } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import AudioPlayer from "react-h5-audio-player";
@@ -51,7 +50,6 @@ export default function AudioPostShow(props: AudioPostShowProps) {
             className="mb-4"
             autoPlay={false}
             src={props.audio.url}
-            onPlay={(e) => console.log("onPlay")}
           />
         ) : (
           <p>Loading audio...</p>

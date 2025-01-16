@@ -2,8 +2,6 @@
 
 import * as auth from '@/auth'
 import paths from '@/paths'
-import { redirect } from 'next/navigation'
-
 
 export async function signOut(){
     return auth.signOut({

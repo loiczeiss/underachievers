@@ -43,6 +43,7 @@ export default function CommentsImgPost(props: CommentProps) {
       setIsDeleted(true);
       // Optionally, update the UI or refresh the comments
     } catch (error) {
+      console.log(error)
       alert("Failed to delete comment.");
     }
   };
@@ -76,7 +77,7 @@ export default function CommentsImgPost(props: CommentProps) {
           {" "}
           <VoteCommentButton commentId={comment.id} />
           <Button
-            onPress={(e) =>
+            onPress={(_e) =>
               handleDeleteComment(comment.id, comment.imgPostId as string)
             }
             className={`${

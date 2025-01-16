@@ -12,11 +12,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   secret: process.env.AUTH_SECRET,
 
   callbacks: {
-    async session({ session, user, token }) {
+    async session({ session }) {
       // Map session fields here
       return session;
     },
-    async signIn({ user, account, profile }) {
+    async signIn({ user }) {
       // Ensure data integrity here
       console.log(user)
       return true;

@@ -8,7 +8,7 @@ import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import "@/app/index.scss";
 import { useState, useEffect } from "react";
-import { Comment, Vote } from "@prisma/client";
+import { Comment } from "@prisma/client";
 import VoteAudioButton from "@/components/vote/voteAudio";
 import VoteImgButton from "@/components/vote/VoteImg";
 import VoteTextButton from "@/components/vote/VoteText";

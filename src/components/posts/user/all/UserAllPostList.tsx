@@ -8,7 +8,7 @@ import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import "@/app/index.scss";
 import { useState, useEffect } from "react";
-import { Comment, Vote } from "@prisma/client";
+import { Comment } from "@prisma/client";
 import CommentButton from "@/components/comments/CommentButton";
 import VoteAudioButton from "@/components/vote/voteAudio";
 import VoteImgButton from "@/components/vote/VoteImg";
@@ -96,7 +96,6 @@ export default function UserAllPostList(props: AllPostListprops) {
             className="mb-4"
             autoPlay={false}
             src={audio.url}
-            onPlay={(e) => console.log("onPlay")}
           />
         ) }
     <Card isBlurred className="mt-2 mb-4 p-2 text-sm lg:text-base">{post.content}</Card>

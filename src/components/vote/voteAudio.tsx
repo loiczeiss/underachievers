@@ -4,8 +4,6 @@ import { Button } from "@nextui-org/react";
 import { useState, useEffect } from "react";
 import * as actions  from "@/actions"; // Import server actions
 import { useSession } from "next-auth/react";
-import { db } from "@/db";
-import { set } from "zod";
 
 interface VoteButtonProps {
   postId: string;
