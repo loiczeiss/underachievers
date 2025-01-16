@@ -60,7 +60,7 @@ export async function createAudioPostAction(
       where: {
         url: audioUrl, // Assuming audioUrl is unique
       },
-    });
+    }) as Audio
 
     if (!audio) {
       return {
@@ -75,7 +75,7 @@ export async function createAudioPostAction(
       data: {
         title,
         content,
-        userId: session.user.id,
+        userId: session.user.id as string,
         audioId: audio.id,  // Link the retrieved audio to the post
       },
     });

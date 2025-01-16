@@ -23,7 +23,6 @@ interface AllPostListprops {
   imgPosts:ImgPost[];
   audioPosts:AudioPost[]
   comments: Comment[];
-  votes: Vote[]
 }
 export default function HomeClientSide(props: AllPostListprops) {
 

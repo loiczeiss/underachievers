@@ -15,9 +15,9 @@ interface ResultProps {
 }
 export async function uploadImg(result: ResultProps) {
   
-  let img: Image;
+
   try {
-    img = await db.image.create({
+   await db.image.create({
       data: {
         publicId: result.info.public_id,
         url: result.info.secure_url,

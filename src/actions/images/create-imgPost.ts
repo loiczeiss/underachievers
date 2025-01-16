@@ -13,9 +13,11 @@ const createPostSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters long."),
   content: z.string().min(10, "Content must be at least 10 characters long."),
   imgUrl: z.string().url("Image URL must be a valid URL."),
-  imgPublicId: z.string().refine(val => typeof val === 'string' && val.trim().length > 0, {
-    message: "imgPublicId must be a non-empty string.",
-  })
+  imgPublicId: z
+    .string()
+    .refine((val) => typeof val === "string" && val.trim().length > 0, {
+      message: "imgPublicId must be a non-empty string.",
+    }),
 });
 
 interface CreateImgPostFormState {
@@ -23,7 +25,7 @@ interface CreateImgPostFormState {
     title?: string[];
     content?: string[];
     imgUrl?: string[];
-    imgPublicId?: string[]
+    imgPublicId?: string[];
     _form?: string[];
   };
 }
@@ -32,24 +34,22 @@ export async function createImgPostAction(
   formState: CreateImgPostFormState,
   formData: FormData
 ): Promise<CreateImgPostFormState> {
-
-  console.log("here")
+  console.log("here");
   // Parse form data
   const result = createPostSchema.safeParse({
     title: formData.get("title"),
     content: formData.get("content"),
     imgUrl: formData.get("imgUrl"),
-    imgPublicId: formData.get("imgPublicId")
+    imgPublicId: formData.get("imgPublicId"),
   });
-console.log(result)
+  console.log(result);
   // Handle schema validation errors
   if (!result.success) {
-   console.log("result failed")
+    console.log("result failed");
     return { errors: result.error.flatten().fieldErrors };
   }
 
   const { title, content, imgUrl, imgPublicId } = result.data;
-  console.log(result.data)
 
   // Check authentication
   const session = await auth();
@@ -61,17 +61,15 @@ console.log(result)
     };
   }
 
-
-  let imgPost: ImgPost;
   try {
     // Create post in the database
-    imgPost = await db.imgPost.create({
+    await db.imgPost.create({
       data: {
         title,
         content,
-        userId: session.user.id,
+        userId: session.user.id as string,
         imgUrl,
-        imgPublicId
+        imgPublicId,
       },
     });
   } catch (err: unknown) {
@@ -90,8 +88,7 @@ console.log(result)
     }
   }
 
-
   // Redirect to the post creation page or another destination
-  revalidatePath(paths.imgPostsListPage())
+  revalidatePath(paths.imgPostsListPage());
   redirect(paths.imgPostsListPage());
 }

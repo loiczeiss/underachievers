@@ -35,7 +35,7 @@ export async function createCommentTextAction(
   }
 
   const { content, textPostId } = result.data;
-console.log(result.data)
+
   // Check authentication
   const session = await auth();
   if (!session || !session.user) {
@@ -45,13 +45,13 @@ console.log(result.data)
       },
     };
   }
-  let comment: Comment
+
   try {
     // Create the comment and associate it with the post and user
- comment = await db.comment.create({
+    await db.comment.create({
       data: {
         content,
-        userId: session.user.id, // Ensure the comment is associated with the current user
+        userId: session.user.id as string, // Ensure the comment is associated with the current user
         userName: session.user.name as string,
         userImage: session.user.image as string,
         textPostId, // Ensure the comment is associated with the correct post
@@ -61,7 +61,6 @@ console.log(result.data)
     });
 
     // Redirect to the post page after successfully creating the comment
-
   } catch (err: unknown) {
     if (err instanceof Error) {
       return {
