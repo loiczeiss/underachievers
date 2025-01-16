@@ -1,34 +1,41 @@
-import HomeClientSide from "@/components/homeClientSide";
-import UserClientSide from "@/components/userClientSide";
+import UserClientSide from "@/components/UserClientSide";
 import { db } from "@/db";
 
 interface Props {
-    params: Promise<{ id: string }>;
-  }
+  params: Promise<{ id: string }>;
+}
 export default async function MyPost(props: Props) {
   const params = await props.params;
-  const userId = params.id
+  const userId = params.id;
 
+  const textPosts = await db.textPost.findMany({
+    where: { userId },
+  });
 
-    const textPosts = await db.textPost.findMany({
-        where:{userId}
-    });
-  
-    const imgPosts = await db.imgPost.findMany({
-      where:{userId}
-    });
+  const imgPosts = await db.imgPost.findMany({
+    where: { userId },
+  });
 
-    const audioPosts = await db.audioPost.findMany({where:{userId}});
-    const audios = await db.audio.findMany({where:{userId}})
+  const audioPosts = await db.audioPost.findMany({ where: { userId } });
+  const audios = await db.audio.findMany({ where: { userId } });
+  const comments = await db.comment.findMany();
 
-    const allPosts = [
-        ...textPosts.map((post) => ({ ...post, type: "TEXT" })),
-        ...imgPosts.map((post) => ({ ...post, type: "IMAGE" })),
-        ...audioPosts.map((post)=> ({...post, type: "AUDIO"}))
-      ];
+  const allPosts = [
+    ...textPosts.map((post) => ({ ...post, type: "TEXT" })),
+    ...imgPosts.map((post) => ({ ...post, type: "IMAGE" })),
+    ...audioPosts.map((post) => ({ ...post, type: "AUDIO" })),
+  ];
   return (
     <>
-      <UserClientSide allPosts={allPosts} textPosts={textPosts} imgPosts={imgPosts} audioPosts={audioPosts} audios={audios} />
+      <UserClientSide
+        allPosts={allPosts}
+        textPosts={textPosts}
+        imgPosts={imgPosts}
+        audioPosts={audioPosts}
+        audios={audios}
+        comments={comments}
+
+      />
     </>
   );
 }

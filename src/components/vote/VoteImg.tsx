@@ -2,7 +2,7 @@
 
 import { Button } from "@nextui-org/react";
 import { useState, useEffect } from "react";
-import * as actions  from "@/actions"; // Import server actions
+import * as actions from "@/actions"; // Import server actions
 import { useSession } from "next-auth/react";
 import { db } from "@/db";
 
@@ -24,7 +24,7 @@ export default function VoteImgButton({ postId }: VoteButtonProps) {
     const fetchVoteData = async () => {
       setLoading(true); // Set loading state before fetching
       try {
-        const result = await actions.getVoteDataText(
+        const result = await actions.getVoteDataImg(
           postId,
           session.data?.user?.id as string
         );
@@ -38,7 +38,6 @@ export default function VoteImgButton({ postId }: VoteButtonProps) {
         } else {
           setVoted(false);
         }
-
       } catch (err: unknown) {
         if (err instanceof Error) {
           setError(err.message);

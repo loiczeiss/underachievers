@@ -25,7 +25,7 @@ export default function VoteAudioButton({ postId }: VoteButtonProps) {
     const fetchVoteData = async () => {
       setLoading(true); // Set loading state before fetching
       try {
-        const result = await actions.getVoteDataText(
+        const result = await actions.getVoteDataAudio(
           postId,
           session.data?.user?.id as string
         );

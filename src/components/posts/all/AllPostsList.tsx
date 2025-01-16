@@ -34,7 +34,7 @@ interface AllPostListprops {
     type: string;
   }[];
   comments: Comment[];
-  votes: Vote[];
+
 }
 
 export const dynamicParams = true;

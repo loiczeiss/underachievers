@@ -25,9 +25,7 @@ const audios = await db.audio.findMany()
   // const sortedPosts = allPosts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 const comments = await db.comment.findMany();
 
-const votes = await db.vote.findMany(
 
-)
   const session = await auth();
 
   if (!session || !session.user) {
@@ -46,7 +44,7 @@ const votes = await db.vote.findMany(
           audioPosts={audioPosts}
           audios={audios}
           comments={comments}
-          votes={votes}
+
         />
       </>
     );

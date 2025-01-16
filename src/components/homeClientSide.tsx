@@ -3,12 +3,11 @@
 import { useState } from "react";
 
 import AllPostList from "./posts/all/AllPostsList";
-import TextPostList from "./posts/text/PostTextList";
-import ImgPostList from "./posts/images/imgPostList";
+
 import NavLinks from "./navLinks";
 import { Audio, AudioPost, Comment, ImgPost, TextPost, Vote } from "@prisma/client";
-import AudioPostList from "./posts/audio/audioPostsList";
-interface ImgPostListprops {
+
+interface AllPostListprops {
   audios: Audio[]
   allPosts: {
     title: string;
@@ -26,7 +25,7 @@ interface ImgPostListprops {
   comments: Comment[];
   votes: Vote[]
 }
-export default function HomeClientSide(props: ImgPostListprops) {
+export default function HomeClientSide(props: AllPostListprops) {
 
   return (
     <>
@@ -38,7 +37,7 @@ export default function HomeClientSide(props: ImgPostListprops) {
             audios={props.audios}
 
             comments={props.comments}
-            votes={props.votes}
+
           />
 
 

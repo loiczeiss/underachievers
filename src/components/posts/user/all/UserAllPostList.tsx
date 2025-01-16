@@ -8,7 +8,12 @@ import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import "@/app/index.scss";
 import { useState, useEffect } from "react";
-interface ImgPostListprops {
+import { Comment, Vote } from "@prisma/client";
+import CommentButton from "@/components/comments/CommentButton";
+import VoteAudioButton from "@/components/vote/voteAudio";
+import VoteImgButton from "@/components/vote/VoteImg";
+import VoteTextButton from "@/components/vote/VoteText";
+interface AllPostListprops {
   mediaTypeFilter: number;
   posts: {
     title: string;
@@ -19,8 +24,11 @@ interface ImgPostListprops {
     imgUrl?: string;
     createdAt: Date;
     updatedAt: Date;
+    type: string
   }[]; // Correctly define `posts` as an array of objects
-  audios: AudioData[]
+  audios: AudioData[],
+  comments: Comment[]
+
 }
 interface AudioData {
   id: string;
@@ -35,7 +43,7 @@ interface AudioData {
 }
 export const dynamicParams = true;
 
-export default function UserAllPostList(props: ImgPostListprops) {
+export default function UserAllPostList(props: AllPostListprops) {
   const [audioMap, setAudioMap] = useState<{ [key: string]: AudioData | null }>(
       {}
     );
@@ -59,6 +67,12 @@ export default function UserAllPostList(props: ImgPostListprops) {
   );
   const renderedImgPosts = [...props.posts].reverse().map((post) => {
     const audio = post.audioId ? audioMap[post.audioId] : null; // Get associated audio for the post
+    const postComments = props.comments.filter((comment) => {
+      if (post.type === "TEXT") return comment.textPostId === post.id;
+      if (post.type === "IMAGE") return comment.imgPostId === post.id;
+      if (post.type === "AUDIO") return comment.audioPostId === post.id;
+      return false;
+    });
     return (
       <Card
         isBlurred
@@ -86,7 +100,17 @@ export default function UserAllPostList(props: ImgPostListprops) {
           />
         ) }
     <Card isBlurred className="mt-2 mb-4 p-2 text-sm lg:text-base">{post.content}</Card>
-
+<div className="flex w-full justify-between"><div className="flex">
+            {" "}
+            {post.audioId ? (
+              <VoteAudioButton postId={post.id} />
+            ) : post.imgUrl ? (
+              <VoteImgButton postId={post.id} />
+            ) : (
+              <VoteTextButton postId={post.id} />
+            )}
+            <CommentButton commentsLength={postComments.length} />
+          </div>
         <Button
   as={Link} // Use Link as the underlying component
   href={
@@ -97,7 +121,7 @@ export default function UserAllPostList(props: ImgPostListprops) {
   className="w-48 lg:w-64 bg-white/25"
 >
   View
-</Button>
+</Button></div>
       </Card>
     );
   });

@@ -3,6 +3,9 @@
 import { Button, Card } from "@nextui-org/react";
 import Link from "next/link";
 import paths from "@/paths";
+import { Comment } from "@prisma/client";
+import CommentButton from "@/components/comments/CommentButton";
+import VoteTextButton from "@/components/vote/VoteText";
 
 interface PostListProps {
   posts: {
@@ -13,6 +16,7 @@ interface PostListProps {
     createdAt: Date;
     updatedAt: Date;
   }[];
+  comments: Comment[]
 }
 
 export const dynamicParams = true;
@@ -32,15 +36,28 @@ export default function UserTextPostList(props: PostListProps) {
         key={post.id}
       >
         <div className="uppercase lg:text-2xl"> {post.title}</div>
-        <div className="py-4 text-sm lg:text-xl">{post.content}</div>
+        <Card isBlurred className="mt-2 mb-4 p-2 text-sm lg:text-base">
+          {post.content}
+        </Card>
+        <div className="flex w-full justify-between">
+          <div className="flex">
+            <VoteTextButton postId={post.id} />
 
-        <Button
+            <CommentButton commentsLength={props.comments.length} />
+          </div>
+          <div>
+            {" "}
+            <Button
           as={Link} // Use Link as the underlying component
           href={`${paths.userTextPostPage(post.userId, post.id)}`}
           className="w-48 lg:w-64 bg-white/25"
         >
           View
         </Button>
+          </div>
+        </div>
+
+       
       </Card>
     );
   });
