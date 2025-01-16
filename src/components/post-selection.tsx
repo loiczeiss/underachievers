@@ -13,7 +13,7 @@ export default function PostSelection() {
   const router = useRouter();
 
 
-function useMediaQuery(query) {
+function useMediaQuery(query: string) {
   const [matches, setMatches] = useState(false);
 
   useEffect(() => {
