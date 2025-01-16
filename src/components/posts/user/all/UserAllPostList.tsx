@@ -4,7 +4,10 @@ import paths from "@/paths";
 import { Card, Button } from "@nextui-org/react";
 import { CldImage } from "next-cloudinary";
 import Link from "next/link";
-
+import AudioPlayer from "react-h5-audio-player";
+import "react-h5-audio-player/lib/styles.css";
+import "@/app/index.scss";
+import { useState, useEffect } from "react";
 interface ImgPostListprops {
   mediaTypeFilter: number;
   posts: {
@@ -17,11 +20,36 @@ interface ImgPostListprops {
     createdAt: Date;
     updatedAt: Date;
   }[]; // Correctly define `posts` as an array of objects
+  audios: AudioData[]
 }
-
+interface AudioData {
+  id: string;
+  publicId: string;
+  url: string;
+  displayName: string;
+  playbackUrl: string;
+  thumbnailUrl: string;
+  duration: number;
+  format: string;
+  createdAt: Date;
+}
 export const dynamicParams = true;
 
 export default function UserAllPostList(props: ImgPostListprops) {
+  const [audioMap, setAudioMap] = useState<{ [key: string]: AudioData | null }>(
+      {}
+    );
+  
+    // Associate audios with posts on initial render
+    useEffect(() => {
+      const audioDataMap = props.audios.reduce((acc, audio) => {
+        acc[audio.id] = audio;
+        return acc;
+      }, {} as { [key: string]: AudioData });
+  
+      setAudioMap(audioDataMap);
+    }, [props.audios]);
+  
   console.log(props.posts)
   const noPostYet = (
     <Card  isBlurred
@@ -30,6 +58,7 @@ export default function UserAllPostList(props: ImgPostListprops) {
     </Card>
   );
   const renderedImgPosts = [...props.posts].reverse().map((post) => {
+    const audio = post.audioId ? audioMap[post.audioId] : null; // Get associated audio for the post
     return (
       <Card
         isBlurred
@@ -47,6 +76,15 @@ export default function UserAllPostList(props: ImgPostListprops) {
             alt="Uploaded Image"
           />
         )}
+          {audio && (
+          <AudioPlayer
+            header={`${audio.displayName}`}
+            className="mb-4"
+            autoPlay={false}
+            src={audio.url}
+            onPlay={(e) => console.log("onPlay")}
+          />
+        ) }
     <Card isBlurred className="mt-2 mb-4 p-2 text-sm lg:text-base">{post.content}</Card>
 
         <Button

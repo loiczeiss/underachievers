@@ -25,6 +25,7 @@ export { deleteCommentAudioPost } from './comments/delete-comment-audioPost'; //
 export { uploadAudio } from './audio/uploadAudio'; // Upload audio
 export { createAudioPostAction } from './audio/create-audioPost'; // Create new audio post
 export { deleteAudioPost } from './audio/delete-audioPost'; // Delete audio post
+export {deleteAudio} from './audio/delete-audio'
 
 // Voting Actions
 export { handleVoteImg } from './vote/img/handleVoteImg'; // Handle vote on image post

@@ -22,7 +22,6 @@ interface AudioData {
 
 interface AllPostListprops {
   audios: AudioData[];
-  mediaTypeFilter: number;
   posts: {
     title: string;
     content: string;

@@ -3,8 +3,8 @@
 import { Button, Card, Input, Textarea } from "@nextui-org/react";
 import { CldUploadButton, CldImage } from "next-cloudinary";
 import * as actions from "@/actions";
-import { useFormState } from "react-dom";
-import { useEffect, useState } from "react";
+
+import { useActionState, useEffect, useState } from "react";
 
 export default function CreateImgPost() {
   const [uploadedImage, setUploadedImage] = useState<{
@@ -13,10 +13,10 @@ export default function CreateImgPost() {
   } | null>(null);
 
   const CloudPresetName = process.env.NEXT_PUBLIC_CLOUDINARY_PRESET_NAME;
-  const [formState, action] = useFormState(actions.createImgPostAction, {
+  const [formState, action] = useActionState(actions.createImgPostAction, {
     errors: {},
   });
-
+console.log(uploadedImage)
   const handleUploadSuccess = async (result) => {
     try {
       // Call the upload handler
@@ -39,6 +39,7 @@ export default function CreateImgPost() {
     if (!uploadedImage) return;
 
     try {
+      console.log(uploadedImage.publicId)
       await actions.deleteImg(uploadedImage.publicId); // Pass publicId for deletion
       setUploadedImage(null); // Reset state
     } catch (error) {
@@ -66,7 +67,7 @@ export default function CreateImgPost() {
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
       // Ensure cleanup logic also runs
-      handleDeletingImg();
+
     };
   }, [uploadedImage]);
 
@@ -120,7 +121,7 @@ export default function CreateImgPost() {
               <Button
                 variant="bordered"
                 className="border-white/25 lg:self-center lg:ml-4"
-                onClick={handleDeletingImg}
+                onPress={handleDeletingImg}
               >
                 Delete Image
               </Button>

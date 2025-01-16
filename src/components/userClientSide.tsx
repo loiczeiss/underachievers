@@ -26,7 +26,20 @@ interface ImgPostListprops {
   textPosts: TextPost[];
   imgPosts:ImgPost[];
   audioPosts: AudioPost[]
+  audios: AudioData[]
 }
+interface AudioData {
+  id: string;
+  publicId: string;
+  url: string;
+  displayName: string;
+  playbackUrl: string;
+  thumbnailUrl: string;
+  duration: number;
+  format: string;
+  createdAt: Date;
+}
+
 export default function UserClientSide(props: ImgPostListprops) {
   const [mediaTypeFilter, setMediaTypeFIlter] = useState(0);
   return (
@@ -37,6 +50,7 @@ export default function UserClientSide(props: ImgPostListprops) {
         {mediaTypeFilter === 0 && (
           <UserAllPostList
             posts={props.allPosts}
+            audios={props.audios}
             mediaTypeFilter={mediaTypeFilter}
           />
         )}

@@ -2,15 +2,19 @@
 
 import { Button, Card, Input, Textarea } from "@nextui-org/react";
 import * as actions from "@/actions";
-import { useFormState } from "react-dom";
-import { useEffect, useState } from "react";
-import { CldUploadButton, CldVideoPlayer } from "next-cloudinary";
+
+import { useActionState, useEffect, useState } from "react";
+import { CldUploadButton } from "next-cloudinary";
 import "next-cloudinary/dist/cld-video-player.css";
 import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
 import "@/app/index.scss"
+import { useRouter } from "next/navigation";
 
 export default function CreateAudioPost() {
+
+  const router = useRouter();
+  
   const [uploadedAudio, setUploadedAudio] = useState<{
     url: string;
     publicId: string;
@@ -20,21 +24,22 @@ export default function CreateAudioPost() {
     playbackUrl: string;
     thumbnailUrl: string;
   } | null>(null);
+  console.log(uploadedAudio)
   const CloudPresetName = process.env.NEXT_PUBLIC_CLOUDINARY_PRESET_NAME;
-  const [formState, action] = useFormState(actions.createAudioPostAction, {
+  const [formState, action] = useActionState(actions.createAudioPostAction, {
     errors: {},
   });
   const Player = () => (
     <AudioPlayer  
     header={`${uploadedAudio?.displayName} `}
-    className="mb-4"
+    className="mb-2"
       autoPlay={false}
       src={uploadedAudio?.url}
       onPlay={e => console.log("onPlay")}
       // other props here
     />
   );
-console.log(formState?.errors?._form?.join(", "))
+
   const handleUploadSuccess = async (result) => {
     try {
       // Call the upload handler
@@ -50,7 +55,7 @@ console.log(formState?.errors?._form?.join(", "))
 
       if (response?.url && response?.publicId) {
         setUploadedAudio(response); // Set the image data in state
-        console.log(uploadedAudio);
+
       } else {
         console.error("Failed to retrieve the uploaded image data.");
       }
@@ -58,6 +63,43 @@ console.log(formState?.errors?._form?.join(", "))
       console.error("Error during upload:", error);
     }
   };
+
+  const handleDeletingAudio = async () => {
+
+      if (!uploadedAudio) return;
+  
+      try {
+        await actions.deleteAudio(uploadedAudio.publicId); // Pass publicId for deletion
+        setUploadedAudio(null); // Reset state
+      } catch (error) {
+        console.error("Error during image deletion:", error);
+      }
+    };
+    useEffect(() => {
+      console.log('here')
+      const handleBeforeUnload = async (event: {
+        preventDefault: () => void;
+        returnValue: string;
+      }) => {
+        if (uploadedAudio) {
+          await handleDeletingAudio();
+          // Show a confirmation dialog in case of accidental navigation
+          event.preventDefault();
+          event.returnValue = ""; // Some browsers require this for showing the dialog
+        }
+      };
+  
+      // Attach event listener for page unload
+      window.addEventListener("beforeunload", handleBeforeUnload);
+  
+      // Cleanup: Remove event listener on component unmount
+      return () => {
+        window.removeEventListener("beforeunload", handleBeforeUnload);
+        // Ensure cleanup logic also runs
+
+
+      };
+    }, [uploadedAudio]);
 
   return (
     <>
@@ -100,7 +142,13 @@ console.log(formState?.errors?._form?.join(", "))
           </div>
         )}
       
-        {uploadedAudio && <Player />}
+        {uploadedAudio && <><Player /> <Button
+           
+                className="bg-red-400 mb-4 "
+                onPress={handleDeletingAudio}
+              >
+                Delete Image
+              </Button></>}
 
         <Input type="hidden" name="audioUrl" value={uploadedAudio?.url || ""} />
           <Input

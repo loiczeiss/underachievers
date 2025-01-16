@@ -23,7 +23,8 @@ export default async function AudioPostShowPage(props: PostShowPageProps) {
   const deleteAudioPostAction = actions.deleteAudioPost.bind(
     null,
     post.id,
-    post.userId
+    post.userId,
+    audio?.publicId as string
   );
   return (
     <div className="flex justify-center">

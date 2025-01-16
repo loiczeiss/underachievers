@@ -21,7 +21,8 @@ export default async function ImgPostShowPage(props: PostShowPageProps) {
   const deleteImgPostAction = actions.deleteImgPost.bind(
     null,
     post.id,
-    post.userId
+    post.userId, 
+    post.imgPublicId
   );
   return (
     <div className="flex justify-center">

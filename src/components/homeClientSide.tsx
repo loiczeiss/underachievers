@@ -18,6 +18,7 @@ interface ImgPostListprops {
     imgUrl?: string;
     createdAt: Date;
     updatedAt: Date;
+    type: string
   }[];
   textPosts: TextPost[];
   imgPosts:ImgPost[];
@@ -26,23 +27,21 @@ interface ImgPostListprops {
   votes: Vote[]
 }
 export default function HomeClientSide(props: ImgPostListprops) {
-  const [mediaTypeFilter, setMediaTypeFIlter] = useState(0);
+
   return (
     <>
       <div className="flex flex-col lg:flex-row w-full">
-        <NavLinks setMediaTypeFilter={setMediaTypeFIlter} />
-        {mediaTypeFilter === 0 && (
+        <NavLinks  />
+
           <AllPostList
             posts={props.allPosts}
             audios={props.audios}
-            mediaTypeFilter={mediaTypeFilter}
+
             comments={props.comments}
             votes={props.votes}
           />
-        )}
-        {mediaTypeFilter === 1 && <ImgPostList posts={props.imgPosts} />}
-        {mediaTypeFilter === 2 && <TextPostList posts={props.textPosts} />}
-        {mediaTypeFilter === 3 && <AudioPostList posts={props.audioPosts} audios={props.audios}/>}
+
+
       </div>
     </>
   );

@@ -28,7 +28,7 @@ export default async function MyPost(props: Props) {
       ];
   return (
     <>
-      <UserClientSide allPosts={allPosts} textPosts={textPosts} imgPosts={imgPosts} audioPosts={audioPosts} />
+      <UserClientSide allPosts={allPosts} textPosts={textPosts} imgPosts={imgPosts} audioPosts={audioPosts} audios={audios} />
     </>
   );
 }

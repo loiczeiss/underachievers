@@ -13,6 +13,9 @@ const createPostSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters long."),
   content: z.string().min(10, "Content must be at least 10 characters long."),
   imgUrl: z.string().url("Image URL must be a valid URL."),
+  imgPublicId: z.string().refine(val => typeof val === 'string' && val.trim().length > 0, {
+    message: "imgPublicId must be a non-empty string.",
+  })
 });
 
 interface CreateImgPostFormState {
@@ -20,6 +23,7 @@ interface CreateImgPostFormState {
     title?: string[];
     content?: string[];
     imgUrl?: string[];
+    imgPublicId?: string[]
     _form?: string[];
   };
 }
@@ -28,20 +32,24 @@ export async function createImgPostAction(
   formState: CreateImgPostFormState,
   formData: FormData
 ): Promise<CreateImgPostFormState> {
+
+  console.log("here")
   // Parse form data
   const result = createPostSchema.safeParse({
     title: formData.get("title"),
     content: formData.get("content"),
     imgUrl: formData.get("imgUrl"),
+    imgPublicId: formData.get("imgPublicId")
   });
-
+console.log(result)
   // Handle schema validation errors
   if (!result.success) {
-   
+   console.log("result failed")
     return { errors: result.error.flatten().fieldErrors };
   }
 
-  const { title, content, imgUrl } = result.data;
+  const { title, content, imgUrl, imgPublicId } = result.data;
+  console.log(result.data)
 
   // Check authentication
   const session = await auth();
@@ -63,6 +71,7 @@ export async function createImgPostAction(
         content,
         userId: session.user.id,
         imgUrl,
+        imgPublicId
       },
     });
   } catch (err: unknown) {
