@@ -2,7 +2,6 @@
 
 import { db } from "@/db"
 import { revalidatePath } from "next/cache"
-import { redirect } from "next/navigation"
 import paths from "@/paths"
 
 

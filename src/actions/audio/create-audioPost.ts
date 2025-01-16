@@ -1,6 +1,6 @@
 "use server"
 
-import type { Audio, AudioPost } from "@prisma/client";
+import type { Audio } from "@prisma/client";
 import { z } from "zod";
 import { db } from "@/db";
 import { auth } from "@/auth";
@@ -52,7 +52,7 @@ export async function createAudioPostAction(
     };
   }
 
-  let audioPost: AudioPost;
+
   let audio: Audio;
   try {
     // Retrieve the audio record based on the audioUrl

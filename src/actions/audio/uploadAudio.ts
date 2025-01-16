@@ -2,7 +2,7 @@
 
 import { auth } from "@/auth";
 import { db } from "@/db";
-import { Audio } from "@prisma/client";
+
 
 interface ResultProps {
   info: {

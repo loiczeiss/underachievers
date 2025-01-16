@@ -1,6 +1,5 @@
 "use server";
 
-import type { ImgPost } from "@prisma/client";
 import { z } from "zod";
 import { db } from "@/db";
 import { auth } from "@/auth";

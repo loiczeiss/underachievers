@@ -1,7 +1,6 @@
 "use server";
 
 import { db } from "@/db";
-import { Image } from "@prisma/client";
 
 
 interface ResultProps {

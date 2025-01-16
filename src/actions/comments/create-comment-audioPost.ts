@@ -1,6 +1,5 @@
 "use server";
 
-import type { Comment } from "@prisma/client";
 import { z } from "zod";
 import { db } from "@/db";
 import { auth } from "@/auth";
