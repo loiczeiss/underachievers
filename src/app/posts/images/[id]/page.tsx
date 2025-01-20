@@ -1,5 +1,6 @@
 import { db } from "@/db";
 import ImgPostShow from "@/components/posts/images/imgPostShow";
+import ImageViewer from "@/components/imageViewer";
 
 interface PostShowPageProps {
   params: Promise<{ id: string }>;
@@ -18,6 +19,7 @@ export default async function ImgPostShowPage(props: PostShowPageProps) {
   return (
     <div className="flex justify-center">
       <ImgPostShow post={post} comments={comments} />
+      <ImageViewer imgUrl={post.imgUrl} />
     </div>
   );
 }

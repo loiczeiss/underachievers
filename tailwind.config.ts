@@ -11,6 +11,7 @@ const config = {
     // Include NextUI's theme files from node_modules
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}"
   ],
+  
   theme: {
     extend: {
       colors: {
@@ -20,7 +21,9 @@ const config = {
     },
   },
   darkMode: "class", // Enables dark mode using the "class" strategy
-  plugins: [nextui()], // Adds NextUI's Tailwind plugin
+  plugins: [nextui(), require('tailwind-scrollbar')({ nocompatible: true }),
+    
+  ], // Adds NextUI's Tailwind plugin
 };
 
 export default config;

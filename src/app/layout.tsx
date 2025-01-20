@@ -25,10 +25,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${zenDots.className} antialiased`}
+        className={`${zenDots.className} antialiased `}
       >
         {" "}
-        <div className="w-screen h-full overflow-scroll">
+        <div className="w-screen h-full overflow-scroll ">
           <Providers>
             <Header />
             {children}

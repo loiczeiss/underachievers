@@ -2,6 +2,7 @@
 
 import CommentButton from "@/components/comments/CommentButton";
 import CommentsImgPost from "@/components/comments/CommentsImgPost";
+import ImageViewer from "@/components/imageViewer";
 import VoteImgButton from "@/components/vote/VoteImg";
 import { Button, Card } from "@nextui-org/react";
 import { PostType } from "@prisma/client";
@@ -50,6 +51,7 @@ export default function ImgPostShow(props: ImgPostShowProps) {
           sizes="100vw"
           alt="Uploaded Image"
         />
+
         <p className="mb-8">{props.post.content}</p>
         <div className="flex mb-2">
           <VoteImgButton postId={props.post.id} />
