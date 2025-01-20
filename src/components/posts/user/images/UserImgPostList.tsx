@@ -7,6 +7,8 @@ import { Card, Button } from "@nextui-org/react";
 import { Comment } from "@prisma/client";
 import { CldImage } from "next-cloudinary";
 import Link from "next/link";
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
 
 interface ImgPostListprops {
   posts: {
@@ -18,7 +20,7 @@ interface ImgPostListprops {
     createdAt: Date;
     updatedAt: Date;
   }[];
-  comments: Comment[]
+  comments: Comment[];
 }
 
 export const dynamicParams = true;
@@ -37,16 +39,17 @@ export default function UserImgPostList(props: ImgPostListprops) {
         key={post.id}
       >
         <div className="uppercase lg:text-2xl"> {post.title}</div>
-
-        <CldImage
-          className="rounded-xl mb-4 "
-          width={300} // Adjust width as needed
-          height={200} // Adjust height as needed
-          src={post.imgUrl}
-          sizes="100vw"
-          alt="Uploaded Image"
-        />
-  <Card isBlurred className="mt-2 mb-4 p-2 text-sm lg:text-base">
+        <Zoom>
+          <CldImage
+            className="rounded-xl mt-4 "
+            width={300} // Adjust width as needed
+            height={200} // Adjust height as needed
+            src={post.imgUrl}
+            sizes="100vw"
+            alt="Uploaded Image"
+          />
+        </Zoom>
+        <Card isBlurred className="mt-2 mb-4 p-2 text-sm lg:text-base">
           {post.content}
         </Card>
         <div className="flex w-full justify-between">
@@ -58,15 +61,14 @@ export default function UserImgPostList(props: ImgPostListprops) {
           <div>
             {" "}
             <Button
-          as={Link} // Use Link as the underlying component
-          href={`${paths.userImgPostPage(post.userId, post.id)}`}
-          className="w-48 lg:w-64 bg-white/25"
-        >
-          View
-        </Button>
+              as={Link} // Use Link as the underlying component
+              href={`${paths.userImgPostPage(post.userId, post.id)}`}
+              className="w-48 lg:w-64 bg-white/25"
+            >
+              View
+            </Button>
           </div>
         </div>
-       
       </Card>
     );
   });

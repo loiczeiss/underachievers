@@ -13,6 +13,8 @@ import VoteAudioButton from "@/components/vote/voteAudio";
 import VoteImgButton from "@/components/vote/VoteImg";
 import VoteTextButton from "@/components/vote/VoteText";
 import CommentButton from "@/components/comments/CommentButton";
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
 
 interface AudioData {
   id: string;
@@ -96,14 +98,14 @@ export default function AllPostList(props: AllPostListprops) {
           <p>Loading audio...</p>
         ) : null}
         {post.imgUrl && (
-          <CldImage
-            className="rounded-xl mb-0 mt-4"
-            width={300} // Adjust width as needed
-            height={200} // Adjust height as needed
-            src={post.imgUrl}
-            sizes="100vw"
-            alt="Uploaded Image"
-          />
+         <Zoom> <CldImage
+         className="rounded-xl mb-0 mt-4"
+         width={300} // Adjust width as needed
+         height={200} // Adjust height as needed
+         src={post.imgUrl}
+         sizes="100vw"
+         alt="Uploaded Image"
+       /></Zoom>
         )}
         <Card isBlurred className="mt-2 mb-4 p-2 text-sm lg:text-base">
           {post.content}

@@ -13,6 +13,10 @@ import CommentButton from "@/components/comments/CommentButton";
 import VoteAudioButton from "@/components/vote/voteAudio";
 import VoteImgButton from "@/components/vote/VoteImg";
 import VoteTextButton from "@/components/vote/VoteText";
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
+
+
 interface AllPostListprops {
   mediaTypeFilter: number;
   posts: {
@@ -81,14 +85,14 @@ export default function UserAllPostList(props: AllPostListprops) {
       >
         <div className="uppercase lg:text-2xl"> {post.title}</div>
         {post.imgUrl && (
-          <CldImage
-            className="rounded-xl mb-0 mt-4"
-            width={300} // Adjust width as needed
-            height={200} // Adjust height as needed
-            src={post.imgUrl}
-            sizes="100vw"
-            alt="Uploaded Image"
-          />
+          <Zoom><CldImage
+          className="rounded-xl mb-0 mt-4"
+          width={300} // Adjust width as needed
+          height={200} // Adjust height as needed
+          src={post.imgUrl}
+          sizes="100vw"
+          alt="Uploaded Image"
+        /></Zoom>
         )}
           {audio && (
           <AudioPlayer

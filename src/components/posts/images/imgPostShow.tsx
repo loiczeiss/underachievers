@@ -2,7 +2,8 @@
 
 import CommentButton from "@/components/comments/CommentButton";
 import CommentsImgPost from "@/components/comments/CommentsImgPost";
-import ImageViewer from "@/components/imageViewer";
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
 import VoteImgButton from "@/components/vote/VoteImg";
 import { Button, Card } from "@nextui-org/react";
 import { PostType } from "@prisma/client";
@@ -37,25 +38,26 @@ interface ImgPostShowProps {
 
 export default function ImgPostShow(props: ImgPostShowProps) {
   const router = useRouter();
-  
 
   return (
     <div className="w-full flex flex-col items-center">
       <Card isBlurred className="mt-8 w-1/2 px-8 mb-8">
         <h1 className="my-4 text-xl uppercase">{props.post.title}</h1>
-        <CldImage
-          className="rounded-xl mb-4"
-          width={300} // Adjust width as needed
-          height={200} // Adjust height as needed
-          src={props.post.imgUrl}
-          sizes="100vw"
-          alt="Uploaded Image"
-        />
+        <Zoom>
+          <CldImage
+            className="rounded-xl mb-4"
+            width={300} // Adjust width as needed
+            height={200} // Adjust height as needed
+            src={props.post.imgUrl}
+            sizes="100vw"
+            alt="Uploaded Image"
+          />
+        </Zoom>
 
         <p className="mb-8">{props.post.content}</p>
         <div className="flex mb-2">
           <VoteImgButton postId={props.post.id} />
-         <CommentButton commentsLength={props.comments.length}/>
+          <CommentButton commentsLength={props.comments.length} />
         </div>
         <CommentsImgPost postId={props.post.id} comments={props.comments} />
       </Card>
