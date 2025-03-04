@@ -1,28 +1,40 @@
 import { Card, Form, Textarea, Button } from "@nextui-org/react";
-import { forwardRef } from "react";
-
+import { Dispatch, forwardRef, SetStateAction, useState } from "react";
+import * as actions from "@/actions";
+import { useFormState } from "react-dom";
 interface ReplyTextAreaProps {
   isHidden: boolean;
   commentConfirmationId: string;
-  commentId: string
+  commentId: string;
+  setIsHidden: Dispatch<SetStateAction<boolean>>
 }
 
 const ReplyTextArea = forwardRef<HTMLTextAreaElement, ReplyTextAreaProps>(
-  ({ isHidden, commentConfirmationId, commentId}, ref) => {
+  ({ isHidden, commentConfirmationId, commentId, setIsHidden }, ref) => {
+ const [commentContentValue, setCommentContentValue] = useState("");
+    const [formState, action] = useFormState(actions.createReplyCommentAction, {
+      errors: {},
+    });
+
+
     return (
-      <Card className={`${!isHidden && commentConfirmationId === commentId? "block" : "hidden"} bg-white/25`}>
-        <Form className="flex flex-col" validationBehavior="native">
+      <Card
+        className={`${
+          !isHidden && commentConfirmationId === commentId ? "block" : "hidden"
+        } bg-white/25`}
+      >
+        <Form action={action} className="flex flex-col" validationBehavior="native">
           <Textarea
             ref={ref}
-            // isInvalid={!!formState.errors.content}
-            // errorMessage={formState.errors.content?.join(", ")}
-            // validate={(commentContentValue) => {
-            //   if (commentContentValue.length < 3) {
-            //     return formState.errors.content?.join(", ");
-            //   }
-            // }}
-            // value={commentContentValue}
-            // onValueChange={setCommentContentValue}
+            isInvalid={!!formState.errors.content}
+            errorMessage={formState.errors.content?.join(", ")}
+            validate={(commentContentValue) => {
+              if (commentContentValue.length < 3) {
+                return formState.errors.content?.join(", ");
+              }
+            }}
+            value={commentContentValue}
+            onValueChange={setCommentContentValue}
             variant="bordered"
             isClearable
             classNames={{
@@ -38,8 +50,8 @@ const ReplyTextArea = forwardRef<HTMLTextAreaElement, ReplyTextAreaProps>(
             name="content"
             placeholder="Reply..."
           />
-          <input type="hidden" name="postType" value="AUDIO" />
-          <Button type="submit" className="w-42 bg-white/50 self-end m-4">
+          <input type="hidden" name="parentId" value={commentId} />
+          <Button type="submit" onPress={()=>setTimeout(()=>setIsHidden(true), 1000)} className="w-42 bg-white/50 self-end m-4">
             Comment
           </Button>
         </Form>

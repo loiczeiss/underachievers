@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useState } from "react";
+import { forwardRef, useState, useRef } from "react";
 import { Avatar, Button, Card, Form, Textarea } from "@nextui-org/react";
 import { useFormState } from "react-dom";
 import * as actions from "@/actions";
@@ -10,7 +10,7 @@ import { useSession } from "next-auth/react";
 import VoteCommentButton from "../vote/voteComment";
 import ReplyComment from "./ReplyCommentButton";
 import ReplyTextArea from "./ReplyTextArea";
-import { useRef } from "react";
+
 dayjs.extend(relativeTime);
 
 interface CommentProps {
@@ -28,12 +28,10 @@ interface CommentProps {
     createdAt: Date;
     updatedAt: Date;
   }[];
-  deleteCommentTextPost?: (commentId: string, audioPostId: string) => void;
 }
 
 const CommentsAudioPost = forwardRef<HTMLTextAreaElement, CommentProps>(
   ({ postId, comments }, ref) => {
-    const [isDeleted, setIsDeleted] = useState(false);
     const router = useRouter();
     const [commentContentValue, setCommentContentValue] = useState("");
     const [formState, action] = useFormState(actions.createCommentAudioAction, {
@@ -41,7 +39,8 @@ const CommentsAudioPost = forwardRef<HTMLTextAreaElement, CommentProps>(
     });
 
     const [isHidden, setIsHidden] = useState(true);
-    const [commentConfirmationId, setCommentConfirmationId] = useState<string>("")
+    const [commentConfirmationId, setCommentConfirmationId] =
+      useState<string>("");
     const session = useSession();
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -53,12 +52,6 @@ const CommentsAudioPost = forwardRef<HTMLTextAreaElement, CommentProps>(
       }
     };
 
-    useEffect(() => {
-      if (isDeleted) {
-        router.push(`${postId}`);
-      }
-    }, [isDeleted, router, postId]);
-
     const handleDeleteComment = async (
       commentId: string,
       audioPostId: string
@@ -66,7 +59,7 @@ const CommentsAudioPost = forwardRef<HTMLTextAreaElement, CommentProps>(
       try {
         await actions.deleteCommentAudioPost(commentId, audioPostId);
         alert("Comment deleted successfully!");
-        setIsDeleted(true);
+        router.refresh(); // Ensures the latest data is fetched without causing a full page reload
       } catch (error) {
         console.log(error);
         alert("Failed to delete comment.");
@@ -85,11 +78,9 @@ const CommentsAudioPost = forwardRef<HTMLTextAreaElement, CommentProps>(
               ref={ref} // ✅ Correctly forward ref
               isInvalid={!!formState.errors.content}
               errorMessage={formState.errors.content?.join(", ")}
-              validate={(commentContentValue) => {
-                if (commentContentValue.length < 3) {
-                  return formState.errors.content?.join(", ");
-                }
-              }}
+              validate={(value) =>
+                value.length < 3 ? "Comment must be at least 3 characters" : ""
+              }
               value={commentContentValue}
               onValueChange={setCommentContentValue}
               variant="bordered"
@@ -150,14 +141,20 @@ const CommentsAudioPost = forwardRef<HTMLTextAreaElement, CommentProps>(
               </div>
               <div className="pl-12 break-words text-gray-900 py-2 bg-white/25 rounded-xl">
                 <p className="">{comment.content}</p>
-                <ReplyTextArea isHidden={isHidden} ref={textareaRef} commentId={comment.id} commentConfirmationId={commentConfirmationId} />
+                <ReplyTextArea
+                  isHidden={isHidden}
+                  setIsHidden={setIsHidden}
+                  ref={textareaRef}
+                  commentId={comment.id}
+                  commentConfirmationId={commentConfirmationId}
+                />
               </div>
               <div className="flex justify-between items-center pt-2">
                 <VoteCommentButton commentId={comment.id} />
                 <ReplyComment
-                commentId={comment.id}
-                commentConfirmationId={commentConfirmationId}
-                setCommentConfirmationId={setCommentConfirmationId}
+                  commentId={comment.id}
+                  commentConfirmationId={commentConfirmationId}
+                  setCommentConfirmationId={setCommentConfirmationId}
                   setIsHidden={setIsHidden}
                   isHidden={isHidden}
                   onClick={focusTextarea}

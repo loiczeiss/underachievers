@@ -20,7 +20,7 @@ export { createCommentImgAction } from './comments/create-comment-imgPost'; // C
 export { deleteCommentImgPost } from './comments/delete-comment-imgPost'; // Delete comment on image post
 export { createCommentAudioAction } from './comments/create-comment-audioPost'; // Create comment on audio post
 export { deleteCommentAudioPost } from './comments/delete-comment-audioPost'; // Delete comment on audio post
-
+export {createReplyCommentAction} from "./comments/create-reply-comment"
 // Audio Post Actions
 export { uploadAudio } from './audio/uploadAudio'; // Upload audio
 export { createAudioPostAction } from './audio/create-audioPost'; // Create new audio post
