@@ -8,7 +8,7 @@ import "@/app/index.scss";
 import CommentsAudioPost from "@/components/comments/CommentsAudioPost";
 import { Comment } from "@prisma/client";
 import VoteAudioButton from "@/components/vote/voteAudio";
-import CommentButton from "@/components/comments/CommentButton";
+import CommentButton from "@/components/comments/CommentButtonLists";
 
 interface AudioPost {
   id: string;

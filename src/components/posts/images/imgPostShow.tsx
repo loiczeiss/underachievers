@@ -1,6 +1,6 @@
 "use client";
 
-import CommentButton from "@/components/comments/CommentButton";
+import CommentButton from "@/components/comments/CommentButtonLists";
 import CommentsImgPost from "@/components/comments/CommentsImgPost";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
@@ -9,6 +9,8 @@ import { Button, Card } from "@nextui-org/react";
 import { PostType } from "@prisma/client";
 import { CldImage } from "next-cloudinary";
 import { useRouter } from "next/navigation";
+import { useRef } from "react";
+import CommentButtonPosts from "@/components/comments/CommentButtonPost";
 
 interface ImgPost {
   title: string;
@@ -38,6 +40,13 @@ interface ImgPostShowProps {
 
 export default function ImgPostShow(props: ImgPostShowProps) {
   const router = useRouter();
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  const focusTextarea = () => {
+    if (textareaRef.current) {
+      textareaRef.current.focus();
+    }
+  };
 
   return (
     <div className="w-full flex flex-col items-center">
@@ -57,9 +66,16 @@ export default function ImgPostShow(props: ImgPostShowProps) {
         <p className="mb-8">{props.post.content}</p>
         <div className="flex mb-2">
           <VoteImgButton postId={props.post.id} />
-          <CommentButton commentsLength={props.comments.length} />
+          <CommentButtonPosts
+            commentsLength={props.comments.length}
+            onClick={focusTextarea}
+          />
         </div>
-        <CommentsImgPost postId={props.post.id} comments={props.comments} />
+        <CommentsImgPost
+          postId={props.post.id}
+          comments={props.comments}
+          ref={textareaRef}
+        />
       </Card>
       <Card isBlurred className="mb-4">
         <Button

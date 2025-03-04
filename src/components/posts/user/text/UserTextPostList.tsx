@@ -4,7 +4,7 @@ import { Button, Card } from "@nextui-org/react";
 import Link from "next/link";
 import paths from "@/paths";
 import { Comment } from "@prisma/client";
-import CommentButton from "@/components/comments/CommentButton";
+import CommentButton from "@/components/comments/CommentButtonLists";
 import VoteTextButton from "@/components/vote/VoteText";
 
 interface PostListProps {

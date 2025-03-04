@@ -1,6 +1,6 @@
 "use client";
 
-import CommentButton from "@/components/comments/CommentButton";
+import CommentButton from "@/components/comments/CommentButtonLists";
 import CommentsImgPost from "@/components/comments/CommentsTextPost";
 import VoteImgButton from "@/components/vote/VoteImg";
 import paths from "@/paths";

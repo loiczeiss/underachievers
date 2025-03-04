@@ -1,6 +1,6 @@
 "use client";
 
-import CommentButton from "@/components/comments/CommentButton";
+import CommentButton from "@/components/comments/CommentButtonLists";
 import VoteImgButton from "@/components/vote/VoteImg";
 import paths from "@/paths";
 import { Card, Button } from "@nextui-org/react";

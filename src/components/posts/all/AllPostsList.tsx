@@ -12,7 +12,7 @@ import { Comment } from "@prisma/client";
 import VoteAudioButton from "@/components/vote/voteAudio";
 import VoteImgButton from "@/components/vote/VoteImg";
 import VoteTextButton from "@/components/vote/VoteText";
-import CommentButton from "@/components/comments/CommentButton";
+import CommentButton from "@/components/comments/CommentButtonLists";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 
@@ -120,7 +120,7 @@ export default function AllPostList(props: AllPostListprops) {
             ) : (
               <VoteTextButton postId={post.id} />
             )}
-            <CommentButton commentsLength={postComments.length} />
+            <CommentButton commentsLength={postComments.length} postId={post.id} postType={post.type} post={post}/>
           </div>
 
           <div className="">

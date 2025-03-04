@@ -5,7 +5,9 @@ import CommentsTextPost from "@/components/comments/CommentsTextPost";
 import { PostType } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import VoteTextButton from "@/components/vote/VoteText";
-import CommentButton from "@/components/comments/CommentButton";
+import { useRef } from "react";
+import CommentButtonPosts from "@/components/comments/CommentButtonPost";
+
 
 interface Post {
   title: string;
@@ -34,7 +36,13 @@ interface PostShowProps {
 
 export default function TextPostShow(props: PostShowProps) {
   const router = useRouter();
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
+  const focusTextarea = () => {
+    if (textareaRef.current) {
+      textareaRef.current.focus();
+    }
+  };
   return (
     <div className="w-full flex flex-col items-center">
       {" "}
@@ -43,9 +51,9 @@ export default function TextPostShow(props: PostShowProps) {
         <p className="mb-8">{props.post.content}</p>
         <div className="flex mb-2">
           <VoteTextButton postId={props.post.id} />
-         <CommentButton commentsLength={props.comments.length} />
+         <CommentButtonPosts commentsLength={props.comments.length} onClick={focusTextarea}/>
         </div>
-        <CommentsTextPost postId={props.post.id} comments={props.comments} />
+        <CommentsTextPost postId={props.post.id} comments={props.comments} ref={textareaRef} />
       </Card>{" "}
       <Card isBlurred className="mb-4">
         {" "}

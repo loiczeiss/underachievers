@@ -1,12 +1,38 @@
 "use client";
 
 import { Button } from "@nextui-org/react";
+import { redirect } from "next/navigation";
+import paths from "@/paths";
 
 interface CommentButtonProps {
   commentsLength: number;
+  post: {
+    title: string;
+    content: string;
+    id: string;
+    userId: string;
+    audioId?: string;
+    imgUrl?: string;
+    createdAt: Date;
+    updatedAt: Date;
+    type: string;
+  };
+
+  postId?: string;
 }
 
 export default function CommentButton(props: CommentButtonProps) {
+
+
+  const handleRedirect = (post: CommentButtonProps["post"]) => {
+    if (post.type === "IMAGE") {
+      return paths.imgPostShow(post.id);
+    } else if (post.type === "AUDIO") {
+      return paths.audioPostShowPage(post.id);
+    } else {
+      return paths.textPostShow(post.id);
+    }
+  };
   const CommentIcon = () => {
     return (
       <svg
@@ -28,6 +54,7 @@ export default function CommentButton(props: CommentButtonProps) {
     <Button
       startContent={<CommentIcon />}
       className="rounded-2xl bg-white/25 m-0 ml-2"
+      onPress={() => redirect(handleRedirect(props.post))}
     >
       {props.commentsLength}
     </Button>

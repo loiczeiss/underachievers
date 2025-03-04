@@ -5,7 +5,7 @@ import paths from "@/paths";
 import { redirect } from "next/navigation";
 import VoteTextButton from "@/components/vote/VoteText";
 import { Comment } from "@prisma/client";
-import CommentButton from "@/components/comments/CommentButton";
+import CommentButton from "@/components/comments/CommentButtonLists";
 import CommentsTextPost from "@/components/comments/CommentsTextPost";
 
 interface Post {

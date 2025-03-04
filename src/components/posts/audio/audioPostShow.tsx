@@ -8,8 +8,8 @@ import "@/app/index.scss";
 import CommentsAudioPost from "@/components/comments/CommentsAudioPost";
 import { Comment } from "@prisma/client";
 import VoteAudioButton from "@/components/vote/voteAudio";
-import CommentButton from "@/components/comments/CommentButton";
-
+import CommentButtonPosts from "@/components/comments/CommentButtonPost";
+import { useRef } from "react";
 interface AudioPost {
   id: string;
   title: string;
@@ -39,7 +39,13 @@ interface AudioData {
 
 export default function AudioPostShow(props: AudioPostShowProps) {
   const router = useRouter();
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
+  const focusTextarea = () => {
+    if (textareaRef.current) {
+      textareaRef.current.focus();
+    }
+  };
   return (
     <div className="w-full flex flex-col items-center">
       <Card isBlurred className="mt-8 w-1/2 px-8 mb-8">
@@ -58,9 +64,9 @@ export default function AudioPostShow(props: AudioPostShowProps) {
         <div className="flex mb-2">
           {" "}
           <VoteAudioButton postId={props.post.id} />
-          <CommentButton commentsLength={props.comments.length} />
+          <CommentButtonPosts commentsLength={props.comments.length} onClick={focusTextarea}/>
         </div>
-        <CommentsAudioPost postId={props.post.id} comments={props.comments} />
+        <CommentsAudioPost postId={props.post.id} comments={props.comments}   ref={textareaRef}/>
       </Card>
       <Card isBlurred className="mb-4">
         <Button

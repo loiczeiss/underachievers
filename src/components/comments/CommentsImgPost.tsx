@@ -5,11 +5,12 @@ import * as actions from "@/actions";
 import { PostType } from "@prisma/client";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { useEffect, useState } from "react";
+import { useEffect, useState, forwardRef } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import paths from "@/paths";
 import VoteCommentButton from "../vote/voteComment";
+
 interface CommentProps {
   postId: string;
   comments: {
@@ -26,9 +27,10 @@ interface CommentProps {
   }[];
   deleteCommentTextPost?: (commentId: string, imgPostId: string) => void;
 }
-export default function CommentsImgPost(props: CommentProps) {
+
+const CommentsImgPost = forwardRef<HTMLTextAreaElement, CommentProps>((props, ref) => {
   const [isDeleted, setIsDeleted] = useState(false);
-  const router = useRouter(); // Next.js router for client-side navigatio
+  const router = useRouter(); // Next.js router for client-side navigation
   const [commentContentValue, setCommentContentValue] = useState("");
   const [formState, action] = useFormState(actions.createCommentImgAction, {
     errors: {},
@@ -41,19 +43,19 @@ export default function CommentsImgPost(props: CommentProps) {
       await actions.deleteCommentImgPost(commentId, imgPostId); // Calling the server action directly
       alert("Comment deleted successfully!");
       setIsDeleted(true);
-      // Optionally, update the UI or refresh the comments
     } catch (error) {
-      console.log(error)
+      console.log(error);
       alert("Failed to delete comment.");
     }
   };
-  console.log(props.postId);
+
   useEffect(() => {
     if (isDeleted) {
       // Redirect after the deletion
       router.push(`${paths.imgPostShow(props.postId)}`);
     }
   }, [isDeleted, router, props.postId]);
+
   const session = useSession();
 
   const NoCommentsYet = (
@@ -66,15 +68,14 @@ export default function CommentsImgPost(props: CommentProps) {
     return (
       <Card isBlurred className="bg-white/25 p-4 mt-2" key={comment.id}>
         <div className="flex items-center">
-          <Avatar src={comment.userImage || ""} className=" w-8 h-8 mr-4" />
+          <Avatar src={comment.userImage || ""} className="w-8 h-8 mr-4" />
           <p className="text-gray-800">{comment.userName}</p>
-          <p className="text-xs  text-gray-700 ml-4">
+          <p className="text-xs text-gray-700 ml-4">
             {dayjs().to(dayjs(comment.createdAt))}
           </p>
         </div>
-        <p className="ml-12 break-words text-gray-800	">{comment.content}</p>
+        <p className="ml-12 break-words text-gray-800">{comment.content}</p>
         <div className="flex justify-between">
-          {" "}
           <VoteCommentButton commentId={comment.id} />
           <Button
             onPress={() =>
@@ -94,13 +95,10 @@ export default function CommentsImgPost(props: CommentProps) {
   return (
     <>
       <div className="mb-4">
-        <Card isBlurred className="bg-white/25 ">
-          <Form
-            action={action}
-            className="flex flex-col"
-            validationBehavior="native"
-          >
+        <Card isBlurred className="bg-white/25">
+          <Form action={action} className="flex flex-col" validationBehavior="native">
             <Textarea
+              ref={ref} // ✅ Correctly forward ref
               isInvalid={!!formState.errors.content}
               errorMessage={formState.errors.content?.join(", ")}
               validate={(commentContentValue) => {
@@ -125,7 +123,7 @@ export default function CommentsImgPost(props: CommentProps) {
               name="content"
               placeholder="Add a comment"
             />
-            <input type="hidden" name="imgPostId" value={props.postId} />{" "}
+            <input type="hidden" name="imgPostId" value={props.postId} />
             <input type="hidden" name="postType" value={"IMAGE"} />
             <Button type="submit" className="w-42 bg-white/50 self-end m-4">
               Comment
@@ -136,4 +134,6 @@ export default function CommentsImgPost(props: CommentProps) {
       </div>
     </>
   );
-}
+});
+
+export default CommentsImgPost;

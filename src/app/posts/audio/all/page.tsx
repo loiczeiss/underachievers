@@ -15,12 +15,19 @@ export default async function PostsListPage() {
     },
   });
 
+    // Add postType to each post manually
+    const postsWithType = posts.map((post) => ({
+      ...post,
+      type: "AUDIO",
+    }));
+  
+
 
   return (
     <><div className="flex">
     <NavLinks/>
       
-       <AudioPostList posts={posts} audios={audios} comments={comments}  />
+       <AudioPostList posts={postsWithType} audios={audios} comments={comments}  />
       </div>
     </>
   );

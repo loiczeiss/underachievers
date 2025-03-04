@@ -147,8 +147,13 @@ model Comment {
   textPost  TextPost?  @relation(fields: [textPostId], references: [id], onDelete: Cascade, map: "Comment_TextPost_textPostId_fkey")
   imgPost   ImgPost?   @relation(fields: [imgPostId], references: [id], onDelete: Cascade, map: "Comment_ImgPost_imgPostId_fkey")
   audioPost AudioPost? @relation(fields: [audioPostId], references: [id], onDelete: Cascade)
+
+  parentId   String?   // ID of the parent comment
+  parent     Comment?  @relation("CommentToComment", fields: [parentId], references: [id], onDelete: Cascade)
+  replies    Comment[] @relation("CommentToComment")
   Vote      Vote[]
 }
+
 
 model Vote {
   id          String     @id @default(cuid())

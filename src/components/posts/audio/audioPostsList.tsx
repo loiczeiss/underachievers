@@ -8,7 +8,7 @@ import "react-h5-audio-player/lib/styles.css";
 import "@/app/index.scss";
 import Link from "next/link";
 import { Comment } from "@prisma/client";
-import CommentButton from "@/components/comments/CommentButton";
+import CommentButton from "@/components/comments/CommentButtonLists";
 import VoteAudioButton from "@/components/vote/voteAudio";
 
 interface AudioData {
@@ -25,6 +25,7 @@ interface AudioPost {
   updatedAt: Date;
   userId: string;
   audioId: string;
+  type: string
 }
 
 interface AudioPostListProps {
@@ -84,7 +85,7 @@ export default function AudioPostList(props: AudioPostListProps) {
           <div className="flex">
             <VoteAudioButton postId={post.id} />
 
-            <CommentButton commentsLength={props.comments.length} />
+            <CommentButton commentsLength={props.comments.length} postId={post.id} postType={post.type} post={post}/>
           </div>
           <div>
             {" "}

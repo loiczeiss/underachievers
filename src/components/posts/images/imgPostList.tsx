@@ -1,6 +1,6 @@
 "use client";
 
-import CommentButton from "@/components/comments/CommentButton";
+import CommentButton from "@/components/comments/CommentButtonLists";
 import VoteImgButton from "@/components/vote/VoteImg";
 import paths from "@/paths";
 import { Card, Button } from "@nextui-org/react";
@@ -20,6 +20,7 @@ interface ImgPostListprops {
     imgUrl: string;
     createdAt: Date;
     updatedAt: Date;
+    type: string
   }[];
 }
 
@@ -56,7 +57,7 @@ export default function ImgPostList(props: ImgPostListprops) {
           <div className="flex">
             {" "}
             <VoteImgButton postId={post.id} />
-            <CommentButton commentsLength={props.comments.length} />
+            <CommentButton commentsLength={props.comments.length} post={post}  postId={post.id}/>
           </div>
           <div>
             <Button

@@ -13,11 +13,17 @@ export default async function PostsListPage() {
     },
   });
 
+      // Add postType to each post manually
+      const postsWithType = posts.map((post) => ({
+        ...post,
+        type: "IMAGE",
+      }));
+
   return (
     <>
       <div className="flex">
         <NavBar />
-        <ImgPostList posts={posts} comments={comments} />
+        <ImgPostList posts={postsWithType} comments={comments} />
       </div>
     </>
   );

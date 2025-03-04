@@ -8,7 +8,7 @@ import "react-h5-audio-player/lib/styles.css";
 import "@/app/index.scss";
 import Link from "next/link";
 import { Comment } from "@prisma/client";
-import CommentButton from "@/components/comments/CommentButton";
+import CommentButton from "@/components/comments/CommentButtonLists";
 import VoteAudioButton from "@/components/vote/voteAudio";
 
 

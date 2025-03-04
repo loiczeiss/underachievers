@@ -5,11 +5,14 @@ import * as actions from "@/actions";
 import { PostType } from "@prisma/client";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { useEffect, useState } from "react";
+import { useEffect, useState, forwardRef } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import paths from "@/paths";
 import VoteCommentButton from "../vote/voteComment";
+
+dayjs.extend(relativeTime);
+
 interface CommentProps {
   postId: string;
   comments: {
@@ -26,88 +29,75 @@ interface CommentProps {
   }[];
   deleteCommentTextPost?: (commentId: string, textPostId: string) => void;
 }
-export default function CommentsTextPost(props: CommentProps) {
-  const [isDeleted, setIsDeleted] = useState(false);
-  const router = useRouter(); // Next.js router for client-side navigatio
-  const [commentContentValue, setCommentContentValue] = useState("");
-  const [formState, action] = useFormState(actions.createCommentTextAction, {
-    errors: {},
-  });
 
-  dayjs.extend(relativeTime);
+const CommentsTextPost = forwardRef<HTMLTextAreaElement, CommentProps>(
+  ({ postId, comments }, ref) => {
+    const [isDeleted, setIsDeleted] = useState(false);
+    const router = useRouter();
+    const [commentContentValue, setCommentContentValue] = useState("");
+    const [formState, action] = useFormState(actions.createCommentTextAction, {
+      errors: {},
+    });
 
-  const handleDeleteComment = async (commentId: string, textPostId: string) => {
-    try {
-      await actions.deleteCommentTextPost(commentId, textPostId); // Calling the server action directly
-      alert("Comment deleted successfully!");
-      setIsDeleted(true);
-      // Optionally, update the UI or refresh the comments
-    } catch (error) {
-      console.log(error)
-      alert("Failed to delete comment.");
-    }
-  };
-  console.log(props.postId);
-  useEffect(() => {
-    if (isDeleted) {
-      // Redirect after the deletion
-      router.push(`${paths.textPostShow(props.postId)}`);
-    }
-  }, [isDeleted, router, props.postId]);
-  const session = useSession();
+    const session = useSession();
 
-  
+    useEffect(() => {
+      if (isDeleted) {
+        router.push(`${paths.textPostShow(postId)}`); // Redirect after deletion
+      }
+    }, [isDeleted, router, postId]);
 
-  const NoCommentsYet = (
-    <Card isBlurred className="bg-white/25 p-4 mt-2">
-      <p>No Comments Yet</p>
-    </Card>
-  );
+    const handleDeleteComment = async (commentId: string, textPostId: string) => {
+      try {
+        await actions.deleteCommentTextPost(commentId, textPostId);
+        alert("Comment deleted successfully!");
+        setIsDeleted(true);
+      } catch (error) {
+        console.log(error);
+        alert("Failed to delete comment.");
+      }
+    };
 
-  const renderedComments = [...props.comments].reverse().map((comment) => {
-    return (
-      <Card isBlurred className="bg-white/25 p-4 mt-2" key={comment.id}>
-        <div className="flex items-center">
-          <Avatar src={comment.userImage || ""} className=" w-8 h-8 mr-4" />
-          <p className="text-gray-800">{comment.userName}</p>
-          <p className="text-xs  text-gray-700 ml-4">
-            {dayjs().to(dayjs(comment.createdAt))}
-          </p>
-        </div>
-        <p className="ml-12 break-words text-gray-800	">{comment.content}</p>
-        <div className="flex justify-between">
-                  {" "}
-                  <VoteCommentButton commentId={comment.id} />
-                  <Button
-                    onPress={() =>
-                      handleDeleteComment(comment.id, comment.textPostId as string)
-                    }
-                    className={`${
-                      session.data?.user?.id === comment.userId ? "block" : "hidden"
-                    } w-48 rounded-xl bg-red-400 self-end mt-2`}
-                  >
-                    Delete comment
-                  </Button>
-                </div>
+    const NoCommentsYet = (
+      <Card isBlurred className="bg-white/25 p-4 mt-2">
+        <p>No Comments Yet</p>
       </Card>
     );
-  });
 
-  return (
-    <>
+    const renderedComments = [...comments].reverse().map((comment) => {
+      return (
+        <Card isBlurred className="bg-white/25 p-4 mt-2" key={comment.id}>
+          <div className="flex items-center">
+            <Avatar src={comment.userImage || ""} className="w-8 h-8 mr-4" />
+            <p className="text-gray-800">{comment.userName}</p>
+            <p className="text-xs text-gray-700 ml-4">
+              {dayjs().to(dayjs(comment.createdAt))}
+            </p>
+          </div>
+          <p className="ml-12 break-words text-gray-800">{comment.content}</p>
+          <div className="flex justify-between">
+            <VoteCommentButton commentId={comment.id} />
+            <Button
+              onPress={() =>
+                handleDeleteComment(comment.id, comment.textPostId as string)
+              }
+              className={`${
+                session.data?.user?.id === comment.userId ? "block" : "hidden"
+              } w-48 rounded-xl bg-red-400 self-end mt-2`}
+            >
+              Delete comment
+            </Button>
+          </div>
+        </Card>
+      );
+    });
+
+    return (
       <div className="mb-4">
-       
-
         <Card isBlurred className="bg-white/25 ">
-          <Form
-            action={action}
-            className="flex flex-col"
-            validationBehavior="native"
-          >
+          <Form action={action} className="flex flex-col" validationBehavior="native">
             <Textarea
-              // isInvalid={!!formState.errors.content}
-              // errorMessage={formState.errors.content?.join(", ")}
-
+              ref={ref} // ✅ Correctly forward ref to the Textarea component
               validate={(commentContentValue) => {
                 if (commentContentValue.length < 3) {
                   return formState.errors.content?.join(", ");
@@ -130,7 +120,7 @@ export default function CommentsTextPost(props: CommentProps) {
               name="content"
               placeholder="Add a comment"
             />
-            <input type="hidden" name="textPostId" value={props.postId} />{" "}
+            <input type="hidden" name="textPostId" value={postId} />
             <input type="hidden" name="postType" value={"TEXT"} />
             <Button type="submit" className="w-42 bg-white/50 self-end m-4">
               Comment
@@ -139,6 +129,8 @@ export default function CommentsTextPost(props: CommentProps) {
         </Card>
         {renderedComments.length === 0 ? NoCommentsYet : renderedComments}
       </div>
-    </>
-  );
-}
+    );
+  }
+);
+
+export default CommentsTextPost;
