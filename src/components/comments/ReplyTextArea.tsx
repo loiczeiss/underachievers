@@ -3,16 +3,17 @@ import { forwardRef } from "react";
 
 interface ReplyTextAreaProps {
   isHidden: boolean;
+  commentConfirmationId: string;
+  commentId: string
 }
 
 const ReplyTextArea = forwardRef<HTMLTextAreaElement, ReplyTextAreaProps>(
-  ({ isHidden }, ref) => {
+  ({ isHidden, commentConfirmationId, commentId}, ref) => {
     return (
-      <Card className={`${isHidden ? "hidden" : "block"} bg-white/25`}>
+      <Card className={`${!isHidden && commentConfirmationId === commentId? "block" : "hidden"} bg-white/25`}>
         <Form className="flex flex-col" validationBehavior="native">
           <Textarea
-            ref={ref} 
-        
+            ref={ref}
             // isInvalid={!!formState.errors.content}
             // errorMessage={formState.errors.content?.join(", ")}
             // validate={(commentContentValue) => {

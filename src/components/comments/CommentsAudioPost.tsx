@@ -40,22 +40,22 @@ const CommentsAudioPost = forwardRef<HTMLTextAreaElement, CommentProps>(
       errors: {},
     });
 
-
-    const [isHidden, setIsHidden] = useState(true)
+    const [isHidden, setIsHidden] = useState(true);
+    const [commentConfirmationId, setCommentConfirmationId] = useState<string>("")
     const session = useSession();
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
     const focusTextarea = () => {
-
       if (textareaRef.current) {
         setTimeout(() => {
           textareaRef.current?.focus();
         }, 500);
-      }}
-      
+      }
+    };
+
     useEffect(() => {
       if (isDeleted) {
-        router.push(`${postId}`); 
+        router.push(`${postId}`);
       }
     }, [isDeleted, router, postId]);
 
@@ -150,11 +150,18 @@ const CommentsAudioPost = forwardRef<HTMLTextAreaElement, CommentProps>(
               </div>
               <div className="pl-12 break-words text-gray-900 py-2 bg-white/25 rounded-xl">
                 <p className="">{comment.content}</p>
-                <ReplyTextArea isHidden={isHidden} ref={textareaRef} />
+                <ReplyTextArea isHidden={isHidden} ref={textareaRef} commentId={comment.id} commentConfirmationId={commentConfirmationId} />
               </div>
               <div className="flex justify-between items-center pt-2">
                 <VoteCommentButton commentId={comment.id} />
-                <ReplyComment setIsHidden={setIsHidden} isHidden={isHidden}  onClick={focusTextarea} />
+                <ReplyComment
+                commentId={comment.id}
+                commentConfirmationId={commentConfirmationId}
+                setCommentConfirmationId={setCommentConfirmationId}
+                  setIsHidden={setIsHidden}
+                  isHidden={isHidden}
+                  onClick={focusTextarea}
+                />
               </div>
             </Card>
           ))
