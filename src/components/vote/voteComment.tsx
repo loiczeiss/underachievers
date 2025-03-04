@@ -78,7 +78,7 @@ export default function VoteCommentButton({ commentId }: VoteButtonProps) {
       <Button
         onPress={handleVoteClick}
         disabled={loading || voted}
-        className={`${voted ? "bg-green-400" : "bg-white/25"} mt-2	`}
+        className={`${voted ? "bg-green-400" : "bg-white/25"}	`}
       >
         {loading
           ? "Counting..."

@@ -8,7 +8,9 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import VoteCommentButton from "../vote/voteComment";
-
+import ReplyComment from "./ReplyCommentButton";
+import ReplyTextArea from "./ReplyTextArea";
+import { useRef } from "react";
 dayjs.extend(relativeTime);
 
 interface CommentProps {
@@ -38,15 +40,29 @@ const CommentsAudioPost = forwardRef<HTMLTextAreaElement, CommentProps>(
       errors: {},
     });
 
-    const session = useSession();
 
+    const [isHidden, setIsHidden] = useState(true)
+    const session = useSession();
+    const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+    const focusTextarea = () => {
+
+      if (textareaRef.current) {
+        setTimeout(() => {
+          textareaRef.current?.focus();
+        }, 500);
+      }}
+      
     useEffect(() => {
       if (isDeleted) {
-        router.push(`${postId}`); // Redirect after deletion
+        router.push(`${postId}`); 
       }
     }, [isDeleted, router, postId]);
 
-    const handleDeleteComment = async (commentId: string, audioPostId: string) => {
+    const handleDeleteComment = async (
+      commentId: string,
+      audioPostId: string
+    ) => {
       try {
         await actions.deleteCommentAudioPost(commentId, audioPostId);
         alert("Comment deleted successfully!");
@@ -60,7 +76,11 @@ const CommentsAudioPost = forwardRef<HTMLTextAreaElement, CommentProps>(
     return (
       <div className="mb-4">
         <Card isBlurred className="bg-white/25">
-          <Form action={action} className="flex flex-col" validationBehavior="native">
+          <Form
+            action={action}
+            className="flex flex-col"
+            validationBehavior="native"
+          >
             <Textarea
               ref={ref} // ✅ Correctly forward ref
               isInvalid={!!formState.errors.content}
@@ -102,24 +122,39 @@ const CommentsAudioPost = forwardRef<HTMLTextAreaElement, CommentProps>(
         ) : (
           [...comments].reverse().map((comment) => (
             <Card isBlurred className="bg-white/25 p-4 mt-2" key={comment.id}>
-              <div className="flex items-center">
-                <Avatar src={comment.userImage || ""} className="w-8 h-8 mr-4" />
-                <p className="text-gray-800">{comment.userName}</p>
+              <div className="flex items-center pb-2">
+                <Avatar
+                  src={comment.userImage || ""}
+                  className="w-8 h-8 mr-4"
+                />
+                <p className="text-gray-800 -bold">{comment.userName}</p>
                 <p className="text-xs text-gray-700 ml-4">
                   {dayjs().to(dayjs(comment.createdAt))}
                 </p>
-              </div>
-              <p className="ml-12 break-words text-gray-800">{comment.content}</p>
-              <div className="flex justify-between">
-                <VoteCommentButton commentId={comment.id} />
+
                 <Button
-                  onPress={() => handleDeleteComment(comment.id, comment.audioPostId as string)}
+                  onPress={() =>
+                    handleDeleteComment(
+                      comment.id,
+                      comment.audioPostId as string
+                    )
+                  }
                   className={`${
-                    session.data?.user?.id === comment.userId ? "block" : "hidden"
-                  } w-48 rounded-xl bg-red-400 self-end mt-2`}
+                    session.data?.user?.id === comment.userId
+                      ? "block"
+                      : "hidden"
+                  } w-48 rounded-xl bg-red-400 ml-auto`}
                 >
                   Delete comment
                 </Button>
+              </div>
+              <div className="pl-12 break-words text-gray-900 py-2 bg-white/25 rounded-xl">
+                <p className="">{comment.content}</p>
+                <ReplyTextArea isHidden={isHidden} ref={textareaRef} />
+              </div>
+              <div className="flex justify-between items-center pt-2">
+                <VoteCommentButton commentId={comment.id} />
+                <ReplyComment setIsHidden={setIsHidden} isHidden={isHidden}  onClick={focusTextarea} />
               </div>
             </Card>
           ))
