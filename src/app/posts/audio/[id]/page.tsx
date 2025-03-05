@@ -13,14 +13,21 @@ export default async function AudioPostShowPage(props: PostShowPageProps) {
   const audio = await db.audio.findFirst({ where: { id: post?.audioId } });
 
   const comments = await db.comment.findMany({ where: { audioPostId: id } });
-
+  const replies = await db.comment.findMany({
+    where: {
+      AND: [
+        { audioPostId: id }, // Matches the specific audio post ID
+        { parentId: { not: null } } // Ensures parentId exists (i.e., it's a reply)
+      ]
+    }
+  });
   if (!post) {
     return <div className="flex justify-center">Post not found.</div>;
   }
 
   return (
     <div className="flex justify-center">
-      <AudioPostShow post={post} audio={audio as Audio} comments={comments} />
+      <AudioPostShow post={post} audio={audio as Audio} comments={comments} replies={replies} />
     </div>
   );
 }

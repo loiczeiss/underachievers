@@ -35,7 +35,7 @@ const CommentsTextPost = forwardRef<HTMLTextAreaElement, CommentProps>(
     const [isDeleted, setIsDeleted] = useState(false);
     const router = useRouter();
     const [commentContentValue, setCommentContentValue] = useState("");
-    const [formState, action] = useFormState(actions.createCommentTextAction, {
+    const [formState, action] = useFormState(actions.createCommentAction, {
       errors: {},
     });
 
@@ -120,7 +120,7 @@ const CommentsTextPost = forwardRef<HTMLTextAreaElement, CommentProps>(
               name="content"
               placeholder="Add a comment"
             />
-            <input type="hidden" name="textPostId" value={postId} />
+            <input type="hidden" name="postId" value={postId} />
             <input type="hidden" name="postType" value={"TEXT"} />
             <Button type="submit" className="w-42 bg-white/50 self-end m-4">
               Comment

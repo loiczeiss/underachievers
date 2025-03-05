@@ -139,7 +139,7 @@ model Comment {
   textPostId  String?
   imgPostId   String?
   audioPostId String?
-  postType    PostType?
+  postType    PostType
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 

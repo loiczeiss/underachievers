@@ -2,7 +2,7 @@ import { forwardRef, useState, useRef } from "react";
 import { Avatar, Button, Card, Form, Textarea } from "@nextui-org/react";
 import { useFormState } from "react-dom";
 import * as actions from "@/actions";
-import { PostType } from "@prisma/client";
+import { Comment } from "@prisma/client";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useRouter } from "next/navigation";
@@ -10,37 +10,26 @@ import { useSession } from "next-auth/react";
 import VoteCommentButton from "../vote/voteComment";
 import ReplyComment from "./ReplyCommentButton";
 import ReplyTextArea from "./ReplyTextArea";
+import CommentContentAndReply from "./CommentContentAndReply";
 
 dayjs.extend(relativeTime);
 
 interface CommentProps {
   postId: string;
-  comments: {
-    id: string;
-    userName: string;
-    userImage: string;
-    content: string;
-    textPostId: string | null;
-    postType: PostType;
-    userId: string;
-    imgPostId: string | null;
-    audioPostId: string | null;
-    createdAt: Date;
-    updatedAt: Date;
-  }[];
+  comments: Comment[];
+  replies: Comment[];
 }
 
 const CommentsAudioPost = forwardRef<HTMLTextAreaElement, CommentProps>(
-  ({ postId, comments }, ref) => {
+  ({ postId, comments, replies }, ref) => {
     const router = useRouter();
     const [commentContentValue, setCommentContentValue] = useState("");
-    const [formState, action] = useFormState(actions.createCommentAudioAction, {
+    const [formState, action] = useFormState(actions.createCommentAction, {
       errors: {},
     });
 
     const [isHidden, setIsHidden] = useState(true);
-    const [commentConfirmationId, setCommentConfirmationId] =
-      useState<string>("");
+    const [commentConfirmationId, setCommentConfirmationId] = useState<string>("");
     const session = useSession();
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -52,14 +41,11 @@ const CommentsAudioPost = forwardRef<HTMLTextAreaElement, CommentProps>(
       }
     };
 
-    const handleDeleteComment = async (
-      commentId: string,
-      audioPostId: string
-    ) => {
+    const handleDeleteComment = async (commentId: string, audioPostId: string) => {
       try {
         await actions.deleteCommentAudioPost(commentId, audioPostId);
         alert("Comment deleted successfully!");
-        router.refresh(); // Ensures the latest data is fetched without causing a full page reload
+        router.refresh(); // Ensures the latest data is fetched without a full reload
       } catch (error) {
         console.log(error);
         alert("Failed to delete comment.");
@@ -75,7 +61,7 @@ const CommentsAudioPost = forwardRef<HTMLTextAreaElement, CommentProps>(
             validationBehavior="native"
           >
             <Textarea
-              ref={ref} // ✅ Correctly forward ref
+              ref={ref}
               isInvalid={!!formState.errors.content}
               errorMessage={formState.errors.content?.join(", ")}
               validate={(value) =>
@@ -98,7 +84,7 @@ const CommentsAudioPost = forwardRef<HTMLTextAreaElement, CommentProps>(
               name="content"
               placeholder="Add a comment"
             />
-            <input type="hidden" name="audioPostId" value={postId} />
+            <input type="hidden" name="postId" value={postId} />
             <input type="hidden" name="postType" value={"AUDIO"} />
             <Button type="submit" className="w-42 bg-white/50 self-end m-4">
               Comment
@@ -106,62 +92,65 @@ const CommentsAudioPost = forwardRef<HTMLTextAreaElement, CommentProps>(
           </Form>
         </Card>
 
-        {comments.length === 0 ? (
+        {comments.filter((comment) => comment.parentId === null).length === 0 ? (
           <Card isBlurred className="bg-white/25 p-4 mt-2">
             <p>No Comments Yet</p>
           </Card>
         ) : (
-          [...comments].reverse().map((comment) => (
-            <Card isBlurred className="bg-white/25 p-4 mt-2" key={comment.id}>
-              <div className="flex items-center pb-2">
-                <Avatar
-                  src={comment.userImage || ""}
-                  className="w-8 h-8 mr-4"
-                />
-                <p className="text-gray-800 -bold">{comment.userName}</p>
-                <p className="text-xs text-gray-700 ml-4">
-                  {dayjs().to(dayjs(comment.createdAt))}
-                </p>
+          comments
+            .filter((comment) => comment.parentId === null) // ✅ Show only top-level comments
+            .reverse()
+            .map((comment) => (
+              <Card isBlurred className="bg-white/25 p-4 mt-2" key={comment.id}>
+                <div className="flex items-center pb-2">
+                  <Avatar src={comment.userImage || ""} className="w-8 h-8 mr-4" />
+                  <p className="text-gray-800 -bold">{comment.userName}</p>
+                  <p className="text-xs text-gray-700 ml-4">
+                    {dayjs().to(dayjs(comment.createdAt))}
+                  </p>
 
-                <Button
-                  onPress={() =>
-                    handleDeleteComment(
-                      comment.id,
-                      comment.audioPostId as string
-                    )
-                  }
-                  className={`${
-                    session.data?.user?.id === comment.userId
-                      ? "block"
-                      : "hidden"
-                  } w-48 rounded-xl bg-red-400 ml-auto`}
-                >
-                  Delete comment
-                </Button>
-              </div>
-              <div className="pl-12 break-words text-gray-900 py-2 bg-white/25 rounded-xl">
-                <p className="">{comment.content}</p>
-                <ReplyTextArea
-                  isHidden={isHidden}
-                  setIsHidden={setIsHidden}
-                  ref={textareaRef}
-                  commentId={comment.id}
-                  commentConfirmationId={commentConfirmationId}
-                />
-              </div>
-              <div className="flex justify-between items-center pt-2">
-                <VoteCommentButton commentId={comment.id} />
-                <ReplyComment
-                  commentId={comment.id}
-                  commentConfirmationId={commentConfirmationId}
-                  setCommentConfirmationId={setCommentConfirmationId}
-                  setIsHidden={setIsHidden}
-                  isHidden={isHidden}
-                  onClick={focusTextarea}
-                />
-              </div>
-            </Card>
-          ))
+                  <Button
+                    onPress={() => handleDeleteComment(comment.id, comment.audioPostId as string)}
+                    className={`${
+                      session.data?.user?.id === comment.userId ? "block" : "hidden"
+                    } w-48 rounded-xl bg-red-400 ml-auto`}
+                  >
+                    Delete comment
+                  </Button>
+                </div>
+                <div className="pl-12 break-words text-gray-900 py-2 bg-white/25 rounded-xl">
+                  <CommentContentAndReply
+                    comment={comment}
+                    replies={replies}
+                    parentId={comment.parentId as string}
+                    commentId={comment.id as string}
+                    postType={comment.postType}
+                    session={session}
+                    handleDeleteComment={handleDeleteComment}
+                  />
+                  <ReplyTextArea
+                    isHidden={isHidden}
+                    postId={postId}
+                    postType={comment.postType}
+                    setIsHidden={setIsHidden}
+                    ref={textareaRef}
+                    commentId={comment.id}
+                    commentConfirmationId={commentConfirmationId}
+                  />
+                </div>
+                <div className="flex justify-between items-center pt-2">
+                  <VoteCommentButton commentId={comment.id} />
+                  <ReplyComment
+                    commentId={comment.id}
+                    commentConfirmationId={commentConfirmationId}
+                    setCommentConfirmationId={setCommentConfirmationId}
+                    setIsHidden={setIsHidden}
+                    isHidden={isHidden}
+                    onClick={focusTextarea}
+                  />
+                </div>
+              </Card>
+            ))
         )}
       </div>
     );

@@ -7,10 +7,12 @@ interface ReplyTextAreaProps {
   commentConfirmationId: string;
   commentId: string;
   setIsHidden: Dispatch<SetStateAction<boolean>>
+  postType: string;
+  postId: string
 }
 
 const ReplyTextArea = forwardRef<HTMLTextAreaElement, ReplyTextAreaProps>(
-  ({ isHidden, commentConfirmationId, commentId, setIsHidden }, ref) => {
+  ({ isHidden, commentConfirmationId, commentId, setIsHidden, postId, postType }, ref) => {
  const [commentContentValue, setCommentContentValue] = useState("");
     const [formState, action] = useFormState(actions.createReplyCommentAction, {
       errors: {},
@@ -51,7 +53,12 @@ const ReplyTextArea = forwardRef<HTMLTextAreaElement, ReplyTextAreaProps>(
             placeholder="Reply..."
           />
           <input type="hidden" name="parentId" value={commentId} />
-          <Button type="submit" onPress={()=>setTimeout(()=>setIsHidden(true), 1000)} className="w-42 bg-white/50 self-end m-4">
+          <input type="hidden" name="postId" value={postId} />
+          <input type="hidden" name="postType" value={postType} />
+          <Button type="submit" 
+          onPress={()=>console.log("ferfe")}
+          // onPress={()=>setTimeout(()=>setIsHidden(true), 1000)}
+           className="w-42 bg-white/50 self-end m-4">
             Comment
           </Button>
         </Form>

@@ -14,13 +14,16 @@ export { deleteImgPost } from './images/delete-imgPost'; // Delete image post
 export { deleteImg } from './images/delete-image'; // Delete image
 
 // Comment Actions
-export { createCommentTextAction } from './comments/create-comment-textPost'; // Create comment on text post
+// export { createCommentTextAction } from './comments/create-comment-textPost'; // Create comment on text post
 export { deleteCommentTextPost } from './comments/delete-comment-textPost'; // Delete comment on text post
-export { createCommentImgAction } from './comments/create-comment-imgPost'; // Create comment on image post
+// export { createCommentImgAction } from './comments/create-comment-imgPost'; // Create comment on image post
 export { deleteCommentImgPost } from './comments/delete-comment-imgPost'; // Delete comment on image post
-export { createCommentAudioAction } from './comments/create-comment-audioPost'; // Create comment on audio post
+// export { createCommentAudioAction } from './comments/create-comment-audioPost'; // Create comment on audio post
 export { deleteCommentAudioPost } from './comments/delete-comment-audioPost'; // Delete comment on audio post
 export {createReplyCommentAction} from "./comments/create-reply-comment"
+export {createCommentAction} from "./comments/create-commentAction"
+
+
 // Audio Post Actions
 export { uploadAudio } from './audio/uploadAudio'; // Upload audio
 export { createAudioPostAction } from './audio/create-audioPost'; // Create new audio post

@@ -32,7 +32,7 @@ const CommentsImgPost = forwardRef<HTMLTextAreaElement, CommentProps>((props, re
   const [isDeleted, setIsDeleted] = useState(false);
   const router = useRouter(); // Next.js router for client-side navigation
   const [commentContentValue, setCommentContentValue] = useState("");
-  const [formState, action] = useFormState(actions.createCommentImgAction, {
+  const [formState, action] = useFormState(actions.createCommentAction, {
     errors: {},
   });
 
@@ -123,7 +123,7 @@ const CommentsImgPost = forwardRef<HTMLTextAreaElement, CommentProps>((props, re
               name="content"
               placeholder="Add a comment"
             />
-            <input type="hidden" name="imgPostId" value={props.postId} />
+            <input type="hidden" name="postId" value={props.postId} />
             <input type="hidden" name="postType" value={"IMAGE"} />
             <Button type="submit" className="w-42 bg-white/50 self-end m-4">
               Comment

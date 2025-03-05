@@ -4,15 +4,20 @@ import { z } from "zod";
 import { db } from "@/db";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
+import paths from "@/paths";
 
 const createCommentSchema = z.object({
   content: z.string().min(1, "Comment must be something... god..."),
   parentId: z.string().min(1, "parentID required."),
+  postId: z.string().min(1, "Post ID is required."),
+  postType: z.enum(["TEXT", "IMAGE", "AUDIO"]),
 });
 
 interface CreateCommentPostFormState {
   errors: {
     content?: string[];
+    postId?: string[];
+    postType?: string[];
     parentId?: string[];
     _form?: string[];
   };
@@ -25,13 +30,15 @@ export async function createReplyCommentAction(
   const result = createCommentSchema.safeParse({
     content: formData.get("content"),
     parentId: formData.get("parentId"),
+    postId: formData.get("postId"),
+    postType: formData.get("postType"),
   });
 
   if (!result.success) {
     return { errors: result.error.flatten().fieldErrors };
   }
 
-  const { content, parentId } = result.data;
+  const { content, parentId,postId, postType } = result.data;
 
   const session = await auth();
   if (!session || !session.user) {
@@ -50,11 +57,15 @@ export async function createReplyCommentAction(
         userName: session.user.name as string,
         userImage: session.user.image as string,
         parentId,
+        postType,
+        textPostId: postType === "TEXT" ? postId : null,
+        imgPostId: postType === "IMAGE" ? postId : null,
+        audioPostId: postType === "AUDIO" ? postId : null,
       },
     });
 
     // Reload the page by redirecting to the same URL
-    redirect("/");
+
   } catch (err: unknown) {
     if (err instanceof Error) {
       return {
@@ -70,4 +81,13 @@ export async function createReplyCommentAction(
       };
     }
   }
-}
+  if (postType === "TEXT") {
+    redirect(paths.textPostShow(postId));
+  } else if (postType === "IMAGE") {
+    redirect(paths.imgPostShow(postId));
+  } else if (postType === "AUDIO") { 
+    redirect(paths.audioPostShowPage(postId));
+  } else {
+    console.error("Unknown post type:", postType);
+  }
+}  
