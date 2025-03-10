@@ -6,6 +6,7 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import paths from "@/paths";
 import { revalidatePath } from "next/cache";
+import { PostType } from "@prisma/client";
 
 // Extend the schema to include imageUrl validation
 const createPostSchema = z.object({
@@ -17,6 +18,7 @@ const createPostSchema = z.object({
     .refine((val) => typeof val === "string" && val.trim().length > 0, {
       message: "imgPublicId must be a non-empty string.",
     }),
+    postType: z.string().min(1)
 });
 
 interface CreateImgPostFormState {
@@ -25,6 +27,7 @@ interface CreateImgPostFormState {
     content?: string[];
     imgUrl?: string[];
     imgPublicId?: string[];
+    postType?: string[];
     _form?: string[];
   };
 }
@@ -33,18 +36,19 @@ export async function createImgPostAction(
   formState: CreateImgPostFormState,
   formData: FormData
 ): Promise<CreateImgPostFormState> {
-  console.log("here");
+
   // Parse form data
   const result = createPostSchema.safeParse({
     title: formData.get("title"),
     content: formData.get("content"),
     imgUrl: formData.get("imgUrl"),
     imgPublicId: formData.get("imgPublicId"),
+    postType: formData.get("postType")
   });
-  console.log(result);
+
   // Handle schema validation errors
   if (!result.success) {
-    console.log("result failed");
+
     return { errors: result.error.flatten().fieldErrors };
   }
 
@@ -69,6 +73,7 @@ export async function createImgPostAction(
         userId: session.user.id as string,
         imgUrl,
         imgPublicId,
+        postType: result.data.postType as PostType
       },
     });
   } catch (err: unknown) {

@@ -67,7 +67,7 @@ model TextPost {
   title   String
   content String
   userId  String
-
+postType PostType
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -82,6 +82,8 @@ model ImgPost {
   content   String
   imgUrl    String
   imgPublicId String
+  postType PostType
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   userId    String
@@ -99,6 +101,8 @@ model AudioPost {
   updatedAt DateTime  @updatedAt
   userId    String
   audioId   String
+  postType PostType
+
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   audio     Audio     @relation(fields: [audioId], references: [id], onDelete: Cascade)
   comments  Comment[]
@@ -167,6 +171,8 @@ model Vote {
   audioPostId String?
   Comment     Comment?   @relation(fields: [commentId], references: [id])
   commentId   String?
+  postType PostType
+
 }
 
 enum VoteType {

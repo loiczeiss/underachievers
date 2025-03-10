@@ -8,13 +8,11 @@ import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import "@/app/index.scss";
 import { useState, useEffect } from "react";
-import { Comment } from "@prisma/client";
-import VoteAudioButton from "@/components/vote/voteAudio";
-import VoteImgButton from "@/components/vote/VoteImg";
-import VoteTextButton from "@/components/vote/VoteText";
+import { Comment, PostType } from "@prisma/client";
 import CommentButton from "@/components/comments/CommentButtonLists";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
+import VoteButton from "@/components/vote/votePost";
 
 interface AudioData {
   id: string;
@@ -34,6 +32,7 @@ interface AllPostListprops {
     createdAt: Date;
     updatedAt: Date;
     type: string;
+    postType: PostType
   }[];
   comments: Comment[];
 
@@ -113,14 +112,8 @@ export default function AllPostList(props: AllPostListprops) {
         <div className="flex w-full justify-between">
           <div className="flex">
             {" "}
-            {post.audioId ? (
-              <VoteAudioButton postId={post.id} />
-            ) : post.imgUrl ? (
-              <VoteImgButton postId={post.id} />
-            ) : (
-              <VoteTextButton postId={post.id} />
-            )}
-            <CommentButton commentsLength={postComments.length} postId={post.id} postType={post.type} post={post}/>
+            <VoteButton postId={post.id} postType={post.postType} />
+            <CommentButton commentsLength={postComments.length} postId={post.id} postType={post.postType} post={post}/>
           </div>
 
           <div className="">

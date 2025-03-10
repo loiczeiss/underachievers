@@ -3,9 +3,9 @@
 import { Button, Card } from "@nextui-org/react";
 import Link from "next/link";
 import paths from "@/paths";
-import { Comment } from "@prisma/client";
+import { Comment, PostType } from "@prisma/client";
 import CommentButton from "@/components/comments/CommentButtonLists";
-import VoteTextButton from "@/components/vote/VoteText";
+import VoteButton from "@/components/vote/votePost";
 
 interface PostListProps {
   comments: Comment[];
@@ -16,7 +16,7 @@ interface PostListProps {
     userId: string;
     createdAt: Date;
     updatedAt: Date;
-    type: string
+    postType: PostType
   }[];
 }
 
@@ -42,8 +42,8 @@ export default function TextPostList(props: PostListProps) {
         </Card>
         <div className="flex w-full justify-between">
           <div className="flex">
-            <VoteTextButton postId={post.id} />
-            <CommentButton commentsLength={props.comments.length} post={post} postId={post.id} />
+            <VoteButton postId={post.id} postType={post.postType} />
+            <CommentButton commentsLength={props.comments.length} post={post} postType={post.postType} postId={post.id} />
           </div>
           <div>
             <Button

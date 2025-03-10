@@ -4,18 +4,23 @@ import { Button } from "@nextui-org/react";
 import { useState, useEffect } from "react";
 import * as actions  from "@/actions"; // Import server actions
 import { useSession } from "next-auth/react";
-
+import { PostType } from "@prisma/client";
+import ArrowUp from "public/Icon-up-arrow.svg";
+import ArrowDown from "public/Icon-down-arrow.svg"
+import Image from "next/image";
 
 interface VoteButtonProps {
   commentId: string;
+  postType: PostType
 }
 
-export default function VoteCommentButton({ commentId }: VoteButtonProps) {
+export default function VoteCommentButton({ commentId, postType }: VoteButtonProps) {
   const [voteCount, setVoteCount] = useState<number>(0); // Tracks the vote count
   const [error, setError] = useState<string | null>(null); // Tracks errors
   const [loading, setLoading] = useState(true); // Tracks loading state
   const [voted, setVoted] = useState(false); // Tracks if user has voted
   const session = useSession();
+
   // Fetch vote count on initial render
   useEffect(() => {
     const fetchVoteCount = async () => {
@@ -51,7 +56,7 @@ export default function VoteCommentButton({ commentId }: VoteButtonProps) {
     setError(null);
 
     try {
-      const result = await actions.handleVoteComment(commentId);
+      const result = await actions.handleVoteComment(commentId, postType);
 
       if (result.errors?._form) {
         setError(result.errors._form[0]); // Handle form-level error
@@ -74,19 +79,20 @@ export default function VoteCommentButton({ commentId }: VoteButtonProps) {
   };
 
   return (
-    <div>
-      <Button
-        onPress={handleVoteClick}
-        disabled={loading || voted}
-        className={`${voted ? "bg-green-400" : "bg-white/25"}	`}
-      >
-        {loading
-          ? "Counting..."
-          : voted
-          ? `Voted (${voteCount})`
-          : `Vote (${voteCount})`}
-      </Button>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-    </div>
+    <div className="flex items-center">
+    <Button 
+      onPress={handleVoteClick}
+      disabled={loading}
+      className="bg-white/25"
+    >
+      {loading ? (
+        "..."
+      ) : (
+        <><Image priority src={voted ? ArrowDown : ArrowUp} alt="Vote" width={24} height={24} /><span className="">{voteCount}</span></>
+      )}
+    </Button>
+    
+    {error && <p className="text-red-500">{error}</p>}
+  </div>
   );
 }

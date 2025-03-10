@@ -21,7 +21,7 @@ export default function CreateAudioPost() {
     playbackUrl: string;
     thumbnailUrl: string;
   } | null>(null);
-  console.log(uploadedAudio);
+
   const CloudPresetName = process.env.NEXT_PUBLIC_CLOUDINARY_PRESET_NAME;
   const [formState, action] = useActionState(actions.createAudioPostAction, {
     errors: {},
@@ -138,7 +138,7 @@ export default function CreateAudioPost() {
                 className="bg-red-400 mb-4 "
                 onPress={handleDeletingAudio}
               >
-                Delete Image
+                Delete Audio
               </Button>
             </>
           )}
@@ -153,6 +153,7 @@ export default function CreateAudioPost() {
             name="audioPublicId"
             value={uploadedAudio?.publicId || ""}
           />
+          <Input type="hidden" name="postType" value={"AUDIO"} />
           <Textarea
             isInvalid={!!formState.errors.content}
             errorMessage={formState.errors.content?.join(", ")}

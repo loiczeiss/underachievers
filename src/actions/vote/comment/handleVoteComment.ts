@@ -4,7 +4,7 @@ import { auth } from "@/auth";
 import { db } from "@/db";
 import { Vote } from "@prisma/client";
 
-export async function handleVoteComment(commentId: string) {
+export async function handleVoteComment(commentId: string, postType: "AUDIO" | "TEXT" | "IMAGE") {
   const session = await auth();
   
   if (!session || !session.user) {
@@ -17,7 +17,8 @@ export async function handleVoteComment(commentId: string) {
   const existingLike = await db.vote.findFirst({
     where: {
       userId: session.user.id as string,
-      commentId
+      commentId,
+      postType
     },
   });
   
@@ -30,7 +31,8 @@ export async function handleVoteComment(commentId: string) {
       data: {
         userId: session.user.id as string,
         voteType: "UP",
-        commentId
+        commentId,
+        postType
       },
     });    return { success: true, vote };}
  

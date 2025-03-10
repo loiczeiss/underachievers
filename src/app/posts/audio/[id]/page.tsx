@@ -10,6 +10,7 @@ export default async function AudioPostShowPage(props: PostShowPageProps) {
   const { id } = params;
 
   const post = await db.audioPost.findFirst({ where: { id } });
+  
   const audio = await db.audio.findFirst({ where: { id: post?.audioId } });
 
   const comments = await db.comment.findMany({ where: { audioPostId: id } });

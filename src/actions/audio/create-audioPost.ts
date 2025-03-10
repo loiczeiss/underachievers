@@ -1,6 +1,6 @@
 "use server"
 
-import type { Audio } from "@prisma/client";
+import type { Audio, PostType } from "@prisma/client";
 import { z } from "zod";
 import { db } from "@/db";
 import { auth } from "@/auth";
@@ -13,6 +13,7 @@ const createPostSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters long."),
   content: z.string().min(10, "Content must be at least 10 characters long."),
   audioUrl: z.string().url("Audio URL must be a valid URL."),
+  postType: z.string().min(1)
 });
 
 interface CreateAudioPostFormState {
@@ -21,6 +22,7 @@ interface CreateAudioPostFormState {
     content?: string[];
     audioUrl?: string[];
     _form?: string[];
+    postType?: string[];
   };
 }
 
@@ -32,7 +34,8 @@ export async function createAudioPostAction(
   const result = createPostSchema.safeParse({
     title: formData.get("title"),
     content: formData.get("content"),
-    audioUrl: formData.get("audioUrl"), // Corrected key
+    audioUrl: formData.get("audioUrl"),
+    postType: formData.get("postType")
   });
 
   // Handle schema validation errors
@@ -76,7 +79,8 @@ export async function createAudioPostAction(
         title,
         content,
         userId: session.user.id as string,
-        audioId: audio.id,  // Link the retrieved audio to the post
+        audioId: audio.id, 
+        postType: result.data.postType as PostType
       },
     });
   } catch (err: unknown) {

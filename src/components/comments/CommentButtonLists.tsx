@@ -3,6 +3,7 @@
 import { Button } from "@nextui-org/react";
 import { redirect } from "next/navigation";
 import paths from "@/paths";
+import { PostType } from "@prisma/client";
 
 interface CommentButtonProps {
   commentsLength: number;
@@ -15,19 +16,21 @@ interface CommentButtonProps {
     imgUrl?: string;
     createdAt: Date;
     updatedAt: Date;
-    type: string;
+  postType: PostType
+
   };
 
   postId?: string;
+  postType: PostType
 }
 
 export default function CommentButton(props: CommentButtonProps) {
 
 
   const handleRedirect = (post: CommentButtonProps["post"]) => {
-    if (post.type === "IMAGE") {
+    if (post.postType === "IMAGE") {
       return paths.imgPostShow(post.id);
-    } else if (post.type === "AUDIO") {
+    } else if (post.postType === "AUDIO") {
       return paths.audioPostShowPage(post.id);
     } else {
       return paths.textPostShow(post.id);

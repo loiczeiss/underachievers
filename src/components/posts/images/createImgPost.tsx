@@ -16,7 +16,7 @@ export default function CreateImgPost() {
   const [formState, action] = useActionState(actions.createImgPostAction, {
     errors: {},
   });
-console.log(uploadedImage)
+
   const handleUploadSuccess = async (result: any) => {
     try {
       // Call the upload handler
@@ -133,6 +133,7 @@ console.log(uploadedImage)
             name="imgPublicId"
             value={uploadedImage?.publicId || ""}
           />
+          <input type="hidden" name="postType" value={"IMAGE"} />
           <Textarea
             isInvalid={!!formState.errors.content}
             errorMessage={formState.errors.content?.join(", ")}

@@ -5,11 +5,12 @@ import { useRouter } from "next/navigation";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import "@/app/index.scss";
-import CommentsAudioPost from "@/components/comments/CommentsAudioPost";
-import { Comment } from "@prisma/client";
+import { Comment, PostType } from "@prisma/client";
 import VoteAudioButton from "@/components/vote/voteAudio";
 import CommentButtonPosts from "@/components/comments/CommentButtonPost";
 import { useRef } from "react";
+import CommentsPost from "@/components/comments/CommentsPostGeneral";
+import VoteButton from "@/components/vote/votePost";
 interface AudioPost {
   id: string;
   title: string;
@@ -18,6 +19,7 @@ interface AudioPost {
   updatedAt: Date;
   userId: string;
   audioId: string;
+  postType: PostType
 }
 
 interface AudioPostShowProps {
@@ -64,10 +66,10 @@ export default function AudioPostShow(props: AudioPostShowProps) {
         <p className="mb-8">{props.post.content}</p>
         <div className="flex mb-2">
           {" "}
-          <VoteAudioButton postId={props.post.id} />
+          <VoteButton postId={props.post.id} postType="AUDIO" />
           <CommentButtonPosts commentsLength={props.comments.length} onClick={focusTextarea}/>
         </div>
-        <CommentsAudioPost postId={props.post.id} comments={props.comments} replies={props.replies}  ref={textareaRef}/>
+        <CommentsPost postId={props.post.id} comments={props.comments} replies={props.replies}  ref={textareaRef} postType={props.post.postType} />
       </Card>
       <Card isBlurred className="mb-4">
         <Button

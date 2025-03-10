@@ -1,8 +1,7 @@
-import { forwardRef, useState, useRef } from "react";
+import { forwardRef, useState, useRef, useActionState } from "react";
 import { Avatar, Button, Card, Form, Textarea } from "@nextui-org/react";
-import { useFormState } from "react-dom";
 import * as actions from "@/actions";
-import { Comment } from "@prisma/client";
+import { Comment, PostType } from "@prisma/client";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useRouter } from "next/navigation";
@@ -12,24 +11,28 @@ import ReplyComment from "./ReplyCommentButton";
 import ReplyTextArea from "./ReplyTextArea";
 import CommentContentAndReply from "./CommentContentAndReply";
 
+
 dayjs.extend(relativeTime);
 
 interface CommentProps {
   postId: string;
   comments: Comment[];
   replies: Comment[];
+  postType: PostType;
 }
 
-const CommentsAudioPost = forwardRef<HTMLTextAreaElement, CommentProps>(
-  ({ postId, comments, replies }, ref) => {
+const CommentsPost = forwardRef<HTMLTextAreaElement, CommentProps>(
+  ({ postId, comments, replies, postType }, ref) => {
+
     const router = useRouter();
     const [commentContentValue, setCommentContentValue] = useState("");
-    const [formState, action] = useFormState(actions.createCommentAction, {
+    const [formState, action] = useActionState(actions.createCommentAction, {
       errors: {},
     });
 
     const [isHidden, setIsHidden] = useState(true);
-    const [commentConfirmationId, setCommentConfirmationId] = useState<string>("");
+    const [commentConfirmationId, setCommentConfirmationId] =
+      useState<string>("");
     const session = useSession();
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -41,9 +44,13 @@ const CommentsAudioPost = forwardRef<HTMLTextAreaElement, CommentProps>(
       }
     };
 
-    const handleDeleteComment = async (commentId: string, audioPostId: string) => {
+    const handleDeleteComment = async (
+      commentId: string,
+      postId: string,
+      postType: "AUDIO" | "IMAGE" | "TEXT"
+    ) => {
       try {
-        await actions.deleteCommentAudioPost(commentId, audioPostId);
+        await actions.deleteComment(commentId, postId, postType);
         alert("Comment deleted successfully!");
         router.refresh(); // Ensures the latest data is fetched without a full reload
       } catch (error) {
@@ -85,14 +92,15 @@ const CommentsAudioPost = forwardRef<HTMLTextAreaElement, CommentProps>(
               placeholder="Add a comment"
             />
             <input type="hidden" name="postId" value={postId} />
-            <input type="hidden" name="postType" value={"AUDIO"} />
-            <Button type="submit" className="w-42 bg-white/50 self-end m-4">
+            <input type="hidden" name="postType" value={postType} />
+            <Button type="submit" className="w-42 bg-white/50 self-end m-4" >
               Comment
             </Button>
           </Form>
         </Card>
 
-        {comments.filter((comment) => comment.parentId === null).length === 0 ? (
+        {comments.filter((comment) => comment.parentId === null).length ===
+        0 ? (
           <Card isBlurred className="bg-white/25 p-4 mt-2">
             <p>No Comments Yet</p>
           </Card>
@@ -103,22 +111,35 @@ const CommentsAudioPost = forwardRef<HTMLTextAreaElement, CommentProps>(
             .map((comment) => (
               <Card isBlurred className="bg-white/25 p-4 mt-2" key={comment.id}>
                 <div className="flex items-center pb-2">
-                  <Avatar src={comment.userImage || ""} className="w-8 h-8 mr-4" />
+                  <Avatar
+                    src={comment.userImage || ""}
+                    className="w-8 h-8 mr-4"
+                  />
                   <p className="text-gray-800 -bold">{comment.userName}</p>
                   <p className="text-xs text-gray-700 ml-4">
                     {dayjs().to(dayjs(comment.createdAt))}
                   </p>
 
                   <Button
-                    onPress={() => handleDeleteComment(comment.id, comment.audioPostId as string)}
-                    className={`${
-                      session.data?.user?.id === comment.userId ? "block" : "hidden"
+                    onPress={() =>
+                      handleDeleteComment(
+                        comment.id,
+                        postId,
+                        comment.postType
+                      )
+                    }
+                    className={`$ {
+                      session.data?.user?.id === comment.userId
+                        ? "block"
+                        : "hidden"
                     } w-48 rounded-xl bg-red-400 ml-auto`}
                   >
                     Delete comment
                   </Button>
                 </div>
-                <div className="pl-12 break-words text-gray-900 py-2 bg-white/25 rounded-xl">
+                <div 
+                // className="pl-12 break-words text-gray-900 py-2 bg-white/25 rounded-xl"
+                >
                   <CommentContentAndReply
                     comment={comment}
                     replies={replies}
@@ -139,7 +160,8 @@ const CommentsAudioPost = forwardRef<HTMLTextAreaElement, CommentProps>(
                   />
                 </div>
                 <div className="flex justify-between items-center pt-2">
-                  <VoteCommentButton commentId={comment.id} />
+                  
+                  <VoteCommentButton commentId={comment.id} postType={comment.postType} />
                   <ReplyComment
                     commentId={comment.id}
                     commentConfirmationId={commentConfirmationId}
@@ -157,4 +179,4 @@ const CommentsAudioPost = forwardRef<HTMLTextAreaElement, CommentProps>(
   }
 );
 
-export default CommentsAudioPost;
+export default CommentsPost;

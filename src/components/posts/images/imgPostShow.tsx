@@ -6,36 +6,20 @@ import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 import VoteImgButton from "@/components/vote/VoteImg";
 import { Button, Card } from "@nextui-org/react";
-import { PostType } from "@prisma/client";
+import { Comment, ImgPost, PostType } from "@prisma/client";
 import { CldImage } from "next-cloudinary";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
 import CommentButtonPosts from "@/components/comments/CommentButtonPost";
+import CommentsPost from "@/components/comments/CommentsPostGeneral";
+import VoteButton from "@/components/vote/votePost";
 
-interface ImgPost {
-  title: string;
-  content: string;
-  imgUrl: string;
-  id: string;
-  userId: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
+
 
 interface ImgPostShowProps {
   post: ImgPost;
-  comments: {
-    id: string;
-    content: string;
-    textPostId: string | null;
-    postType: PostType;
-    userName: string;
-    userImage: string;
-    userId: string;
-    imgPostId: string | null;
-    createdAt: Date;
-    updatedAt: Date;
-  }[];
+  comments: Comment[];
+  replies: Comment[]
 }
 
 export default function ImgPostShow(props: ImgPostShowProps) {
@@ -65,15 +49,17 @@ export default function ImgPostShow(props: ImgPostShowProps) {
 
         <p className="mb-8">{props.post.content}</p>
         <div className="flex mb-2">
-          <VoteImgButton postId={props.post.id} />
+          <VoteButton postId={props.post.id} postType="IMAGE" />
           <CommentButtonPosts
             commentsLength={props.comments.length}
             onClick={focusTextarea}
           />
         </div>
-        <CommentsImgPost
+        <CommentsPost
           postId={props.post.id}
           comments={props.comments}
+          replies={props.replies}
+          postType={props.post.postType}
           ref={textareaRef}
         />
       </Card>

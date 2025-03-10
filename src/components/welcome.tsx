@@ -22,7 +22,7 @@ export default function Welcome() {
           expose what your creative mind birthed, and, if in need, expect an
           helping hand to guide you forward.
         </p>
-        <Button className="mb-4 bg-white/20 shadow" onClick={()=>closeCard()}>Close</Button>
+        <Button className="mb-4 bg-white/20 shadow" onPress={()=>closeCard()}>Close</Button>
       </Card>
     </div>
   );

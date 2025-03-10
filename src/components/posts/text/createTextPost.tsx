@@ -39,6 +39,7 @@ export default function CreateTextPost() {
       
               placeholder="Text content"
             />
+            <input type="hidden" name="postType" value={"TEXT"} />
             <Button className="mt-4 lg:w-1/4 self-end bg-white/20 shadow" type="submit">
               Create text post
             </Button>

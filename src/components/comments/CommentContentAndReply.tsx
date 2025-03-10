@@ -1,7 +1,9 @@
 import { Avatar, Button } from "@nextui-org/react";
 import { Comment } from "@prisma/client";
 import dayjs from "dayjs";
-import { comment } from "postcss";
+
+import VoteCommentButton from "../vote/voteComment";
+
 
 interface CommentContentAndReplyProps {
   comment: Comment;
@@ -9,37 +11,37 @@ interface CommentContentAndReplyProps {
   parentId?: string;
   commentId: string,
   postType: string,
-  session,
-  handleDeleteComment
+  session: { data: { user: { id: string; }; }; },
+  handleDeleteComment: (arg0: string, arg1: string, arg2: "AUDIO" | "TEXT" | "IMAGE") => void
 }
 
 export default function commentContentAndReply(
   props: CommentContentAndReplyProps
 ) {
-  console.log(props.commentId)
+
   return (
     <>
-      <div>
+      <div  className="pl-12 break-words text-gray-900 py-2 bg-white/25 rounded-xl mb-4">
       {props.comment.parentId === null && <p>{props.comment.content}</p>}
 
       </div>
       {props.replies
   .filter(reply => reply.parentId === props.commentId) // Filter replies before mapping
   .map((reply) => (
-    <><div className="flex items-center pb-2">
-      <Avatar src={props.comment.userImage || ""} className="w-8 h-8 mr-4" />
-      <p className="text-gray-800 -bold">{props.comment.userName}</p>
+    <><div className="flex items-center pb-2 pl-12">
+      <Avatar src={reply.userImage || ""} className="w-8 h-8 mr-4" />
+      <p className="text-gray-800 -bold">{reply.userName}</p>
       <p className="text-xs text-gray-700 ml-4">
-        {dayjs().to(dayjs(props.comment.createdAt))}
+        {dayjs().to(dayjs(reply.createdAt))}
       </p>
 
       <Button
-        onPress={() => props.handleDeleteComment(props.comment.id, props.comment.audioPostId as string)}
-        className={`${props.session.data?.user?.id === props.comment.userId ? "block" : "hidden"} min-w-8 h-6 p-0 rounded-xl bg-red-400 ml-auto mr-4`}
+        onPress={() => props.handleDeleteComment(reply.id, reply.audioPostId as string, reply.postType)}
+        className={`${props.session.data?.user?.id === reply.userId ? "block" : "hidden"} min-w-8 h-6 p-0 rounded-xl bg-red-400 ml-auto mr-4`}
       >
         x
       </Button>
-    </div><p className="" key={reply.id}>{reply.content}</p> 
+    </div><div className="flex justify-between items-center ml-12 pl-12 break-words text-gray-900 py-2 bg-white/25 rounded-xl mb-4 pr-4" key={reply.id}><p>{reply.content}</p><VoteCommentButton commentId={reply.id} postType={reply.postType}  /></div> 
     </> // Added a unique key to prevent React warnings
   ))}
 

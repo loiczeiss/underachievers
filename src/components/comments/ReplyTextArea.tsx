@@ -23,7 +23,7 @@ const ReplyTextArea = forwardRef<HTMLTextAreaElement, ReplyTextAreaProps>(
       <Card
         className={`${
           !isHidden && commentConfirmationId === commentId ? "block" : "hidden"
-        } bg-white/25`}
+        } bg-white/25 `}
       >
         <Form action={action} className="flex flex-col" validationBehavior="native">
           <Textarea
@@ -56,7 +56,6 @@ const ReplyTextArea = forwardRef<HTMLTextAreaElement, ReplyTextAreaProps>(
           <input type="hidden" name="postId" value={postId} />
           <input type="hidden" name="postType" value={postType} />
           <Button type="submit" 
-          onPress={()=>console.log("ferfe")}
           // onPress={()=>setTimeout(()=>setIsHidden(true), 1000)}
            className="w-42 bg-white/50 self-end m-4">
             Comment

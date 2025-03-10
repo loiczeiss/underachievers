@@ -6,16 +6,19 @@ import { z } from "zod";
 import { auth } from "@/auth";
 import { db } from "@/db";
 import paths from "@/paths";
+import { PostType } from "@prisma/client";
 
 const createPostSchema = z.object({
   title: z.string().min(3),
   content: z.string().min(10),
+  postType: z.string().min(1)
 });
 
 interface CreateTextPostFormState {
   errors: {
     title?: string[];
     content?: string[];
+    postType?: string[];
     _form?: string[];
   };
 }
@@ -26,6 +29,7 @@ export async function createTextPostAction(
   const result = createPostSchema.safeParse({
     title: formData.get("title"),
     content: formData.get("content"),
+    postType: formData.get("postType")
   });
   if (!result.success) {
     return { errors: result.error.flatten().fieldErrors };
@@ -45,6 +49,7 @@ export async function createTextPostAction(
       data: {
         title: result.data.title,
         content: result.data.content,
+        postType: result.data.postType as PostType,
         userId: session.user.id as string,
       },
     });
