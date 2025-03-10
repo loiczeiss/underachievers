@@ -1,10 +1,7 @@
 "use client";
 
-import CommentButton from "@/components/comments/CommentButtonLists";
-import CommentsImgPost from "@/components/comments/CommentsImgPost";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
-import VoteImgButton from "@/components/vote/VoteImg";
 import { Button, Card } from "@nextui-org/react";
 import { Comment, ImgPost, PostType } from "@prisma/client";
 import { CldImage } from "next-cloudinary";

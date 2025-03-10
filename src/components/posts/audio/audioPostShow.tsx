@@ -6,7 +6,7 @@ import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import "@/app/index.scss";
 import { Comment, PostType } from "@prisma/client";
-import VoteAudioButton from "@/components/vote/voteAudio";
+
 import CommentButtonPosts from "@/components/comments/CommentButtonPost";
 import { useRef } from "react";
 import CommentsPost from "@/components/comments/CommentsPostGeneral";
