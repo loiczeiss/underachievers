@@ -166,7 +166,7 @@ const CommentsPost = forwardRef<HTMLTextAreaElement, CommentProps>(
                       parentId={comment.parentId as string}
                       commentId={comment.id as string}
                       postType={comment.postType}
-                      session={session}
+                      session={session as { data: { user: { id: string } } }}
                       handleDeleteComment={handleDeleteComment}
                     />
                     <ReplyTextArea
