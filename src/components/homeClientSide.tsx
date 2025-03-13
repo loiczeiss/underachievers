@@ -2,10 +2,17 @@
 
 import AllPostList from "./posts/all/AllPostsList";
 import NavLinks from "./navLinks";
-import { Audio, AudioPost, Comment, ImgPost, TextPost } from "@prisma/client";
+import {
+  Audio,
+  AudioPost,
+  Comment,
+  ImgPost,
+  PostType,
+  TextPost,
+} from "@prisma/client";
 
 interface AllPostListprops {
-  audios: Audio[]
+  audios: Audio[];
   allPosts: {
     title: string;
     content: string;
@@ -14,29 +21,25 @@ interface AllPostListprops {
     imgUrl?: string;
     createdAt: Date;
     updatedAt: Date;
-    type: string
+    type: string;
+    postType: PostType;
   }[];
   textPosts: TextPost[];
-  imgPosts:ImgPost[];
-  audioPosts:AudioPost[]
+  imgPosts: ImgPost[];
+  audioPosts: AudioPost[];
   comments: Comment[];
 }
 export default function HomeClientSide(props: AllPostListprops) {
-
   return (
     <>
       <div className="flex flex-col lg:flex-row w-full ">
-        <NavLinks  />
+        <NavLinks />
 
-          <AllPostList
-            posts={props.allPosts}
-            audios={props.audios}
-
-            comments={props.comments}
-
-          />
-
-
+        <AllPostList
+          posts={props.allPosts}
+          audios={props.audios}
+          comments={props.comments}
+        />
       </div>
     </>
   );

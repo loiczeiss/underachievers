@@ -6,7 +6,13 @@ import UserAllPostList from "./posts/user/all/UserAllPostList";
 import UserImgPostList from "./posts/user/images/UserImgPostList";
 import UserTextPostList from "./posts/user/text/UserTextPostList";
 import { Card } from "@nextui-org/react";
-import { AudioPost, Comment, ImgPost, TextPost } from "@prisma/client";
+import {
+  AudioPost,
+  Comment,
+  ImgPost,
+  PostType,
+  TextPost,
+} from "@prisma/client";
 import UserAudioPostList from "./posts/user/audio/UserAudioPostsList";
 interface AllPostListprops {
   allPosts: {
@@ -19,6 +25,7 @@ interface AllPostListprops {
     createdAt: Date;
     updatedAt: Date;
     type: string;
+    postType: PostType;
   }[];
   textPosts: TextPost[];
   imgPosts: ImgPost[];
