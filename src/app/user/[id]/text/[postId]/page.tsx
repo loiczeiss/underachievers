@@ -15,6 +15,14 @@ export default async function PostShowPage(props: PostShowPageProps) {
   const comments = await db.comment.findMany({
     where: { textPostId: params.postId },
   });
+  const replies = await db.comment.findMany({
+    where: {
+      AND: [
+        { textPostId: params.id }, 
+        { parentId: { not: null } } 
+      ]
+    }
+  });
 
   const post = await db.textPost.findFirst({ where: { id: params.postId } });
 
@@ -27,6 +35,7 @@ export default async function PostShowPage(props: PostShowPageProps) {
   return (
     <div className="flex justify-center">
       <UserTextPostShow
+      replies={replies}
         post={post}
         deletePost={deletePostAction}
         comments={comments}

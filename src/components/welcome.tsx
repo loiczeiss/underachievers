@@ -9,9 +9,9 @@ export default function Welcome() {
     }
   return (
     <div className={`${isClosed ? "hidden":"" } flex justify-center`} >
-      <Card className="m-8 items-center w-2/3 self-center bg-transparent backdrop-blur-sm ">
-        <h1 className="pt-4 text-3xl">Welcome to UnderAchievers!</h1>
-        <q className="w-2/3 text-center mt-8 text-slate-600 drop-shadow-xl">
+      <Card className="m-8 items-center w-2/3 self-center bg-white/25 md:bg-transparent backdrop-blur-sm ">
+        <h1 className="pt-4 text-base text-center lg:text-3xl">Welcome to UnderAchievers!</h1>
+        <q className="w-2/3 text-center mt-4 lg:mt-8 text-slate-600 drop-shadow-xl">
           For my seed, bless me with a soil. <br />
           To grow it big and strong, bless me with water.
           <br />

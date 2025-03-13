@@ -57,7 +57,7 @@ const isMobile = useMediaQuery("(max-width: 768px)"); // Change based on your br
           <PlusCircle />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="p-4 bg-transparent shadow backdrop-blur-sm mt-4">
+      <PopoverContent className="p-4 bg-white/25 md:bg-transparent shadow backdrop-blur-sm mt-4">
         <div>
           <h2>What kind of post do you want to create ?</h2>
           <div className="flex flex-col p-4">

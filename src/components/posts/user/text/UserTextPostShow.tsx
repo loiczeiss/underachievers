@@ -3,10 +3,11 @@
 import { Button, Card } from "@nextui-org/react";
 import paths from "@/paths";
 import { redirect } from "next/navigation";
-import VoteTextButton from "@/components/vote/VoteText";
-import { Comment } from "@prisma/client";
-import CommentButton from "@/components/comments/CommentButtonLists";
-import CommentsTextPost from "@/components/comments/CommentsTextPost";
+import { Comment, PostType } from "@prisma/client";
+import CommentButtonPosts from "@/components/comments/CommentButtonPost";
+import VoteButton from "@/components/vote/votePost";
+import { useRef } from "react";
+import CommentsPost from "@/components/comments/CommentsPostGeneral";
 
 interface Post {
   title: string;
@@ -15,27 +16,36 @@ interface Post {
   userId: string;
   createdAt: Date;
   updatedAt: Date;
+  postType: PostType
 }
 
 interface PostShowProps {
+  replies: Comment[]
   comments: Comment[];
   post: Post;
   deletePost?: (formData: FormData) => void | Promise<void>;
 }
 
 export default function UserTextPostShow(props: PostShowProps) {
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  
+    const focusTextarea = () => {
+      if (textareaRef.current) {
+        textareaRef.current.focus();
+      }
+    };
   return (
     <>
       <div className="w-full flex flex-col items-center">
-        <Card isBlurred className="mt-8 w-1/2 px-8">
+        <Card isBlurred className="mt-8 mx-8 lg:w-1/2 lg:px-8  mb-8 flex items-center">
           <h1 className="my-4 text-xl uppercase">{props.post.title}</h1>
           <Card isBlurred className="mt-2 mb-4 p-2 text-sm lg:text-base">{props.post.content}</Card>
              <div className="flex mb-2">
                     {" "}
-                    <VoteTextButton postId={props.post.id} />
-                    <CommentButton commentsLength={props.comments.length} />
+                    <VoteButton postId={props.post.id} postType="TEXT" />
+                    <CommentButtonPosts commentsLength={props.comments.length} onClick={focusTextarea} />
                   </div>
-                  <CommentsTextPost postId={props.post.id} comments={props.comments} />
+                  <CommentsPost  postId={props.post.id} comments={props.comments} replies={props.replies}  ref={textareaRef} postType={props.post.postType}  />
           <form action={props.deletePost}>
             <Button
               className="w-48 mb-4 bg-red-400"

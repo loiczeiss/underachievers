@@ -10,7 +10,8 @@ import VoteCommentButton from "../vote/voteComment";
 import ReplyComment from "./ReplyCommentButton";
 import ReplyTextArea from "./ReplyTextArea";
 import CommentContentAndReply from "./CommentContentAndReply";
-
+import DeleteIcon from "public/delete.svg"; 
+import Image from "next/image";
 
 dayjs.extend(relativeTime);
 
@@ -23,7 +24,6 @@ interface CommentProps {
 
 const CommentsPost = forwardRef<HTMLTextAreaElement, CommentProps>(
   ({ postId, comments, replies, postType }, ref) => {
-
     const router = useRouter();
     const [commentContentValue, setCommentContentValue] = useState("");
     const [formState, action] = useActionState(actions.createCommentAction, {
@@ -59,132 +59,147 @@ const CommentsPost = forwardRef<HTMLTextAreaElement, CommentProps>(
       }
     };
 
-    const errors =[]
-    if (commentContentValue.length < 3 && commentContentValue.length>0) {
-      errors.push( "Comment must be at least 3 characters");
+    const errors = [];
+    if (commentContentValue.length < 3 && commentContentValue.length > 0) {
+      errors.push("Comment must be at least 3 characters");
     }
 
     return (
-     <> <div className="mb-4">
-     <Card isBlurred className="bg-white/25">
-       <Form
-         action={action}
-         className="flex flex-col"
-         validationBehavior="native"
-       >
-         <Textarea
-           ref={ref}
-         
-           errorMessage={errors.length !==0 ? errors : null}
-           // validate={(value) =>
-           //   value.length < 3 ? "Comment must be at least 3 characters" : ""
-           // }
-           value={commentContentValue}
-           isInvalid={commentContentValue.length < 3 }
-           onValueChange={setCommentContentValue}
-           variant="bordered"
-           isClearable
-           classNames={{
-             input: "placeholder:text-gray-600",
-             inputWrapper: [
-               "border-none",
-               "hover:border-black",
-               "focus-within:!border-white/50",
-             ],
-             errorMessage: ["bg-white/25", "rounded-lg", "p-4"],
-             base: "border-gray-800",
-           }}
-           name="content"
-           placeholder="Add a comment"
-         />
-         <input type="hidden" name="postId" value={postId} />
-         <input type="hidden" name="postType" value={postType} />
-         <Button isDisabled={commentContentValue.length<3? true:false} type="submit" className="w-42 bg-white/50 self-end m-4"
-         >
-           Comment
-         </Button>
-       </Form>
-     </Card>
+      <>
+        {" "}
+        <div className="mb-4 lg:w-full mx-4">
+          <Card isBlurred className="bg-white/25">
+            <Form
+              action={action}
+              className="flex flex-col"
+              validationBehavior="native"
+            >
+              <Textarea
+                ref={ref}
+                errorMessage={errors.length !== 0 ? errors : null}
+                // validate={(value) =>
+                //   value.length < 3 ? "Comment must be at least 3 characters" : ""
+                // }
+                value={commentContentValue}
+                isInvalid={commentContentValue.length < 3}
+                onValueChange={setCommentContentValue}
+                variant="bordered"
+                isClearable
+                classNames={{
+                  input: "placeholder:text-gray-600",
+                  inputWrapper: [
+                    "border-none",
+                    "hover:border-black",
+                    "focus-within:!border-white/50",
+                  ],
+                  errorMessage: ["bg-white/25", "rounded-lg", "p-4"],
+                  base: "border-gray-800",
+                }}
+                name="content"
+                placeholder="Add a comment"
+              />
+              <input type="hidden" name="postId" value={postId} />
+              <input type="hidden" name="postType" value={postType} />
+              <Button
+                isDisabled={commentContentValue.length < 3 ? true : false}
+                type="submit"
+                className="w-42 bg-white/50 self-end m-4"
+              >
+                Comment
+              </Button>
+            </Form>
+          </Card>
 
-     {comments.filter((comment) => comment.parentId === null).length ===
-     0 ? (
-       <Card isBlurred className="bg-white/25 p-4 mt-2">
-         <p>No Comments Yet</p>
-       </Card>
-     ) : (
-       comments
-         .filter((comment) => comment.parentId === null) // ✅ Show only top-level comments
-         .reverse()
-         .map((comment) => (
-           <Card isBlurred className="bg-white/25 p-4 mt-2" key={comment.id}>
-             <div className="flex items-center pb-2">
-               <Avatar
-                 src={comment.userImage || ""}
-                 className="w-8 h-8 mr-4"
-               />
-               <p className="text-gray-800 -bold">{comment.userName}</p>
-               <p className="text-xs text-gray-700 ml-4">
-                 {dayjs().to(dayjs(comment.createdAt))}
-               </p>
-
-               <Button
-                 onPress={() =>
-                   handleDeleteComment(
-                     comment.id,
-                     postId,
-                     comment.postType
-                   )
-                 }
-                 className={`$ {
-                   session.data?.user?.id === comment.userId
-                     ? "block"
-                     : "hidden"
-                 } w-48 rounded-xl bg-red-400 ml-auto`}
-               >
-                 Delete comment
-               </Button>
-             </div>
-             <div 
-             // className="pl-12 break-words text-gray-900 py-2 bg-white/25 rounded-xl"
-             >
-               <CommentContentAndReply
-                 comment={comment}
-                 replies={replies}
-                 parentId={comment.parentId as string}
-                 commentId={comment.id as string}
-                 postType={comment.postType}
-                 session={session}
-                 handleDeleteComment={handleDeleteComment}
-               />
-               <ReplyTextArea
-                 isHidden={isHidden}
-                 postId={postId}
-                 postType={comment.postType}
-                 setIsHidden={setIsHidden}
-                 ref={textareaRef}
-                 commentId={comment.id}
-                 commentConfirmationId={commentConfirmationId}
-               />
-             </div>
-             <div className="flex justify-between items-center pt-2">
-               
-               <VoteCommentButton commentId={comment.id} postType={comment.postType} />
-               <ReplyComment
-                 commentId={comment.id}
-                 commentConfirmationId={commentConfirmationId}
-                 setCommentConfirmationId={setCommentConfirmationId}
-                 setIsHidden={setIsHidden}
-                 isHidden={isHidden}
-                 onClick={focusTextarea}
-               />
-             </div>
-           </Card>
-         ))
-     )}
-   </div></>
+          {comments.filter((comment) => comment.parentId === null).length ===
+          0 ? (
+            <Card isBlurred className="bg-white/25 p-4 mt-2">
+              <p>No Comments Yet</p>
+            </Card>
+          ) : (
+            comments
+              .filter((comment) => comment.parentId === null) // ✅ Show only top-level comments
+              .reverse()
+              .map((comment) => (
+                <Card
+                  isBlurred
+                  className="bg-white/25 p-4 mt-2"
+                  key={comment.id}
+                >
+                  <div className="flex items-center pb-2 w-full">
+                    <Avatar
+                      src={comment.userImage || ""}
+                      className="w-4 h-4  md:w-8 md:h-8 mr-4"
+                    />
+                    <p className="text-gray-800 text-[8px] md:text-base">
+                      {comment.userName}
+                    </p>
+                    <p className="text-[8px] md:text-xs text-gray-700 ml-4">
+                      {dayjs().to(dayjs(comment.createdAt))}
+                    </p>
+                    <Button
+                      isIconOnly
+                      onPress={() =>
+                        handleDeleteComment(
+                          comment.id,
+                          postId,
+                          comment.postType
+                        )
+                      }
+                      className={`$ {
+                              session.data?.user?.id === comment.userId
+                                ? "block"
+                                : "hidden"
+                            } min-w-[4px] h-8 rounded-3xl  ml-auto bg-white/25 rounded-3xl ml-4 hover:bg-red-400`}
+                    >
+                      <Image
+                        src={DeleteIcon}
+                        alt="Delete"
+                        width={20}
+                        height={20}
+                      />
+                    </Button>
+                  </div>
+                  <div>
+                    <CommentContentAndReply
+                      comment={comment}
+                      replies={replies}
+                      parentId={comment.parentId as string}
+                      commentId={comment.id as string}
+                      postType={comment.postType}
+                      session={session}
+                      handleDeleteComment={handleDeleteComment}
+                    />
+                    <ReplyTextArea
+                      isHidden={isHidden}
+                      postId={postId}
+                      postType={comment.postType}
+                      setIsHidden={setIsHidden}
+                      ref={textareaRef}
+                      commentId={comment.id}
+                      commentConfirmationId={commentConfirmationId}
+                    />
+                  </div>
+                  <div className="flex justify-between items-center pt-2">
+                    <VoteCommentButton
+                      commentId={comment.id}
+                      postType={comment.postType}
+                    />
+                    <ReplyComment
+                      commentId={comment.id}
+                      commentConfirmationId={commentConfirmationId}
+                      setCommentConfirmationId={setCommentConfirmationId}
+                      setIsHidden={setIsHidden}
+                      isHidden={isHidden}
+                      onClick={focusTextarea}
+                    />
+                  </div>
+                </Card>
+              ))
+          )}
+        </div>
+      </>
     );
   }
 );
-
 
 export default CommentsPost;

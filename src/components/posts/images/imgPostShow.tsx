@@ -30,8 +30,8 @@ export default function ImgPostShow(props: ImgPostShowProps) {
   };
 
   return (
-    <div className="w-full flex flex-col items-center">
-      <Card isBlurred className="mt-8 w-1/2 px-8 mb-8">
+    <div className="w-full flex flex-col items-center ">
+      <Card isBlurred className="mt-8 mx-8 lg:w-1/2 lg:px-8  mb-8 flex items-center">
         <h1 className="my-4 text-xl uppercase">{props.post.title}</h1>
         <Zoom>
           <CldImage

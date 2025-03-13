@@ -15,7 +15,7 @@ export default async function PostsListPage() {
       }));
   return (
     <>
-      <div className="flex">
+      <div className="flex flex-col lg:flex-row items-center lg:items-start">
         <NavBar />
         <PostList posts={postsWithType} comments={comments} />
       </div>

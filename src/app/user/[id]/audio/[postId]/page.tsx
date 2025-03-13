@@ -17,6 +17,14 @@ export default async function AudioPostShowPage(props: PostShowPageProps) {
   const comments = await db.comment.findMany({
     where: { audioPostId: params.postId },
   });
+  const replies = await db.comment.findMany({
+    where: {
+      AND: [
+        { audioPostId: params.id }, // Matches the specific audio post ID
+        { parentId: { not: null } } // Ensures parentId exists (i.e., it's a reply)
+      ]
+    }
+  });
   if (!post) {
     return <div className="flex justify-center">Post not found.</div>;
   }
@@ -29,6 +37,7 @@ export default async function AudioPostShowPage(props: PostShowPageProps) {
   return (
     <div className="flex justify-center">
       <UserAudioPostShow
+      replies={replies}
         post={post}
         deleteAudioPost={deleteAudioPostAction}
         audio={audio}

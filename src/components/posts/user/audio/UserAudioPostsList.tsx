@@ -7,10 +7,9 @@ import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import "@/app/index.scss";
 import Link from "next/link";
-import { Comment } from "@prisma/client";
+import { Comment, PostType } from "@prisma/client";
 import CommentButton from "@/components/comments/CommentButtonLists";
-import VoteAudioButton from "@/components/vote/voteAudio";
-
+import VoteButton from "@/components/vote/votePost";
 
 interface AudioData {
   id: string;
@@ -26,6 +25,7 @@ interface AudioPost {
   updatedAt: Date;
   userId: string;
   audioId: string;
+  postType: PostType
 }
 
 interface AudioPostListProps {
@@ -83,16 +83,20 @@ export default function UserAudioPostList(props: AudioPostListProps) {
         </Card>
         <div className="flex w-full justify-between">
           <div className="flex">
-            <VoteAudioButton postId={post.id} />
-
-            <CommentButton commentsLength={props.comments.length} />
+            <VoteButton postId={post.id} postType={post.postType} />
+            <CommentButton
+              commentsLength={props.comments.length}
+              post={post}
+              postType={post.postType}
+              postId={post.id}
+            />
           </div>
           <div>
             {" "}
             <Button
               as={Link}
               href={`${paths.audioPostShowPage(post.id)}`}
-              className="w-48 lg:w-64 bg-white/25"
+              className="lg:w-48 lg:w-64 bg-white/25"
             >
               View
             </Button>

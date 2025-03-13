@@ -3,9 +3,9 @@
 import { Button, Card } from "@nextui-org/react";
 import Link from "next/link";
 import paths from "@/paths";
-import { Comment } from "@prisma/client";
+import { Comment, PostType } from "@prisma/client";
 import CommentButton from "@/components/comments/CommentButtonLists";
-import VoteTextButton from "@/components/vote/VoteText";
+import VoteButton from "@/components/vote/votePost";
 
 interface PostListProps {
   posts: {
@@ -15,8 +15,9 @@ interface PostListProps {
     userId: string;
     createdAt: Date;
     updatedAt: Date;
+    postType: PostType;
   }[];
-  comments: Comment[]
+  comments: Comment[];
 }
 
 export const dynamicParams = true;
@@ -41,23 +42,25 @@ export default function UserTextPostList(props: PostListProps) {
         </Card>
         <div className="flex w-full justify-between">
           <div className="flex">
-            <VoteTextButton postId={post.id} />
-
-            <CommentButton commentsLength={props.comments.length} />
+            <VoteButton postId={post.id} postType={post.postType} />
+            <CommentButton
+              commentsLength={props.comments.length}
+              post={post}
+              postType={post.postType}
+              postId={post.id}
+            />
           </div>
           <div>
             {" "}
             <Button
-          as={Link} // Use Link as the underlying component
-          href={`${paths.userTextPostPage(post.userId, post.id)}`}
-          className="w-48 lg:w-64 bg-white/25"
-        >
-          View
-        </Button>
+              as={Link} // Use Link as the underlying component
+              href={`${paths.userTextPostPage(post.userId, post.id)}`}
+              className="ml-2 lg:w-48 lg:w-64 bg-white/25"
+            >
+              View
+            </Button>
           </div>
         </div>
-
-       
       </Card>
     );
   });

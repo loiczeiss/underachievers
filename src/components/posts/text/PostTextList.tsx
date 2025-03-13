@@ -33,7 +33,7 @@ export default function TextPostList(props: PostListProps) {
     return (
       <Card
         isBlurred
-        className="mx-8 mb-4 lg:mr-8 py-4 px-2 sm:px-8"
+        className="lg:mx-8 mb-4 lg:mr-8 py-4 px-2 sm:px-8"
         key={post.id}
       >
         <div className="uppercase lg:text-2xl"> {post.title}</div>
@@ -49,7 +49,7 @@ export default function TextPostList(props: PostListProps) {
             <Button
               as={Link} // Make Button act as a Link
               href={`${paths.textPostShow(post.id)}`}
-              className="w-48 lg:w-64 bg-white/25"
+              className="w-12 md:w-48 lg:w-64 bg-white/25"
             >
               View
             </Button>
@@ -60,7 +60,7 @@ export default function TextPostList(props: PostListProps) {
   });
   return (
     <>
-      <div className="self-center lg:w-4/6 flex flex-col my-4 overscroll-contain">
+      <div className="self-center w-5/6 lg:w-4/6 flex flex-col my-4 overscroll-contain">
         {props.posts.length === 0 ? noPostYet : renderedPosts}
       </div>
     </>

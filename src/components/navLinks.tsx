@@ -10,7 +10,7 @@ export default function NavLinks() {
     <>
       <Card
         isBlurred
-        className="flex items-center justify-center lg:w-1/6 mx-8 my-4 h-min"
+        className="flex items-center justify-center w-5/6 lg:w-1/6 mx-8 my-4 h-min"
       >
       
           <Button

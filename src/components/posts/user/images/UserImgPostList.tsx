@@ -1,10 +1,10 @@
 "use client";
 
 import CommentButton from "@/components/comments/CommentButtonLists";
-import VoteImgButton from "@/components/vote/VoteImg";
+import VoteButton from "@/components/vote/votePost";
 import paths from "@/paths";
 import { Card, Button } from "@nextui-org/react";
-import { Comment } from "@prisma/client";
+import { Comment, PostType } from "@prisma/client";
 import { CldImage } from "next-cloudinary";
 import Link from "next/link";
 import Zoom from "react-medium-image-zoom";
@@ -19,6 +19,7 @@ interface ImgPostListprops {
     imgUrl: string;
     createdAt: Date;
     updatedAt: Date;
+    postType: PostType;
   }[];
   comments: Comment[];
 }
@@ -54,16 +55,20 @@ export default function UserImgPostList(props: ImgPostListprops) {
         </Card>
         <div className="flex w-full justify-between">
           <div className="flex">
-            <VoteImgButton postId={post.id} />
-
-            <CommentButton commentsLength={props.comments.length} />
+            <VoteButton postId={post.id} postType={post.postType} />
+            <CommentButton
+              commentsLength={props.comments.length}
+              post={post}
+              postType={post.postType}
+              postId={post.id}
+            />
           </div>
           <div>
             {" "}
             <Button
               as={Link} // Use Link as the underlying component
               href={`${paths.userImgPostPage(post.userId, post.id)}`}
-              className="w-48 lg:w-64 bg-white/25"
+              className="lg:w-48 lg:w-64 bg-white/25"
             >
               View
             </Button>

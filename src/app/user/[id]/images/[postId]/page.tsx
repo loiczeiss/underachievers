@@ -16,6 +16,14 @@ export default async function ImgPostShowPage(props: PostShowPageProps) {
   const comments = await db.comment.findMany({
     where: { imgPostId: params.postId },
   });
+  const replies = await db.comment.findMany({
+    where: {
+      AND: [
+        { imgPostId: params.id }, // Matches the specific audio post ID
+        { parentId: { not: null } } // Ensures parentId exists (i.e., it's a reply)
+      ]
+    }
+  });
   if (!post) {
     return <div className="flex justify-center">Post not found.</div>;
   }
@@ -28,6 +36,7 @@ export default async function ImgPostShowPage(props: PostShowPageProps) {
   return (
     <div className="flex justify-center">
       <UserImgPostShow
+      replies={replies}
         post={post}
         deleteImgPost={deleteImgPostAction}
         comments={comments}
