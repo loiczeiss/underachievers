@@ -5,7 +5,6 @@ import { db } from "@/db";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import paths from "@/paths";
-import { PostType } from "@prisma/client";
 
 const createCommentSchema = z.object({
   content: z.string().min(3, "Comment must be at least 3 characters long."),
@@ -26,6 +25,7 @@ export async function createCommentAction(
   formState: CreateCommentPostFormState,
   formData: FormData
 ): Promise<CreateCommentPostFormState> {
+  // Validate input
   const result = createCommentSchema.safeParse({
     content: formData.get("content"),
     postId: formData.get("postId"),
@@ -41,9 +41,7 @@ export async function createCommentAction(
 
   if (!session || !session.user) {
     return {
-      errors: {
-        _form: ["You must be signed in to do this."],
-      },
+      errors: { _form: ["You must be signed in to do this."] },
     };
   }
 
@@ -60,24 +58,22 @@ export async function createCommentAction(
         audioPostId: postType === "AUDIO" ? postId : null,
       },
     });
-
   } catch (err: unknown) {
-    if (err instanceof Error) {
-      return {
-        errors: {
-          _form: [err.message],
-        },
-      };
-    } else {
-      return {
-        errors: {
-          _form: ["Failed to create comment due to an unknown error."],
-        },
-      };
-    }
+    return {
+      errors: {
+        _form: [err instanceof Error ? err.message : "Failed to create comment due to an unknown error."],
+      },
+    };
   }
 
-  if (postType === "TEXT") redirect(paths.textPostShow(postId));
-  if (postType === "IMAGE") redirect(paths.imgPostShow(postId));
-  if (postType === "AUDIO") redirect(paths.audioPostShowPage(postId));
+  // Redirect and return `never` type to satisfy TypeScript
+  if (postType === "TEXT") {
+    redirect(paths.textPostShow(postId));
+  } else if (postType === "IMAGE") {
+    redirect(paths.imgPostShow(postId));
+  } else if (postType === "AUDIO") {
+    redirect(paths.audioPostShowPage(postId));
+  }
+
+  return { errors: {} }; // Should never reach here, but required by TypeScript
 }
