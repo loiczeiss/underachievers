@@ -83,11 +83,14 @@ export async function createReplyCommentAction(
   }
   if (postType === "TEXT") {
     redirect(paths.textPostShow(postId));
+    return {} as never;
   } else if (postType === "IMAGE") {
     redirect(paths.imgPostShow(postId));
-  } else if (postType === "AUDIO") { 
+    return {} as never;
+  } else if (postType === "AUDIO") {
     redirect(paths.audioPostShowPage(postId));
-  } else {
-    console.error("Unknown post type:", postType);
+    return {} as never;
   }
+
+  return { errors: {} }; // Should never reach here
 }  
