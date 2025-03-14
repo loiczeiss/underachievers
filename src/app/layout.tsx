@@ -3,7 +3,7 @@ import { Providers } from "./providers";
 import {Zen_Dots} from "next/font/google"
 import "./globals.css";
 import Header from "../components/header/Header";
-
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const zenDots = Zen_Dots({
   weight: ['400'],
@@ -32,6 +32,7 @@ export default function RootLayout({
           <Providers>
             <Header />
             {children}
+            <SpeedInsights />
           </Providers>
         </div>
       </body>
