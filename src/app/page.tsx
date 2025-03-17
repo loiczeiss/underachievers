@@ -3,7 +3,7 @@ import { db } from "@/db";
 import { auth } from "@/auth";
 import HomeClientSide from "@/components/homeClientSide";
 export default async function Home() {
-  const textPosts = await db.textPost.findMany();
+  const textPosts = await db.textPost.findMany({});
 
   const imgPosts = await db.imgPost.findMany();
 
