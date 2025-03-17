@@ -10,7 +10,7 @@ import ArrowDown from "public/Icon-down-arrow.svg";
 
 interface VoteButtonProps {
   postId: string;
-  postType: "IMAGE" | "AUDIO" | "TEXT" ; // Define allowed post types
+  postType: "IMAGE" | "AUDIO" | "TEXT"; // Define allowed post types
 }
 
 export default function VoteButton({ postId, postType }: VoteButtonProps) {
@@ -30,17 +30,22 @@ export default function VoteButton({ postId, postType }: VoteButtonProps) {
           IMAGE: actions.getVoteDataImg,
           AUDIO: actions.getVoteDataAudio,
           TEXT: actions.getVoteDataText,
-          COMMENT: actions.getVoteDataComment
+          COMMENT: actions.getVoteDataComment,
         }[postType];
 
-        const result = await getVoteData(postId, session.data.user?.id as string);
+        const result = await getVoteData(
+          postId,
+          session.data.user?.id as string
+        );
 
         if (typeof result.voteCount === "number") {
           setVoteCount(result.voteCount);
         }
         setVoted(!!result.existingLike);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "An unknown error occurred.");
+        setError(
+          err instanceof Error ? err.message : "An unknown error occurred."
+        );
       } finally {
         setLoading(false);
       }
@@ -67,7 +72,9 @@ export default function VoteButton({ postId, postType }: VoteButtonProps) {
         setVoted(false);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An unknown error occurred.");
+      setError(
+        err instanceof Error ? err.message : "An unknown error occurred."
+      );
     } finally {
       setLoading(false);
     }
@@ -75,7 +82,7 @@ export default function VoteButton({ postId, postType }: VoteButtonProps) {
 
   return (
     <div className="flex items-center">
-      <Button 
+      <Button
         onPress={handleVoteClick}
         disabled={loading}
         className="bg-white/25"
@@ -83,10 +90,19 @@ export default function VoteButton({ postId, postType }: VoteButtonProps) {
         {loading ? (
           "..."
         ) : (
-          <><Image priority src={voted ? ArrowDown : ArrowUp} alt="Vote" width={24} height={24} /><span className="">{voteCount}</span></>
+          <>
+            <Image
+              priority
+              src={voted ? ArrowDown : ArrowUp}
+              alt="Vote"
+              width={24}
+              height={24}
+            />
+            <span className="">{voteCount}</span>
+          </>
         )}
       </Button>
-      
+
       {error && <p className="text-red-500">{error}</p>}
     </div>
   );

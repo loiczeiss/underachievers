@@ -1,28 +1,33 @@
-import NextAuth from "next-auth"
-import Google from "next-auth/providers/google"
-import { PrismaAdapter } from "@auth/prisma-adapter"
-import { db } from "./db"
+import NextAuth from "next-auth";
+import Google from "next-auth/providers/google";
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import { db } from "./db";
 
-import authConfig from "./auth.config"
-
-
+import authConfig from "./auth.config";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(db),
 
-  secret: process.env.AUTH_SECRET, session: { strategy: "jwt" },
+  secret: process.env.AUTH_SECRET,
+  session: { strategy: "jwt" },
   ...authConfig,
 
   callbacks: {
-    async session({ session }) {
-      // Map session fields here
-
+    jwt({ token, user }) {
+      if (user) {
+        // User is available during sign-in
+        token.id = user.id;
+      }
+      return token;
+    },
+    session({ session, token }) {
+      session.user.id = token.id as string;
       return session;
     },
     async signIn({ user }) {
       // Ensure data integrity here
-      console.log(user)
+      console.log(user);
       return true;
     },
   },
-})
+});
