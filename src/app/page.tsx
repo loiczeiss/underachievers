@@ -2,6 +2,9 @@ import Welcome from "@/components/welcome";
 import { db } from "@/db";
 import { auth } from "@/auth";
 import HomeClientSide from "@/components/homeClientSide";
+import Loading from "./loading";
+
+
 export default async function Home() {
   const textPosts = await db.textPost.findMany({});
 
@@ -32,7 +35,8 @@ const comments = await db.comment.findMany();
   } else {
     return (
       <>
-        <HomeClientSide
+      {/* <Loading/> */}
+ <HomeClientSide
           allPosts={allPosts}
           textPosts={textPosts}
           imgPosts={imgPosts}

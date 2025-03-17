@@ -10,6 +10,9 @@ import {
   PostType,
   TextPost,
 } from "@prisma/client";
+import { Suspense } from "react";
+import Loading from "@/app/loading";
+
 
 interface AllPostListprops {
   audios: Audio[];
@@ -35,11 +38,11 @@ export default function HomeClientSide(props: AllPostListprops) {
       <div className="flex flex-col lg:flex-row w-full ">
         <NavLinks />
 
-        <AllPostList
+        <Suspense fallback={<p>Loading feed...</p>} ><AllPostList
           posts={props.allPosts}
           audios={props.audios}
           comments={props.comments}
-        />
+        /></Suspense>
       </div>
     </>
   );
