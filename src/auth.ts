@@ -13,21 +13,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
 
   callbacks: {
-    jwt({ token, user }) {
-      if (user) {
-        // User is available during sign-in
-        token.id = user.id;
-      }
-      return token;
-    },
-    session({ session, token }) {
-      session.user.id = token.id as string;
+    async session({ session }) {
+      // Map session fields here
+
       return session;
     },
     async signIn({ user }) {
       // Ensure data integrity here
-      console.log(user);
+      console.log(user)
       return true;
     },
   },
-});
+})
