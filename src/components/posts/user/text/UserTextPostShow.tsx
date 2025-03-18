@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Card } from "@nextui-org/react";
+import { Button, Card } from "@heroui/react";
 import paths from "@/paths";
 import { redirect } from "next/navigation";
 import { Comment, PostType } from "@prisma/client";
@@ -37,9 +37,9 @@ export default function UserTextPostShow(props: PostShowProps) {
   return (
     <>
       <div className="w-full flex flex-col items-center">
-        <Card isBlurred className="mt-8 mx-8 lg:w-1/2 lg:px-8  mb-8 flex items-center">
+        <Card isBlurred className="mt-8 mx-8 lg:w-1/2 lg:px-8  mb-8 flex items-center dark:text-zinc-300 dark:bg-black/25">
           <h1 className="my-4 text-xl uppercase">{props.post.title}</h1>
-          <Card isBlurred className="mt-2 mb-4 p-2 text-sm lg:text-base">{props.post.content}</Card>
+          <Card isBlurred className="mt-2 mb-4 p-2 text-sm lg:text-base dark:text-zinc-300 dark:bg-black/25">{props.post.content}</Card>
              <div className="flex mb-2">
                     {" "}
                     <VoteButton postId={props.post.id} postType="TEXT" />
@@ -58,7 +58,7 @@ export default function UserTextPostShow(props: PostShowProps) {
         <Card isBlurred className="mb-4">
           {" "}
           <Button
-            className="bg-transparent"
+            className="bg-transparent dark:text-zinc-300 dark:bg-black/25 dark:hover:bg-black/75"
             onPress={() => redirect(paths.userPostsPage(props.post.userId))}
           >
             Back

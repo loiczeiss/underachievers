@@ -1,6 +1,6 @@
-"use client";
+  "use client";
 
-import { Button, Card } from "@nextui-org/react";
+import { Button, Card } from "@heroui/react";
 import { Comment,  TextPost } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
@@ -28,7 +28,7 @@ export default function TextPostShow(props: PostShowProps) {
       {" "}
       <Card
         isBlurred
-        className="mt-8 mx-8 lg:w-1/2 lg:px-8  mb-8 flex items-center"
+        className="mt-8 mx-8 lg:w-1/2 lg:px-8  mb-8 flex items-center dark:bg-black/25 dark:text-zinc-300"
       >
         <h1 className="my-4 text-xl uppercase">{props.post.title}</h1>
         <p className="mb-8">{props.post.content}</p>

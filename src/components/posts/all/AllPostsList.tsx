@@ -1,7 +1,7 @@
 "use client";
 
 import paths from "@/paths";
-import { Card, Button } from "@nextui-org/react";
+import { Card, Button } from "@heroui/react";
 import { CldImage } from "next-cloudinary";
 import Link from "next/link";
 import AudioPlayer from "react-h5-audio-player";
@@ -82,14 +82,14 @@ export default function AllPostList(props: AllPostListprops) {
     return (
       <Card
         isBlurred
-        className="lg:mx-8 mb-4 lg:mr-8 py-4 px-2 sm:px-8"
+        className="lg:mx-8 mb-4 lg:mr-8 py-4 px-2 sm:px-8 dark:bg-black/25"
         key={post.id}
       >
-        <div className="uppercase lg:text-2xl">{post.title}</div>
+        <div className="uppercase lg:text-2xl dark:text-zinc-300" >{post.title}</div>
         {audio ? (
           <AudioPlayer
             header={audio.displayName}
-            className="mt-4 mb-2"
+            className="mt-4 mb-2 dark:invert"
             autoPlay={false}
             src={audio.url}
           />
@@ -106,7 +106,7 @@ export default function AllPostList(props: AllPostListprops) {
          alt="Uploaded Image"
        /></Zoom>
         )}
-        <Card isBlurred className="mt-2 mb-4 p-2 text-sm lg:text-base">
+        <Card isBlurred className="mt-2 mb-4 p-2 text-sm lg:text-base dark:text-zinc-300">
           {post.content}
         </Card>
         <div className="flex w-full justify-between">
@@ -120,7 +120,7 @@ export default function AllPostList(props: AllPostListprops) {
             {" "}
             <Button
               as={Link} // Pass the Link component directly to the Button
-              className="w-12 md:w-48 lg:w-64 bg-white/25"
+              className="w-12 md:w-48 lg:w-64 bg-white/25 dark:bg-black/25 dark:text-zinc-300"
               href={handleRedirect(post)}
             >
               View

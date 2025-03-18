@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Card, Input, Textarea } from "@nextui-org/react";
+import { Button, Card, Input, Textarea } from "@heroui/react";
 import { CldUploadButton, CldImage } from "next-cloudinary";
 import * as actions from "@/actions";
 
@@ -73,7 +73,7 @@ export default function CreateImgPost() {
 
   return (
     <>
-      <Card isBlurred className="mx-8 lg:mx-0 lg:w-2/3 my-8 p-8">
+      <Card isBlurred className="mx-8 lg:mx-0 lg:w-2/3 my-8 p-8 dark:bg-black/25 dark:text-zinc-300">
         <h1 className="pb-4">
           Give your post a title, image and a short description
         </h1>
@@ -83,8 +83,8 @@ export default function CreateImgPost() {
             variant="bordered"
             name="title"
             classNames={{
-              input: "placeholder:text-black",
-              inputWrapper: "border-white/20",
+              input: "placeholder:text-black dark:placeholder:text-zinc-300",
+              inputWrapper: "border-white/20 dark:border-black/25",
             }}
             isClearable
             placeholder="Title"
@@ -100,7 +100,7 @@ export default function CreateImgPost() {
                   formState.errors.imgUrl
                     ? "border-rose-500"
                     : "border-white/25"
-                } rounded-xl border p-4`}
+                } rounded-xl border p-4 dark:border-black/25 dark-text-zinc-300`}
                 onSuccess={handleUploadSuccess}
               />
               <p className="text-rose-500 text-[12px] mb-4">
@@ -120,7 +120,7 @@ export default function CreateImgPost() {
               />
               <Button
                 variant="bordered"
-                className="border-white/25 lg:self-center lg:ml-4"
+                className="border-white/25 lg:self-center lg:ml-4 dark:border-black/25 dark:text-zinc-300"
                 onPress={handleDeletingImg}
               >
                 Delete Image
@@ -139,17 +139,17 @@ export default function CreateImgPost() {
             errorMessage={formState.errors.content?.join(", ")}
             variant="bordered"
             classNames={{
-              input: "placeholder:text-black",
-              inputWrapper: "border-white/20",
+              input: "placeholder:text-black dark:placeholder:text-zinc-300",
+              inputWrapper: "border-white/20 dark:border-black/25",
             }}
             name="content"
             placeholder="Content"
           />
           <Button
-            className="mt-4 lg:w-1/4 self-end bg-white/20 shadow"
+            className="mt-4 lg:w-1/4 self-end bg-white/20 shadow  dark:bg-black/25 dark:text-zinc-300 dark:hover:bg-black/75"
             type="submit"
           >
-            Create image post
+            Create
           </Button>
           {formState.errors._form ? (
             <div className="rounded p-2 bg-red-200 border border-red-400">

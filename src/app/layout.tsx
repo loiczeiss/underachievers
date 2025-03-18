@@ -5,6 +5,7 @@ import "./globals.css";
 import Header from "../components/header/Header";
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Analytics } from '@vercel/analytics/next';
+import { ThemeSwitcher } from "@/components/ThemeSwitcher";
 
 
 const zenDots = Zen_Dots({
@@ -34,6 +35,7 @@ export default function RootLayout({
           <Providers>
             <Header />
             {children}
+            <ThemeSwitcher/>
             <Analytics />
             <SpeedInsights />
           </Providers>

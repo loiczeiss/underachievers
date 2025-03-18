@@ -1,9 +1,10 @@
 "use client";
 
-import { Button } from "@nextui-org/react";
+import { Button } from "@heroui/react";
 import { redirect } from "next/navigation";
 import paths from "@/paths";
 import { PostType } from "@prisma/client";
+import { useTheme } from "next-themes";
 
 interface CommentButtonProps {
   commentsLength: number;
@@ -25,7 +26,7 @@ interface CommentButtonProps {
 }
 
 export default function CommentButton(props: CommentButtonProps) {
-
+  const { theme, setTheme } = useTheme()
 
   const handleRedirect = (post: CommentButtonProps["post"]) => {
     if (post.postType === "IMAGE") {
@@ -56,7 +57,7 @@ export default function CommentButton(props: CommentButtonProps) {
   return (
     <Button
       startContent={<CommentIcon />}
-      className="rounded-2xl bg-white/25 m-0 ml-2"
+      className={`${theme === 'dark' ? 'invert' : ''} dark:text-black rounded-2xl bg-white/25 m-0 ml-2`}
       onPress={() => redirect(handleRedirect(props.post))}
     >
       {props.commentsLength}

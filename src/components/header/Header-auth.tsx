@@ -6,7 +6,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@nextui-org/react";
+} from "@heroui/react";
 
 import { useSession } from "next-auth/react";
 
@@ -32,9 +32,9 @@ export default function HeaderAuth() {
               className="lg:ml-8 ml-4 w-8 h-8"
             />
           </PopoverTrigger>
-          <PopoverContent>
-            <div className="p-4 flex flex-col items-center">
-              <p className="mb-4 text-center">{session.data.user.name}</p>
+          <PopoverContent className="dark:bg-black/85">
+            <div className="p-4 flex flex-col items-center ">
+              <p className="mb-4 text-center dark:text-zinc-200">{session.data.user.name}</p>
               <Button
                 className="mb-4"
                 onPress={() =>
@@ -44,7 +44,7 @@ export default function HeaderAuth() {
                 My posts
               </Button>
               <form action={actions.signOut}>
-                <Button type="submit">Sign Out</Button>
+                <Button className="dark:text-zinc-100 " type="submit">Sign Out</Button>
               </form>
             </div>
           </PopoverContent>
@@ -55,7 +55,7 @@ export default function HeaderAuth() {
     authContent = (
       <>
         <form action={actions.signIn}>
-          <Button type="submit" color="default" variant="solid">
+          <Button className="dark:text-zinc-100 dark:bg-black/25"  type="submit" color="default" variant="solid">
             Sign In
           </Button>
         </form>

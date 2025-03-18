@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Card } from "@nextui-org/react";
+import { Button, Card } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
@@ -52,7 +52,7 @@ export default function AudioPostShow(props: AudioPostShowProps) {
   };
   return (
     <div className="w-full flex flex-col items-center">
-      <Card isBlurred className="mt-8 mx-8 lg:w-1/2 lg:px-8  mb-8 flex items-center">
+      <Card isBlurred className="mt-8 mx-8 lg:w-1/2 lg:px-8  mb-8 flex items-center ">
         <h1 className="my-4 text-xl uppercase">{props.post.title}</h1>
         {props.audio ? (
           <AudioPlayer

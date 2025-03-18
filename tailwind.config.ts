@@ -1,5 +1,5 @@
 // tailwind.config.js
-import { nextui } from "@nextui-org/react";
+import { heroui } from "@heroui/react";
 import type { Config } from "tailwindcss";
 
 /** @type {Config} */
@@ -9,7 +9,7 @@ const config = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     // Include NextUI's theme files from node_modules
-    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}"
+    "./node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}"
   ],
   
   theme: {
@@ -21,7 +21,7 @@ const config = {
     },
   },
   darkMode: "class", // Enables dark mode using the "class" strategy
-  plugins: [nextui(), require('tailwind-scrollbar')({ nocompatible: true }),
+  plugins: [heroui(), require('tailwind-scrollbar')({ nocompatible: true }),
     
   ], // Adds NextUI's Tailwind plugin
 };

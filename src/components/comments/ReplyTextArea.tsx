@@ -1,4 +1,4 @@
-import { Card, Form, Textarea, Button } from "@nextui-org/react";
+import { Card, Form, Textarea, Button } from "@heroui/react";
 import { Dispatch, forwardRef, SetStateAction, useState } from "react";
 import * as actions from "@/actions";
 import { useFormState } from "react-dom";
@@ -23,7 +23,7 @@ const ReplyTextArea = forwardRef<HTMLTextAreaElement, ReplyTextAreaProps>(
       <Card
         className={`${
           !isHidden && commentConfirmationId === commentId ? "block" : "hidden"
-        } bg-white/25 `}
+        } bg-white/25 dark:bg-black/55 `}
       >
         <Form action={action} className="flex flex-col" validationBehavior="native">
           <Textarea
@@ -40,14 +40,15 @@ const ReplyTextArea = forwardRef<HTMLTextAreaElement, ReplyTextAreaProps>(
             variant="bordered"
             isClearable
             classNames={{
-              input: "placeholder:text-gray-600",
+              input: "placeholder:text-gray-600 dark:placeholder:text-zinc-300",
               inputWrapper: [
                 "border-none",
                 "hover:border-black",
                 "focus-within:!border-white/50",
+                "dark:text-zinc-300"
               ],
-              errorMessage: ["bg-white/25", "rounded-lg", "p-4"],
-              base: ["border-gray-800"],
+              errorMessage: ["bg-white/25 ","rounded-lg", "p-4"],
+              base: ["border-gray-800 "],
             }}
             name="content"
             placeholder="Reply..."
@@ -57,7 +58,7 @@ const ReplyTextArea = forwardRef<HTMLTextAreaElement, ReplyTextAreaProps>(
           <input type="hidden" name="postType" value={postType} />
           <Button type="submit" 
           // onPress={()=>setTimeout(()=>setIsHidden(true), 1000)}
-           className="w-42 bg-white/50 self-end m-4">
+           className="w-42 bg-white/50 self-end m-4 dark:text-zinc-300 dark:bg-black/25">
             Comment
           </Button>
         </Form>

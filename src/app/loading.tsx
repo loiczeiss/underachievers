@@ -1,6 +1,6 @@
 "use client"
 
-import { Card, Spinner } from "@nextui-org/react";
+import { Card, Spinner } from "@heroui/react";
 
 export default function Loading() {
   return (

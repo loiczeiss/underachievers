@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Card } from "@nextui-org/react";
+import { Button, Card } from "@heroui/react";
 import { Comment, ImgPost } from "@prisma/client";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
@@ -31,7 +31,7 @@ export default function UserImgPostShow(props: ImgPostShowProps) {
   return (
     <div className="w-full flex flex-col items-center">
       {" "}
-      <Card isBlurred className="mt-8 mx-8 lg:w-1/2 lg:px-8  mb-8 flex items-center">
+      <Card isBlurred className="mt-8 mx-8 lg:w-1/2 lg:px-8  mb-8 flex items-center dark:bg-black/25 dark:text-zinc-300">
         <h1 className="my-4 text-xl uppercase">{props.post.title}</h1>
         <Zoom>
           <CldImage
@@ -43,7 +43,7 @@ export default function UserImgPostShow(props: ImgPostShowProps) {
             alt="Uploaded Image"
           />
         </Zoom>
-        <Card isBlurred className="mt-2 mb-4 p-2 text-sm lg:text-base">
+        <Card isBlurred className="mt-2 mb-4 p-2 text-sm lg:text-base dark:bg-black/25 dark:text-zinc-300">
           {props.post.content}
         </Card>
         <div className="flex mb-2">
@@ -70,7 +70,7 @@ export default function UserImgPostShow(props: ImgPostShowProps) {
       <Card isBlurred className="my-4">
         {" "}
         <Button
-          className="bg-white/25"
+          className="bg-white/25 dark:bg-black/25 dark:text-zinc-300 dark:hover:bg-black/75"
           onPress={() => router.back()} // Use router.back() for dynamic navigation
         >
           Back

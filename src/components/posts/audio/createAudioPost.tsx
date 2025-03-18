@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Card, Input, Textarea } from "@nextui-org/react";
+import { Button, Card, Input, Textarea } from "@heroui/react";
 import * as actions from "@/actions";
 
 import { useActionState, useEffect, useState } from "react";
@@ -93,7 +93,7 @@ export default function CreateAudioPost() {
 
   return (
     <>
-      <Card isBlurred className="mx-8 lg:mx-0 lg:w-2/3 my-8 p-8">
+      <Card isBlurred className="mx-8 lg:mx-0 lg:w-2/3 my-8 p-8 dark:bg-black/25 dark:text-zinc-300">
         <h1 className="pb-4">
           Give your post a title and a short description and upload an audio
           file.
@@ -104,8 +104,8 @@ export default function CreateAudioPost() {
             variant="bordered"
             name="title"
             classNames={{
-              input: "placeholder:text-black",
-              inputWrapper: "border-white/20",
+              input: "placeholder:text-black dark:placeholder:text-zinc-300",
+              inputWrapper: "border-white/20 dark:border-black/25",
             }}
             isClearable
             placeholder="Title"
@@ -117,7 +117,7 @@ export default function CreateAudioPost() {
               <CldUploadButton
                 uploadPreset={CloudPresetName}
                 options={{ sources: ["local", "url"] }}
-                className={`rounded-xl  p-4  bg-white/25 hover:bg-white/50
+                className={`rounded-xl  p-4  bg-white/25 hover:bg-white/50 dark:bg-black/25 dark:hover:bg-black/75
                 ${
                   formState.errors.audioUrl
                     ? "border-rose-500"
@@ -159,17 +159,17 @@ export default function CreateAudioPost() {
             errorMessage={formState.errors.content?.join(", ")}
             variant="bordered"
             classNames={{
-              input: "placeholder:text-black",
-              inputWrapper: "border-white/20",
+              input: "placeholder:text-black dark:placeholder:text-zinc-300",
+              inputWrapper: "border-white/20 dark:border-black/25",
             }}
             name="content"
             placeholder="Content"
           />
           <Button
-            className="mt-4 lg:w-1/4 self-end bg-white/20 shadow hover:bg-white/50"
+            className="mt-4 lg:w-1/4 self-end bg-white/20 shadow hover:bg-white/50 dark:bg-black/25 dark:hover:bg-black/75 "
             type="submit"
           >
-            Create audio post
+            Create
           </Button>
           {formState.errors._form ? (
             <div className="rounded p-2 bg-red-200 border border-red-400">

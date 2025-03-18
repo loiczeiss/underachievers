@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@nextui-org/react";
+import { Button } from "@heroui/react";
 import { useState, useEffect } from "react";
 import * as actions  from "@/actions"; // Import server actions
 import { useSession } from "next-auth/react";
@@ -8,6 +8,7 @@ import { PostType } from "@prisma/client";
 import ArrowUp from "public/Icon-up-arrow.svg";
 import ArrowDown from "public/Icon-down-arrow.svg"
 import Image from "next/image";
+import { useTheme } from "next-themes";
 
 interface VoteButtonProps {
   commentId: string;
@@ -20,6 +21,7 @@ export default function VoteCommentButton({ commentId, postType }: VoteButtonPro
   const [loading, setLoading] = useState(true); // Tracks loading state
   const [voted, setVoted] = useState(false); // Tracks if user has voted
   const session = useSession();
+  const { theme, setTheme } = useTheme()
 
   // Fetch vote count on initial render
   useEffect(() => {
@@ -83,12 +85,12 @@ export default function VoteCommentButton({ commentId, postType }: VoteButtonPro
     <Button 
       onPress={handleVoteClick}
       disabled={loading}
-      className="bg-white/25"
+      className="bg-white/25 dark:text-zinc-300 dark:bg-black/25 dark:hover:bg-black/75"
     >
       {loading ? (
         "..."
       ) : (
-        <><Image priority src={voted ? ArrowDown : ArrowUp} alt="Vote" width={24} height={24} /><span className="">{voteCount}</span></>
+        <><Image priority src={voted ? ArrowDown : ArrowUp} alt="Vote" width={24} height={24} className={`${theme === 'dark' ? 'invert' : ''}`}/><span className="">{voteCount}</span></>
       )}
     </Button>
     

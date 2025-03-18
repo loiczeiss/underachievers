@@ -1,5 +1,5 @@
 import { forwardRef, useState, useRef, useActionState } from "react";
-import { Avatar, Button, Card, Form, Textarea } from "@nextui-org/react";
+import { Avatar, Button, Card, Form, Textarea } from "@heroui/react";
 import * as actions from "@/actions";
 import { Comment, PostType } from "@prisma/client";
 import dayjs from "dayjs";
@@ -68,7 +68,7 @@ const CommentsPost = forwardRef<HTMLTextAreaElement, CommentProps>(
       <>
         {" "}
         <div className="mb-4 lg:w-full mx-4">
-          <Card isBlurred className="bg-white/25">
+          <Card isBlurred className="bg-white/25 dark:bg-black/25">
             <Form
               action={action}
               className="flex flex-col"
@@ -86,7 +86,7 @@ const CommentsPost = forwardRef<HTMLTextAreaElement, CommentProps>(
                 variant="bordered"
                 isClearable
                 classNames={{
-                  input: "placeholder:text-gray-600",
+                  input: "placeholder:text-gray-600 dark:placeholder:text-zinc-300",
                   inputWrapper: [
                     "border-none",
                     "hover:border-black",
@@ -103,7 +103,7 @@ const CommentsPost = forwardRef<HTMLTextAreaElement, CommentProps>(
               <Button
                 isDisabled={commentContentValue.length < 3 ? true : false}
                 type="submit"
-                className="w-42 bg-white/50 self-end m-4"
+                className="w-42 bg-white/50 self-end m-4  dark:bg-black/25 dark:text-zinc-300"
               >
                 Comment
               </Button>
@@ -112,7 +112,7 @@ const CommentsPost = forwardRef<HTMLTextAreaElement, CommentProps>(
 
           {comments.filter((comment) => comment.parentId === null).length ===
           0 ? (
-            <Card isBlurred className="bg-white/25 p-4 mt-2">
+            <Card isBlurred className="bg-white/25 p-4 mt-2 dark:bg-black/25 dark:text-zinc-300">
               <p>No Comments Yet</p>
             </Card>
           ) : (
@@ -122,7 +122,7 @@ const CommentsPost = forwardRef<HTMLTextAreaElement, CommentProps>(
               .map((comment) => (
                 <Card
                   isBlurred
-                  className="bg-white/25 p-4 mt-2"
+                  className="bg-white/25 p-4 mt-2 dark:bg-black/25"
                   key={comment.id}
                 >
                   <div className="flex items-center pb-2 w-full">
@@ -130,10 +130,10 @@ const CommentsPost = forwardRef<HTMLTextAreaElement, CommentProps>(
                       src={comment.userImage || ""}
                       className="w-4 h-4  md:w-8 md:h-8 mr-4"
                     />
-                    <p className="text-gray-800 text-[8px] md:text-base">
+                    <p className="text-gray-800 text-[8px] md:text-base dark:text-zinc-300">
                       {comment.userName}
                     </p>
-                    <p className="text-[8px] md:text-xs text-gray-700 ml-4">
+                    <p className="text-[8px] md:text-xs text-gray-700 ml-4 dark:text-zinc-500">
                       {dayjs().to(dayjs(comment.createdAt))}
                     </p>
                     <Button

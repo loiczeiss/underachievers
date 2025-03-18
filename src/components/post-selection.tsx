@@ -1,9 +1,4 @@
-import {
-  Button,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@nextui-org/react";
+import { Button, Popover, PopoverContent, PopoverTrigger } from "@heroui/react";
 import { PlusCircle } from "./plusCircleIcon";
 import { useRouter } from "next/navigation";
 import paths from "@/paths";
@@ -12,28 +7,25 @@ export default function PostSelection() {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 
+  function useMediaQuery(query: string) {
+    const [matches, setMatches] = useState(false);
 
-function useMediaQuery(query: string) {
-  const [matches, setMatches] = useState(false);
+    useEffect(() => {
+      const media = window.matchMedia(query);
+      if (media.matches !== matches) {
+        setMatches(media.matches);
+      }
+      const listener = () => setMatches(media.matches);
+      media.addEventListener("change", listener);
+      return () => media.removeEventListener("change", listener);
+    }, [matches, query]);
 
-  useEffect(() => {
-    const media = window.matchMedia(query);
-    if (media.matches !== matches) {
-      setMatches(media.matches);
-    }
-    const listener = () => setMatches(media.matches);
-    media.addEventListener("change", listener);
-    return () => media.removeEventListener("change", listener);
-  }, [matches, query]);
+    return matches;
+  }
 
-  return matches;
-}
-
-
-const isMobile = useMediaQuery("(max-width: 768px)"); // Change based on your breakpoint
+  const isMobile = useMediaQuery("(max-width: 768px)"); // Change based on your breakpoint
 
   const placement = isMobile ? "bottom" : "left"; // Adjust placement based on screen size
-
 
   const handlePostTypeSelection = (postType: string) => {
     if (postType === "text") {
@@ -41,7 +33,7 @@ const isMobile = useMediaQuery("(max-width: 768px)"); // Change based on your br
     } else if (postType === "image") {
       router.push(paths.createImgPost());
     } else if (postType === "sound") {
-      router.push(paths.createAudioPost())
+      router.push(paths.createAudioPost());
     }
     setIsOpen(false);
   };
@@ -57,24 +49,24 @@ const isMobile = useMediaQuery("(max-width: 768px)"); // Change based on your br
           <PlusCircle />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="p-4 bg-white/25 md:bg-transparent shadow backdrop-blur-sm mt-4">
+      <PopoverContent className="p-4 bg-white/25 md:bg-transparent shadow backdrop-blur-sm mt-4 dark:bg-black/25">
         <div>
-          <h2>What kind of post do you want to create ?</h2>
+          <h2 className="dark:text-zinc-200">What kind of post do you want to create ?</h2>
           <div className="flex flex-col p-4">
             <Button
-              className="mt-4 bg-transparent shadow hover:bg-[#f2faff]"
+              className="mt-4 bg-transparent shadow hover:bg-[#f2faff] dark:bg-black/25"
               onPress={() => handlePostTypeSelection("text")}
             >
               Text
             </Button>
             <Button
-              className="mt-4 bg-transparent shadow hover:bg-[#f2faff]"
+              className="mt-4 bg-transparent shadow hover:bg-[#f2faff] dark:bg-black/25"
               onPress={() => handlePostTypeSelection("image")}
             >
               Image
             </Button>
             <Button
-              className="mt-4 bg-transparent shadow hover:bg-[#f2faff]"
+              className="mt-4 bg-transparent shadow hover:bg-[#f2faff] dark:bg-black/25"
               onPress={() => handlePostTypeSelection("sound")}
             >
               Sound

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import paths from "@/paths";
-import { Card, Button } from "@nextui-org/react";
+import { Card, Button } from "@heroui/react";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import "@/app/index.scss";
@@ -51,7 +51,7 @@ export default function UserAudioPostList(props: AudioPostListProps) {
   }, [props.audios]);
 
   const noPostYet = (
-    <Card isBlurred className="mx-8 mb-4 lg:mr-8 py-4 px-2 sm:px-8">
+    <Card isBlurred className="mx-8 mb-4 lg:mr-8 py-4 px-2 sm:px-8 dark:text-zinc-300 dark:bg-black/25">
       <p>No posts yet.</p>
     </Card>
   );
@@ -62,7 +62,7 @@ export default function UserAudioPostList(props: AudioPostListProps) {
     return (
       <Card
         isBlurred
-        className="mx-8 mb-4 lg:mr-8 py-4 px-2 sm:px-8"
+        className="mx-8 mb-4 lg:mr-8 py-4 px-2 sm:px-8 dark:text-zinc-300 dark:bg-black/25"
         key={post.id}
       >
         <div className="uppercase lg:text-2xl">{post.title}</div>
@@ -70,15 +70,15 @@ export default function UserAudioPostList(props: AudioPostListProps) {
         {audio ? (
           <AudioPlayer
             header={`${audio.displayName}`}
-            className="mt-4  mb-4"
+            className="mt-4  mb-4 dark:invert"
             autoPlay={false}
             src={audio.url}
           />
         ) : (
-          <p>Loading audio...</p>
+          <p className="dark:text-zinc-300">Loading audio...</p>
         )}
 
-        <Card isBlurred className="mt-2 mb-4 p-2 text-sm lg:text-base">
+        <Card isBlurred className="mt-2 mb-4 p-2 text-sm lg:text-base dark:text-zinc-300 dark:bg-black/25">
           {post.content}
         </Card>
         <div className="flex w-full justify-between">
@@ -96,7 +96,7 @@ export default function UserAudioPostList(props: AudioPostListProps) {
             <Button
               as={Link}
               href={`${paths.audioPostShowPage(post.id)}`}
-              className="lg:w-48 lg:w-64 bg-white/25"
+              className="lg:w-48 lg:w-64 bg-white/25 dark:text-zinc-300 dark:bg-black/25"
             >
               View
             </Button>

@@ -1,7 +1,7 @@
 "use client";
 
 import paths from "@/paths";
-import { Card, Button } from "@nextui-org/react";
+import { Card, Button } from "@heroui/react";
 import { CldImage } from "next-cloudinary";
 import Link from "next/link";
 import AudioPlayer from "react-h5-audio-player";
@@ -59,7 +59,7 @@ export default function UserAllPostList(props: AllPostListprops) {
 
   console.log(props.posts);
   const noPostYet = (
-    <Card isBlurred className="mx-8 mb-4 lg:mr-8 py-4 px-2 sm:px-8">
+    <Card isBlurred className="mx-8 mb-4 lg:mr-8 py-4 px-2 sm:px-8 dark:text-zinc-300 dark:bg-black/25">
       <p>No posts yet.</p>
     </Card>
   );
@@ -74,7 +74,7 @@ export default function UserAllPostList(props: AllPostListprops) {
     return (
       <Card
         isBlurred
-        className="mx-8 mb-4 lg:mr-8 py-4 px-2 sm:px-8"
+        className="mx-8 mb-4 lg:mr-8 py-4 px-2 sm:px-8 dark:text-zinc-300 dark:bg-black/25"
         key={Number(post.id)}
       >
         <div className="uppercase lg:text-2xl"> {post.title}</div>
@@ -93,12 +93,12 @@ export default function UserAllPostList(props: AllPostListprops) {
         {audio && (
           <AudioPlayer
             header={`${audio.displayName}`}
-            className="mb-4"
+            className="mb-4 dark:invert"
             autoPlay={false}
             src={audio.url}
           />
         )}
-        <Card isBlurred className="mt-2 mb-4 p-2 text-sm lg:text-base">
+        <Card isBlurred className="mt-2 mb-4 p-2 text-sm lg:text-base dark:text-zinc-300 dark:bg-black/25" >
           {post.content}
         </Card>
         <div className="flex w-full justify-between">
@@ -121,7 +121,7 @@ export default function UserAllPostList(props: AllPostListprops) {
                 ? paths.userAudioPostPage(post.userId, post.id)
                 : paths.userTextPostPage(post.userId, post.id)
             }
-            className="w-12 lg:w-48 lg:w-64 bg-white/25"
+            className="w-12 lg:w-48 lg:w-64 bg-white/25 dark:text-zinc-300 dark:bg-black/25"
           >
             View
           </Button>

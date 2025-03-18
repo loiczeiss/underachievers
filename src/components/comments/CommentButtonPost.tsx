@@ -1,15 +1,16 @@
 "use client";
 
-import { Button } from "@nextui-org/react";
-
+import { Button } from "@heroui/react";
+import { useTheme } from "next-themes";
 
 interface CommentButtonProps {
   commentsLength: number;
- onClick: ()=> void
+  onClick: () => void;
 }
 
 export default function CommentButtonPosts(props: CommentButtonProps) {
- 
+  const { theme, setTheme } = useTheme();
+
   const CommentIcon = () => {
     return (
       <svg
@@ -30,7 +31,9 @@ export default function CommentButtonPosts(props: CommentButtonProps) {
   return (
     <Button
       startContent={<CommentIcon />}
-      className="rounded-2xl bg-white/25 m-0 ml-2"
+      className={`${
+        theme === "dark" ? "invert" : ""
+      } rounded-2xl bg-white/25 m-0 ml-2 text-black dark:hover:bg-white/75`}
       onPress={props.onClick} // Call the focus function
     >
       {props.commentsLength}
