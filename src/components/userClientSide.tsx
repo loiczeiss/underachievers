@@ -49,7 +49,10 @@ export default function UserClientSide(props: AllPostListprops) {
   const [mediaTypeFilter, setMediaTypeFIlter] = useState(0);
   return (
     <>
-      <Card isBlurred className="w-10/12 mx-8 text-center py-4 mt-4 text-2xl dark:bg-black/25 dark:text-zinc-300">
+      <Card
+        isBlurred
+        className="w-10/12 mx-8 text-center py-4 mt-4 text-2xl dark:bg-black/25 dark:text-zinc-300"
+      >
         My posts
       </Card>
       <div className="flex flex-col lg:flex-row w-full">

@@ -71,6 +71,7 @@ export default function CreateImgPost() {
     };
   }, [uploadedImage]);
 
+  
   return (
     <>
       <Card isBlurred className="mx-8 lg:mx-0 lg:w-2/3 my-8 p-8 dark:bg-black/25 dark:text-zinc-300">

@@ -16,38 +16,56 @@ interface PostListProps {
     userId: string;
     createdAt: Date;
     updatedAt: Date;
-    postType: PostType
+    postType: PostType;
   }[];
 }
 
 export const dynamicParams = true;
 
 export default function TextPostList(props: PostListProps) {
+  console.log(props.comments);
+
   const noPostYet = (
-    <Card isBlurred className="mx-8 mb-4 lg:mr-8 py-4 px-2 sm:px-8 dark:bg-black/25 dark:text-zinc-300">
+    <Card
+      isBlurred
+      className="mx-8 mb-4 lg:mr-8 py-4 px-2 sm:px-8 dark:bg-black/25 dark:text-zinc-300"
+    >
       <p>No posts yet.</p>
     </Card>
   );
 
   const renderedPosts = [...props.posts].reverse().map((post) => {
+    // Filter comments for the current post
+    const postComments = props.comments.filter(
+      (comment) => comment.textPostId === post.id
+    );
+
     return (
       <Card
         isBlurred
         className="lg:mx-8 mb-4 lg:mr-8 py-4 px-2 sm:px-8 dark:bg-black/25 dark:text-zinc-300"
         key={post.id}
       >
-        <div className="uppercase lg:text-2xl"> {post.title}</div>
-        <Card isBlurred className="mt-2 mb-4 p-2 text-sm lg:text-base dark:bg-black/25 dark:text-zinc-300">
+        <div className="uppercase lg:text-2xl">{post.title}</div>
+        <Card
+          isBlurred
+          className="mt-2 mb-4 p-2 text-sm lg:text-base dark:bg-black/25 dark:text-zinc-300"
+        >
           {post.content}
         </Card>
         <div className="flex w-full justify-between">
           <div className="flex">
             <VoteButton postId={post.id} postType={post.postType} />
-            <CommentButton commentsLength={props.comments.length} post={post} postType={post.postType} postId={post.id} />
+            <CommentButton
+              commentsLength={postComments.length}
+              post={post}
+              postType={post.postType}
+              postId={post.id}
+            />
           </div>
           <div>
             <Button
-              as={Link} // Make Button act as a Link
+              as={Link}
               href={`${paths.textPostShow(post.id)}`}
               className="w-12 md:w-48 lg:w-64 bg-white/25 dark:bg-black/25 dark:text-zinc-300"
             >
@@ -58,11 +76,10 @@ export default function TextPostList(props: PostListProps) {
       </Card>
     );
   });
+
   return (
-    <>
-      <div className="self-center w-5/6 lg:w-4/6 flex flex-col my-4 overscroll-contain">
-        {props.posts.length === 0 ? noPostYet : renderedPosts}
-      </div>
-    </>
+    <div className="self-center w-5/6 lg:w-4/6 flex flex-col my-4 overscroll-contain">
+      {props.posts.length === 0 ? noPostYet : renderedPosts}
+    </div>
   );
 }

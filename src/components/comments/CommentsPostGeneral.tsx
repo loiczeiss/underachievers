@@ -86,7 +86,7 @@ const CommentsPost = forwardRef<HTMLTextAreaElement, CommentProps>(
                 variant="bordered"
                 isClearable
                 classNames={{
-                  input: "placeholder:text-gray-600 dark:placeholder:text-zinc-300",
+                  input: "placeholder:text-gray-600 dark:placeholder:text-zinc-300 dark:text-zinc-200",
                   inputWrapper: [
                     "border-none",
                     "hover:border-black",
