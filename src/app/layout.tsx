@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Head>
-        <link rel="preload" href="./globals.css" as="style" /> {/* Preload main.css */}
+        <link rel="preload" href="./globals.css" as="style" />
       </Head>
       <body className={`${zenDots.className} antialiased`}>
         <div className="w-screen h-full overflow-scroll">

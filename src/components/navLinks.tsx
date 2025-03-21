@@ -14,25 +14,25 @@ export default function NavLinks() {
       >
       
           <Button
-            className="w-full bg-transparent text-xl hover:bg-white/25 py-2 px-4 rounded-none dark:text-zinc-300"
+            className="w-full bg-transparent text-xl hover:bg-white/25 py-2 px-4 rounded-none dark:text-zinc-300 dark:hover:bg-black/25"
             onPress={() => redirect(paths.home())}
           >
             All
           </Button>
           <Button
-            className="w-full bg-transparent text-xl hover:bg-white/25 py-2 px-4 rounded-none dark:text-zinc-300"
+            className="w-full bg-transparent text-xl hover:bg-white/25 py-2 px-4 rounded-none dark:text-zinc-300 dark:hover:bg-black/25"
             onPress={()=>redirect(paths.imgPostsListPage())}
           >
             Drawing
           </Button>
           <Button
-            className="w-full bg-transparent text-xl hover:bg-white/25 py-2 px-4 rounded-none dark:text-zinc-300"
+            className="w-full bg-transparent text-xl hover:bg-white/25 py-2 px-4 rounded-none dark:text-zinc-300 dark:hover:bg-black/25"
             onPress={() => redirect(paths.textPostsListPage())}
           >
             Writing
           </Button>
           <Button
-            className="w-full bg-transparent text-xl hover:bg-white/25 py-2 px-4 rounded-none dark:text-zinc-300"
+            className="w-full bg-transparent text-xl hover:bg-white/25 py-2 px-4 rounded-none dark:text-zinc-300 dark:hover:bg-black/25"
             onPress={() => redirect(paths.audioPostListPage())}
           >
             Musics
