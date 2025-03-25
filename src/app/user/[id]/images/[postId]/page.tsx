@@ -12,17 +12,22 @@ interface PostShowPageProps {
 export default async function ImgPostShowPage(props: PostShowPageProps) {
   const params = await props.params;
 
-  const post = await db.imgPost.findFirst({ where: { id: params.postId } });
+  const post = await db.imgPost.findFirst({
+    where: { id: params.postId },
+    cacheStrategy: { swr: 60 },
+  });
   const comments = await db.comment.findMany({
     where: { imgPostId: params.postId },
+    cacheStrategy: { swr: 60 },
   });
   const replies = await db.comment.findMany({
     where: {
       AND: [
         { imgPostId: params.id }, // Matches the specific audio post ID
-        { parentId: { not: null } } // Ensures parentId exists (i.e., it's a reply)
-      ]
-    }
+        { parentId: { not: null } }, // Ensures parentId exists (i.e., it's a reply)
+      ],
+    },
+    cacheStrategy: { swr: 60 },
   });
   if (!post) {
     return <div className="flex justify-center">Post not found.</div>;
@@ -36,7 +41,7 @@ export default async function ImgPostShowPage(props: PostShowPageProps) {
   return (
     <div className="flex justify-center">
       <UserImgPostShow
-      replies={replies}
+        replies={replies}
         post={post}
         deleteImgPost={deleteImgPostAction}
         comments={comments}

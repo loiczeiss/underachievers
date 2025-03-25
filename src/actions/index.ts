@@ -34,7 +34,4 @@ export { getVoteDataAudio } from './vote/audio/getVoteDataAudio'; // Get vote da
 export { handleVoteComment } from './vote/comment/handleVoteComment'; // Handle vote on comment
 export { getVoteDataComment } from './vote/comment/getVoteDataComment'; // Get vote data for comment
 
-export function deleteCommentGeneral(commentId: string, audioPostId: string) {
-  throw new Error("Function not implemented.");
-}
 

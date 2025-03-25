@@ -12,18 +12,26 @@ interface PostShowPageProps {
 export default async function AudioPostShowPage(props: PostShowPageProps) {
   const params = await props.params;
 
-  const post = await db.audioPost.findFirst({ where: { id: params.postId } });
-  const audio = await db.audio.findFirst({ where: { id: post?.audioId } });
+  const post = await db.audioPost.findFirst({
+    where: { id: params.postId },
+    cacheStrategy: { swr: 60 },
+  });
+  const audio = await db.audio.findFirst({
+    where: { id: post?.audioId },
+    cacheStrategy: { swr: 60 },
+  });
   const comments = await db.comment.findMany({
     where: { audioPostId: params.postId },
+    cacheStrategy: { swr: 60 },
   });
   const replies = await db.comment.findMany({
     where: {
       AND: [
         { audioPostId: params.id }, // Matches the specific audio post ID
-        { parentId: { not: null } } // Ensures parentId exists (i.e., it's a reply)
-      ]
-    }
+        { parentId: { not: null } }, // Ensures parentId exists (i.e., it's a reply)
+      ],
+    },
+    cacheStrategy: { swr: 60 },
   });
   if (!post) {
     return <div className="flex justify-center">Post not found.</div>;
@@ -37,7 +45,7 @@ export default async function AudioPostShowPage(props: PostShowPageProps) {
   return (
     <div className="flex justify-center">
       <UserAudioPostShow
-      replies={replies}
+        replies={replies}
         post={post}
         deleteAudioPost={deleteAudioPostAction}
         audio={audio}

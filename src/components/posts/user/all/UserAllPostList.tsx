@@ -75,9 +75,10 @@ export default function UserAllPostList(props: AllPostListprops) {
       <Card
         isBlurred
         className="mx-8 mb-4 lg:mr-8 py-4 px-2 sm:px-8 dark:text-zinc-300 dark:bg-black/25"
-        key={Number(post.id)}
+        // key={Number(post.id)}
       >
         <div className="uppercase lg:text-2xl"> {post.title}</div>
+        <p>{post.id}</p>
         {post.imgUrl && (
           <Zoom>
             <CldImage
