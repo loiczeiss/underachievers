@@ -4,7 +4,7 @@ import Welcome from "@/components/welcome";
 import { db } from "@/db";
 import { auth } from "@/auth";
 import HomeClientSide from "@/components/homeClientSide";
-
+export const revalidate = 60; // Cache for 60 seconds
 export default async function Home() {
   const textPosts = await db.textPost.findMany({ cacheStrategy: { swr: 60 } });
 

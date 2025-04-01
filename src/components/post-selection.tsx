@@ -45,30 +45,37 @@ export default function PostSelection() {
       onOpenChange={(open) => setIsOpen(open)}
     >
       <PopoverTrigger>
-        <Button aria-label="new post" isIconOnly className="rounded-3xl " variant="ghost">
+        <Button
+          aria-label="new post"
+          isIconOnly
+          className="rounded-3xl "
+          variant="ghost"
+        >
           <PlusCircle />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="p-4 bg-white/25 md:bg-transparent shadow backdrop-blur-sm mt-4 dark:bg-black/25">
         <div>
-          <h2 className="dark:text-zinc-200">What kind of post do you want to create ?</h2>
+          <h2 className="dark:text-zinc-200">
+            What kind of post do you want to create ?
+          </h2>
           <div className="flex flex-col p-4">
             <Button
-            aria-label="Text post creation"
+              aria-label="Text post creation"
               className="mt-4 bg-transparent shadow hover:bg-[#f2faff] dark:bg-black/25"
               onPress={() => handlePostTypeSelection("text")}
             >
               Text
             </Button>
             <Button
-            aria-label="Image post creation"
+              aria-label="Image post creation"
               className="mt-4 bg-transparent shadow hover:bg-[#f2faff] dark:bg-black/25"
               onPress={() => handlePostTypeSelection("image")}
             >
               Image
             </Button>
             <Button
-            aria-label="Sound post creation"
+              aria-label="Sound post creation"
               className="mt-4 bg-transparent shadow hover:bg-[#f2faff] dark:bg-black/25"
               onPress={() => handlePostTypeSelection("sound")}
             >

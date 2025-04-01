@@ -17,16 +17,15 @@ interface CommentButtonProps {
     imgUrl?: string;
     createdAt: Date;
     updatedAt: Date;
-  postType: PostType
-
+    postType: PostType;
   };
 
   postId?: string;
-  postType: PostType
+  postType: PostType;
 }
 
 export default function CommentButton(props: CommentButtonProps) {
-  const { theme, setTheme } = useTheme()
+  const { theme, setTheme } = useTheme();
 
   const handleRedirect = (post: CommentButtonProps["post"]) => {
     if (post.postType === "IMAGE") {
@@ -56,9 +55,11 @@ export default function CommentButton(props: CommentButtonProps) {
 
   return (
     <Button
-    aria-label="Comments"
+      aria-label="Comments"
       startContent={<CommentIcon />}
-      className={`${theme === 'dark' ? 'invert' : ''} dark:text-black rounded-2xl bg-white/25 m-0 ml-2`}
+      className={`${
+        theme === "dark" ? "invert" : ""
+      } dark:text-black rounded-2xl bg-white/25 m-0 ml-2`}
       onPress={() => redirect(handleRedirect(props.post))}
     >
       {props.commentsLength}

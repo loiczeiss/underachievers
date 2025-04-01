@@ -34,9 +34,11 @@ export default function HeaderAuth() {
           </PopoverTrigger>
           <PopoverContent className="dark:bg-black/85">
             <div className="p-4 flex flex-col items-center ">
-              <p className="mb-4 text-center dark:text-zinc-200">{session.data.user.name}</p>
+              <p className="mb-4 text-center dark:text-zinc-200">
+                {session.data.user.name}
+              </p>
               <Button
-              aria-label="My posts"
+                aria-label="My posts"
                 className="mb-4"
                 onPress={() =>
                   redirect(paths.userPostsPage(session.data.user?.id as string))
@@ -45,7 +47,13 @@ export default function HeaderAuth() {
                 My posts
               </Button>
               <form action={actions.signOut}>
-                <Button className="dark:text-zinc-100 " type="submit" aria-label="Sign out">Sign Out</Button>
+                <Button
+                  className="dark:text-zinc-100 "
+                  type="submit"
+                  aria-label="Sign out"
+                >
+                  Sign Out
+                </Button>
               </form>
             </div>
           </PopoverContent>
@@ -56,7 +64,13 @@ export default function HeaderAuth() {
     authContent = (
       <>
         <form action={actions.signIn}>
-          <Button className="dark:text-zinc-100 dark:bg-black/25"  type="submit" color="default" variant="solid" aria-label="Sign in">
+          <Button
+            className="dark:text-zinc-100 dark:bg-black/25"
+            type="submit"
+            color="default"
+            variant="solid"
+            aria-label="Sign in"
+          >
             Sign In
           </Button>
         </form>
