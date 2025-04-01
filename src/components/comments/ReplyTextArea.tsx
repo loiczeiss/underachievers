@@ -71,7 +71,7 @@ const ReplyTextArea = forwardRef<HTMLTextAreaElement, ReplyTextAreaProps>(
           <input type="hidden" name="postType" value={postType} />
           <Button
             type="submit"
-            name="Comment"
+            id="Comment"
             className="w-42 bg-white/50 self-end m-4 dark:text-zinc-300 dark:bg-black/25"
           >
             Comment

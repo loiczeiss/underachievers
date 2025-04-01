@@ -73,7 +73,7 @@ export default function AudioPostShow(props: AudioPostShowProps) {
       </Card>
       <Card isBlurred className="mb-4">
         <Button
-        name="Back"
+        id="Back"
           className="bg-white/25 dark:bg-black/25 dark:hover:bg-black/75"
           onPress={() => router.back()} 
         >

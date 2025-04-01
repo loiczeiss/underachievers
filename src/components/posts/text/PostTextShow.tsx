@@ -49,7 +49,7 @@ export default function TextPostShow(props: PostShowProps) {
       </Card>{" "}
       <Card isBlurred className="mb-4">
         {" "}
-        <Button name="Back" className="bg-white/25" onPress={() => router.back()}>
+        <Button id="Back" className="bg-white/25" onPress={() => router.back()}>
           Back
         </Button>
       </Card>

@@ -62,7 +62,7 @@ export default function UserImgPostShow(props: ImgPostShowProps) {
           ref={textareaRef}
         />
         <form action={props.deleteImgPost}>
-          <Button className="w-48 mb-4 bg-red-400" type="submit">
+          <Button id="Delete" className="w-48 mb-4 bg-red-400" type="submit">
             Delete the post
           </Button>
         </form>
@@ -70,7 +70,7 @@ export default function UserImgPostShow(props: ImgPostShowProps) {
       <Card isBlurred className="my-4">
         {" "}
         <Button
-        name="Back"
+        id="Back"
           className="bg-white/25 dark:bg-black/25 dark:text-zinc-300 dark:hover:bg-black/75"
           onPress={() => router.back()} // Use router.back() for dynamic navigation
         >

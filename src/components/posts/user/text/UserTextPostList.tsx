@@ -53,7 +53,7 @@ export default function UserTextPostList(props: PostListProps) {
           <div>
             {" "}
             <Button
-            name="View"
+            id="View"
               as={Link} // Use Link as the underlying component
               href={`${paths.userTextPostPage(post.userId, post.id)}`}
               className="ml-2 lg:w-48 lg:w-64 bg-white/25 dark:text-zinc-300 dark:bg-black/25"

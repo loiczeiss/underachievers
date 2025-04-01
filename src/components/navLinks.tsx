@@ -16,28 +16,28 @@ export default function NavLinks() {
           <Button
             className="w-full bg-transparent text-xl hover:bg-white/25 py-2 px-4 rounded-none dark:text-zinc-300"
             onPress={() => redirect(paths.home())}
-            name="All"
+            id="All"
           >
             All
           </Button>
           <Button
             className="w-full bg-transparent text-xl hover:bg-white/25 py-2 px-4 rounded-none dark:text-zinc-300"
             onPress={()=>redirect(paths.imgPostsListPage())}
-            name="Drawing"
+            id="Drawing"
           >
             Drawing
           </Button>
           <Button
             className="w-full bg-transparent text-xl hover:bg-white/25 py-2 px-4 rounded-none dark:text-zinc-300"
             onPress={() => redirect(paths.textPostsListPage())}
-            name="Writing"
+            id="Writing"
           >
             Writing
           </Button>
           <Button
             className="w-full bg-transparent text-xl hover:bg-white/25 py-2 px-4 rounded-none dark:text-zinc-300"
             onPress={() => redirect(paths.audioPostListPage())}
-            name="Musics"
+            id="Musics"
           >
             Musics
           </Button>

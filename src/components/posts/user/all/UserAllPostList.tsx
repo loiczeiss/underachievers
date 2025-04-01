@@ -114,7 +114,7 @@ export default function UserAllPostList(props: AllPostListprops) {
             />
           </div>
           <Button
-          name="View"
+          id="View"
             as={Link}
             href={
               post.imgUrl

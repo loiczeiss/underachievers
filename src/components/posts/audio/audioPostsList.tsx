@@ -93,7 +93,7 @@ export default function AudioPostList(props: AudioPostListProps) {
           <div>
             {" "}
             <Button
-            name="View"
+           id="View"
               as={Link}
               href={`${paths.audioPostShowPage(post.id)}`}
               className="w-12 md:w-48 lg:w-64 bg-white/25 dark:bg-black/25 dark:text-zinc-300"

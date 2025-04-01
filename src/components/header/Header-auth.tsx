@@ -36,7 +36,7 @@ export default function HeaderAuth() {
             <div className="p-4 flex flex-col items-center ">
               <p className="mb-4 text-center dark:text-zinc-200">{session.data.user.name}</p>
               <Button
-              name="My posts"
+              id="My posts"
                 className="mb-4"
                 onPress={() =>
                   redirect(paths.userPostsPage(session.data.user?.id as string))
@@ -45,7 +45,7 @@ export default function HeaderAuth() {
                 My posts
               </Button>
               <form action={actions.signOut}>
-                <Button className="dark:text-zinc-100 " type="submit" name="Sign out">Sign Out</Button>
+                <Button className="dark:text-zinc-100 " type="submit" id="Sign out">Sign Out</Button>
               </form>
             </div>
           </PopoverContent>
@@ -56,7 +56,7 @@ export default function HeaderAuth() {
     authContent = (
       <>
         <form action={actions.signIn}>
-          <Button className="dark:text-zinc-100 dark:bg-black/25"  type="submit" color="default" variant="solid" name="Sign in">
+          <Button className="dark:text-zinc-100 dark:bg-black/25"  type="submit" color="default" variant="solid" id="Sign in">
             Sign In
           </Button>
         </form>

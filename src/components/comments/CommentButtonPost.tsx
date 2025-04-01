@@ -30,7 +30,7 @@ export default function CommentButtonPosts(props: CommentButtonProps) {
 
   return (
     <Button
-    name="Comments"
+      id="Comments"
       startContent={<CommentIcon />}
       className={`${
         theme === "dark" ? "invert" : ""

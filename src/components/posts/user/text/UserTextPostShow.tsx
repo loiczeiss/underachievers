@@ -48,7 +48,7 @@ export default function UserTextPostShow(props: PostShowProps) {
                   <CommentsPost  postId={props.post.id} comments={props.comments} replies={props.replies}  ref={textareaRef} postType={props.post.postType}  />
           <form action={props.deletePost}>
             <Button
-            name="Delete"
+            id="Delete"
               className="w-48 mb-4 bg-red-400"
               type="submit"
             >
@@ -59,7 +59,7 @@ export default function UserTextPostShow(props: PostShowProps) {
         <Card isBlurred className="mb-4">
           {" "}
           <Button
-          name="Back"
+          id="Back"
             className="bg-transparent dark:text-zinc-300 dark:bg-black/25 dark:hover:bg-black/75"
             onPress={() => redirect(paths.userPostsPage(props.post.userId))}
           >
