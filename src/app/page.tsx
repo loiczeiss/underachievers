@@ -1,4 +1,4 @@
-"use server";
+
 
 import Welcome from "@/components/welcome";
 import { db } from "@/db";
@@ -34,7 +34,7 @@ export default async function Home() {
   } else {
     return (
       <>
-        {/* <Loading/> */}
+      
         <HomeClientSide
           allPosts={allPosts}
           textPosts={textPosts}

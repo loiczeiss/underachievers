@@ -5,7 +5,7 @@ import ImgPostList from "@/components/posts/images/imgPostList";
 import { db } from "@/db";
 
 export default async function PostsListPage() {
-  const posts = await db.imgPost.findMany({ cacheStrategy: { swr: 60 } });
+  const posts = await db.imgPost.findMany();
   const comments = await db.comment.findMany({
     where: {
       imgPostId: {

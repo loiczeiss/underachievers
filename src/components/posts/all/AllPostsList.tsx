@@ -61,7 +61,10 @@ export default function AllPostList(props: AllPostListprops) {
     </Card>
   );
 
-  const renderedImgPosts = [...props.posts].reverse().map((post) => {
+  const renderedImgPosts = [...props.posts]
+  .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+  .map((post) => {
+
     const audio = post.audioId ? audioMap[post.audioId] : null; // Get associated audio for the post
     const postComments = props.comments.filter((comment) => {
       if (post.type === "TEXT") return comment.textPostId === post.id;
@@ -86,6 +89,7 @@ export default function AllPostList(props: AllPostListprops) {
         key={post.id}
       >
         <div className="uppercase lg:text-2xl dark:text-zinc-300" >{post.title}</div>
+
         {audio ? (
           <AudioPlayer
             header={audio.displayName}

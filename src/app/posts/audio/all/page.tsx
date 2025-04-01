@@ -5,8 +5,8 @@ import AudioPostList from "@/components/posts/audio/audioPostsList";
 import { db } from "@/db";
 
 export default async function PostsListPage() {
-  const posts = await db.audioPost.findMany({ cacheStrategy: { swr: 60 } });
-  const audios = await db.audio.findMany({ cacheStrategy: { swr: 60 } });
+  const posts = await db.audioPost.findMany();
+  const audios = await db.audio.findMany();
   const comments = await db.comment.findMany({
     where: {
       audioPostId: {

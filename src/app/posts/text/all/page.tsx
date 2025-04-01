@@ -3,7 +3,7 @@ import PostList from "@/components/posts/text/PostTextList";
 import { db } from "@/db";
 
 export default async function PostsListPage() {
-  const posts = await db.textPost.findMany({ cacheStrategy: { swr: 60 } });
+  const posts = await db.textPost.findMany();
   const comments = await db.comment.findMany({
     where: { textPostId: { not: null } },
     cacheStrategy: { swr: 60 },
