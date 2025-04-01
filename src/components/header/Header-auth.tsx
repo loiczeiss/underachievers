@@ -45,7 +45,7 @@ export default function HeaderAuth() {
                 My posts
               </Button>
               <form action={actions.signOut}>
-                <Button className="dark:text-zinc-100 " type="submit" id="Sign out">Sign Out</Button>
+                <Button className="dark:text-zinc-100 " type="submit" aria-label="Sign out">Sign Out</Button>
               </form>
             </div>
           </PopoverContent>
