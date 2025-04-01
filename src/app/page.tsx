@@ -1,52 +1,70 @@
-
-
+import { unstable_cache } from "next/cache";
 import Welcome from "@/components/welcome";
 import { db } from "@/db";
 import { auth } from "@/auth";
 import HomeClientSide from "@/components/homeClientSide";
-export const revalidate = 60; // Cache for 60 seconds
+
+// Caching database queries with `unstable_cache`
+const getTextPosts = unstable_cache(
+  async () => await db.textPost.findMany(),
+  ["textPosts"],
+  { revalidate: 60, tags: ["posts"] }
+);
+
+const getImgPosts = unstable_cache(
+  async () => await db.imgPost.findMany(),
+  ["imgPosts"],
+  { revalidate: 60, tags: ["posts"] }
+);
+
+const getAudioPosts = unstable_cache(
+  async () => await db.audioPost.findMany(),
+  ["audioPosts"],
+  { revalidate: 60, tags: ["posts"] }
+);
+
+const getAudios = unstable_cache(
+  async () => await db.audio.findMany(),
+  ["audios"],
+  { revalidate: 60 }
+);
+
+const getComments = unstable_cache(
+  async () => await db.comment.findMany(),
+  ["comments"],
+  { revalidate: 60 }
+);
+
 export default async function Home() {
-  const textPosts = await db.textPost.findMany({ cacheStrategy: { swr: 60 } });
-
-  const imgPosts = await db.imgPost.findMany({ cacheStrategy: { swr: 60 } });
-
-  const audioPosts = await db.audioPost.findMany({
-    cacheStrategy: { swr: 60 },
-  });
+  // Fetch cached data
+  const [textPosts, imgPosts, audioPosts, audios, comments] = await Promise.all([
+    getTextPosts(),
+    getImgPosts(),
+    getAudioPosts(),
+    getAudios(),
+    getComments(),
+  ]);
 
   const allPosts = [
     ...textPosts.map((post) => ({ ...post, type: "TEXT" })),
     ...imgPosts.map((post) => ({ ...post, type: "IMAGE" })),
     ...audioPosts.map((post) => ({ ...post, type: "AUDIO" })),
   ];
-  const audios = await db.audio.findMany({ cacheStrategy: { swr: 60 } });
-
-  const comments = await db.comment.findMany({ cacheStrategy: { swr: 60 } });
 
   const session = await auth();
 
   if (!session || !session.user) {
-    return (
-      <>
-        <Welcome />
-      </>
-    );
-  } else {
-    return (
-      <>
-      
-        <HomeClientSide
-          allPosts={allPosts}
-          textPosts={textPosts}
-          imgPosts={imgPosts}
-          audioPosts={audioPosts}
-          audios={audios}
-          comments={comments}
-        />
-      </>
-    );
+    return <Welcome />;
   }
-}
 
-{
+  return (
+    <HomeClientSide
+      allPosts={allPosts}
+      textPosts={textPosts}
+      imgPosts={imgPosts}
+      audioPosts={audioPosts}
+      audios={audios}
+      comments={comments}
+    />
+  );
 }
