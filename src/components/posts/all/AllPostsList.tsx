@@ -63,8 +63,8 @@ export default function AllPostList(props: AllPostListprops) {
 
   const renderedImgPosts = [...props.posts]
   .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-  .map((post) => {
-
+  .map((post, index) => {
+    const isEager = index < 3
     const audio = post.audioId ? audioMap[post.audioId] : null; // Get associated audio for the post
     const postComments = props.comments.filter((comment) => {
       if (post.type === "TEXT") return comment.textPostId === post.id;
@@ -108,6 +108,7 @@ export default function AllPostList(props: AllPostListprops) {
          src={post.imgUrl}
          sizes="100vw"
          alt="Uploaded Image"
+         loading={isEager ? "eager" : "lazy"} // First 3 images load eagerly
        /></Zoom>
         )}
         <Card isBlurred className="mt-2 mb-4 p-2 text-sm lg:text-base dark:text-zinc-300">
