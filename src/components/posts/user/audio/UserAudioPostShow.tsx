@@ -73,6 +73,7 @@ export default function AudioPostShow(props: AudioPostShowProps) {
         <CommentsPost postId={props.post.id} comments={props.comments} replies={props.replies}  ref={textareaRef} postType={props.post.postType} />
         <form action={props.deleteAudioPost}>
           <Button
+          name="Delete"
             className="w-48 mb-4 bg-red-400"
             type="submit"
           >
@@ -82,6 +83,7 @@ export default function AudioPostShow(props: AudioPostShowProps) {
       </Card>
       <Card isBlurred className="mb-4">
         <Button
+        name="Back"
           className="bg-white/25"
           onPress={() => router.back()} 
         >

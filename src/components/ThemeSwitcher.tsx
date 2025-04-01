@@ -26,7 +26,7 @@ export function ThemeSwitcher() {
   return (
     <div className="flex fixed bottom-0 px-4 py-4">
 
-      <Button className={`${theme === "light" ?"bg-white/25" : "bg-black/25"} ${theme === "light" ?"text-black" : "text-white"} hover:bg-white/75 mr-4 dark:hover:bg-black/75 `} onPress={() => switchTheme(theme as string)}>{`${theme === 'light'? "Dark Mode":"Light Mode"}`}</Button>
+      <Button name="light/dark mode" className={`${theme === "light" ?"bg-white/25" : "bg-black/25"} ${theme === "light" ?"text-black" : "text-white"} hover:bg-white/75 mr-4 dark:hover:bg-black/75 `} onPress={() => switchTheme(theme as string)}>{`${theme === 'light'? "Dark Mode":"Light Mode"}`}</Button>
   
     </div>
   )

@@ -61,6 +61,7 @@ export default function CreateTextPost() {
             />
             <input type="hidden" name="postType" value={"TEXT"} />
             <Button
+            name="Create"
               className="mt-4 lg:w-1/4 self-end bg-white/20 shadow dark:bg-black/25"
               type="submit"
               isDisabled={TitleValue.length >= 3 && ContentValue.length >= 10? false :true}

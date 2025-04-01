@@ -66,6 +66,7 @@ export default function UserImgPostList(props: ImgPostListprops) {
           <div>
             {" "}
             <Button
+            name="View"
               as={Link} // Use Link as the underlying component
               href={`${paths.userImgPostPage(post.userId, post.id)}`}
               className="lg:w-48 lg:w-64 bg-white/25 dark:bg-black/25 dark:text-zinc-300"

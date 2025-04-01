@@ -135,6 +135,7 @@ export default function CreateAudioPost() {
             <>
               <Player />{" "}
               <Button
+              name="Delete Audio"
                 className="bg-red-400 mb-4 "
                 onPress={handleDeletingAudio}
               >
@@ -166,6 +167,7 @@ export default function CreateAudioPost() {
             placeholder="Content"
           />
           <Button
+          name="Create"
             className="mt-4 lg:w-1/4 self-end bg-white/20 shadow hover:bg-white/50 dark:bg-black/25 dark:hover:bg-black/75 "
             type="submit"
           >

@@ -101,6 +101,7 @@ const CommentsPost = forwardRef<HTMLTextAreaElement, CommentProps>(
               <input type="hidden" name="postId" value={postId} />
               <input type="hidden" name="postType" value={postType} />
               <Button
+              name="Comment"
                 isDisabled={commentContentValue.length < 3 ? true : false}
                 type="submit"
                 className="w-42 bg-white/50 self-end m-4  dark:bg-black/25 dark:text-zinc-300"
@@ -137,6 +138,7 @@ const CommentsPost = forwardRef<HTMLTextAreaElement, CommentProps>(
                       {dayjs().to(dayjs(comment.createdAt))}
                     </p>
                     <Button
+                    name="Delete"
                       isIconOnly
                       onPress={() =>
                         handleDeleteComment(

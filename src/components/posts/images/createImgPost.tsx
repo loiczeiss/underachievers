@@ -120,6 +120,7 @@ export default function CreateImgPost() {
                 alt="Uploaded Image"
               />
               <Button
+              name="Delete"
                 variant="bordered"
                 className="border-white/25 lg:self-center lg:ml-4 dark:border-black/25 dark:text-zinc-300"
                 onPress={handleDeletingImg}
@@ -147,6 +148,7 @@ export default function CreateImgPost() {
             placeholder="Content"
           />
           <Button
+          name="Create"
             className="mt-4 lg:w-1/4 self-end bg-white/20 shadow  dark:bg-black/25 dark:text-zinc-300 dark:hover:bg-black/75"
             type="submit"
           >

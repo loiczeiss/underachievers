@@ -70,6 +70,7 @@ export default function UserImgPostShow(props: ImgPostShowProps) {
       <Card isBlurred className="my-4">
         {" "}
         <Button
+        name="Back"
           className="bg-white/25 dark:bg-black/25 dark:text-zinc-300 dark:hover:bg-black/75"
           onPress={() => router.back()} // Use router.back() for dynamic navigation
         >

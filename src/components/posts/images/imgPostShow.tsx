@@ -62,6 +62,7 @@ export default function ImgPostShow(props: ImgPostShowProps) {
       </Card>
       <Card isBlurred className="mb-4">
         <Button
+        name="Back"
           className="bg-white/25"
           onPress={() => router.back()} // Use router.back() for dynamic navigation
         >

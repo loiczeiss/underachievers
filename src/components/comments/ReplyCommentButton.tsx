@@ -18,6 +18,7 @@ export default function ReplyComment(props: ReplyCommentButtonProps) {
   return (
     <>
       <Button
+      name="Reply"
         className={`${
           props.isHidden || props.commentConfirmationId !== props.commentId
             ? "block"
@@ -28,6 +29,7 @@ export default function ReplyComment(props: ReplyCommentButtonProps) {
         Reply
       </Button>
       <Button
+      name="Close"
         className={`${
           props.isHidden || props.commentConfirmationId !== props.commentId
             ? "hidden"

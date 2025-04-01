@@ -127,6 +127,7 @@ export default function AllPostList(props: AllPostListprops) {
               as={Link} // Pass the Link component directly to the Button
               className="w-12 md:w-48 lg:w-64 bg-white/25 dark:bg-black/25 dark:text-zinc-300"
               href={handleRedirect(post)}
+              name="View"
             >
               View
             </Button>

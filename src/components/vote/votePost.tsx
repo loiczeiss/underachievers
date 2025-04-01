@@ -84,6 +84,7 @@ export default function VoteButton({ postId, postType }: VoteButtonProps) {
   return (
     <div className="flex items-center">
       <Button
+      name="Vote"
         onPress={handleVoteClick}
         disabled={loading}
         className="bg-white/25 dark:bg-black/25 dark:hover:bg-black/75"

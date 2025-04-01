@@ -38,6 +38,7 @@ export default function commentContentAndReply(
                 {dayjs().to(dayjs(reply.createdAt))}
               </p>
               <Button
+              name="Delete"
                       isIconOnly
                       onPress={() =>
                         props.handleDeleteComment(

@@ -6,18 +6,27 @@ interface ReplyTextAreaProps {
   isHidden: boolean;
   commentConfirmationId: string;
   commentId: string;
-  setIsHidden: Dispatch<SetStateAction<boolean>>
+  setIsHidden: Dispatch<SetStateAction<boolean>>;
   postType: string;
-  postId: string
+  postId: string;
 }
 
 const ReplyTextArea = forwardRef<HTMLTextAreaElement, ReplyTextAreaProps>(
-  ({ isHidden, commentConfirmationId, commentId, setIsHidden, postId, postType }, ref) => {
- const [commentContentValue, setCommentContentValue] = useState("");
+  (
+    {
+      isHidden,
+      commentConfirmationId,
+      commentId,
+      setIsHidden,
+      postId,
+      postType,
+    },
+    ref
+  ) => {
+    const [commentContentValue, setCommentContentValue] = useState("");
     const [formState, action] = useFormState(actions.createReplyCommentAction, {
       errors: {},
     });
-
 
     return (
       <Card
@@ -25,7 +34,11 @@ const ReplyTextArea = forwardRef<HTMLTextAreaElement, ReplyTextAreaProps>(
           !isHidden && commentConfirmationId === commentId ? "block" : "hidden"
         } bg-white/25 dark:bg-black/55 `}
       >
-        <Form action={action} className="flex flex-col" validationBehavior="native">
+        <Form
+          action={action}
+          className="flex flex-col"
+          validationBehavior="native"
+        >
           <Textarea
             ref={ref}
             isInvalid={!!formState.errors.content}
@@ -45,9 +58,9 @@ const ReplyTextArea = forwardRef<HTMLTextAreaElement, ReplyTextAreaProps>(
                 "border-none",
                 "hover:border-black",
                 "focus-within:!border-white/50",
-                "dark:text-zinc-300"
+                "dark:text-zinc-300",
               ],
-              errorMessage: ["bg-white/25 ","rounded-lg", "p-4"],
+              errorMessage: ["bg-white/25 ", "rounded-lg", "p-4"],
               base: ["border-gray-800 "],
             }}
             name="content"
@@ -56,9 +69,11 @@ const ReplyTextArea = forwardRef<HTMLTextAreaElement, ReplyTextAreaProps>(
           <input type="hidden" name="parentId" value={commentId} />
           <input type="hidden" name="postId" value={postId} />
           <input type="hidden" name="postType" value={postType} />
-          <Button type="submit" 
-          // onPress={()=>setTimeout(()=>setIsHidden(true), 1000)}
-           className="w-42 bg-white/50 self-end m-4 dark:text-zinc-300 dark:bg-black/25">
+          <Button
+            type="submit"
+            name="Comment"
+            className="w-42 bg-white/50 self-end m-4 dark:text-zinc-300 dark:bg-black/25"
+          >
             Comment
           </Button>
         </Form>
