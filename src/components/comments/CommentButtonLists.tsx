@@ -56,7 +56,7 @@ export default function CommentButton(props: CommentButtonProps) {
 
   return (
     <Button
-    id="Comments"
+    aria-label="Comments"
       startContent={<CommentIcon />}
       className={`${theme === 'dark' ? 'invert' : ''} dark:text-black rounded-2xl bg-white/25 m-0 ml-2`}
       onPress={() => redirect(handleRedirect(props.post))}
