@@ -7,7 +7,7 @@ import CreateAudioPost from "@/components/posts/audio/createAudioPost";
 // Cloudinary client
 
 // const cloudinary = getCloudinary();
-export default async function CreateImgPage(){
+export default async function CreateAudioPage(){
 
 
 

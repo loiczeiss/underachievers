@@ -23,7 +23,6 @@ interface PostListProps {
 export const dynamicParams = true;
 
 export default function TextPostList(props: PostListProps) {
-  console.log(props.comments);
 
   const noPostYet = (
     <Card

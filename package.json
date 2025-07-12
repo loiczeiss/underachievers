@@ -2,16 +2,22 @@
   "name": "underachievers",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "postinstall": "prisma generate",
     "dev": "next dev --turbopack",
-    "build": "prisma generate && next build",
+    "build": "prisma generate && seed && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed": "ts-node --esm prisma/fake-data.mts"
+  },
+  "prisma": {
+    "seed": "node --loader ts-node/esm prisma/fake-data.mts"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.4",
     "@heroui/react": "2.7.5",
+    "@nextui-org/react": "^2.6.11",
     "@prisma/client": "^6.5.0",
     "@prisma/extension-accelerate": "^1.2.1",
     "@vercel/analytics": "^1.5.0",
@@ -31,16 +37,18 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@types/node": "^20",
+    "@types/node": "^20.19.4",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "15.0.3",
     "postcss": "^8",
     "prisma": "^6.5.0",
+    "prisma-generator-fake-data": "^0.15.0",
     "sass": "^1.83.0",
     "tailwind-scrollbar": "^3.1.0",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
   }
 }

@@ -5,7 +5,7 @@ import VoteButton from "@/components/vote/votePost";
 import paths from "@/paths";
 import { Card, Button } from "@heroui/react";
 import { Comment, PostType } from "@prisma/client";
-import { CldImage } from "next-cloudinary";
+import Image from "next/image";
 import Link from "next/link";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
@@ -41,7 +41,7 @@ export default function ImgPostList(props: ImgPostListprops) {
       >
         <div className="uppercase lg:text-2xl"> {post.title}</div>
         <Zoom>
-          <CldImage
+          <Image
             className="rounded-xl mb-4 "
             width={300} // Adjust width as needed
             height={200} // Adjust height as needed

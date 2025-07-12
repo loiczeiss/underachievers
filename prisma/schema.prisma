@@ -1,8 +1,10 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
+}
+
+generator custom_generator {
+  provider = "prisma-generator-fake-data"
+  /// by default, the file will be generated at `./prisma/fake-data.mts`
 }
 
 datasource db {
@@ -17,16 +19,16 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? // Optional fields
-  access_token      String? // Optional fields
-  expires_at        Int? // Optional fields
-  token_type        String? // Optional fields
-  scope             String? // Optional fields
-  id_token          String? // Optional fields
-  session_state     String? // Optional fields
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
   user              User    @relation(fields: [userId], references: [id])
 
-  @@unique([provider, providerAccountId]) // Compound unique constraint
+  @@unique([provider, providerAccountId])
 }
 
 model Session {
@@ -47,11 +49,11 @@ model User {
   emailVerified DateTime?
   image         String?
   accounts      Account[]
+  AudioPost     AudioPost[]
+  Comment       Comment[]
+  imgPost       ImgPost[]
   sessions      Session[]
   textPost      TextPost[]
-  imgPost       ImgPost[]
-  Comment       Comment[]
-  AudioPost     AudioPost[]
 }
 
 model VerificationToken {
@@ -63,34 +65,31 @@ model VerificationToken {
 }
 
 model TextPost {
-  id      String @id @default(cuid())
-  title   String
-  content String
-  userId  String
-postType PostType
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  comments Comment[]
-  Vote     Vote[]
+  id        String    @id @default(cuid())
+  title     String
+  content   String
+  userId    String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  postType  PostType
+  comments  Comment[]
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Vote      Vote[]
 }
 
 model ImgPost {
-  id        String   @id @default(cuid())
-  title     String
-  content   String
-  imgUrl    String
+  id          String    @id @default(cuid())
+  title       String
+  content     String
+  imgUrl      String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  userId      String
   imgPublicId String
-  postType PostType
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  comments Comment[]
-  Vote     Vote[]
+  postType    PostType
+  comments    Comment[]
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Vote        Vote[]
 }
 
 model AudioPost {
@@ -101,10 +100,9 @@ model AudioPost {
   updatedAt DateTime  @updatedAt
   userId    String
   audioId   String
-  postType PostType
-
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  postType  PostType
   audio     Audio     @relation(fields: [audioId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   comments  Comment[]
   Vote      Vote[]
 }
@@ -120,59 +118,54 @@ model Image {
 }
 
 model Audio {
-  id           String   @id @default(uuid())
-  userId String
-  publicId     String   @unique
-  url          String   @unique
+  id           String      @id @default(uuid())
+  publicId     String      @unique
+  url          String      @unique
   displayName  String
-  playbackUrl  String   @unique
+  playbackUrl  String      @unique
   thumbnailUrl String
   duration     Int
   format       String
-  createdAt    DateTime @default(now())
-
-  AudioPost AudioPost[]
+  createdAt    DateTime    @default(now())
+  userId       String
+  AudioPost    AudioPost[]
 }
 
 model Comment {
-  id          String   @id @default(cuid())
+  id          String     @id @default(cuid())
   content     String
-  userName    String
-  userImage   String
   userId      String
-  textPostId  String?
-  imgPostId   String?
-  audioPostId String?
   postType    PostType
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  textPost  TextPost?  @relation(fields: [textPostId], references: [id], onDelete: Cascade, map: "Comment_TextPost_textPostId_fkey")
-  imgPost   ImgPost?   @relation(fields: [imgPostId], references: [id], onDelete: Cascade, map: "Comment_ImgPost_imgPostId_fkey")
-  audioPost AudioPost? @relation(fields: [audioPostId], references: [id], onDelete: Cascade)
-
-  parentId   String?   // ID of the parent comment
-  parent     Comment?  @relation("CommentToComment", fields: [parentId], references: [id], onDelete: Cascade)
-  replies    Comment[] @relation("CommentToComment")
-  Vote      Vote[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  imgPostId   String?
+  textPostId  String?
+  userImage   String
+  userName    String
+  audioPostId String?
+  parentId    String?
+  imgPost     ImgPost?   @relation(fields: [imgPostId], references: [id], onDelete: Cascade, map: "Comment_ImgPost_imgPostId_fkey")
+  textPost    TextPost?  @relation(fields: [textPostId], references: [id], onDelete: Cascade, map: "Comment_TextPost_textPostId_fkey")
+  audioPost   AudioPost? @relation(fields: [audioPostId], references: [id], onDelete: Cascade)
+  parent      Comment?   @relation("CommentToComment", fields: [parentId], references: [id], onDelete: Cascade)
+  replies     Comment[]  @relation("CommentToComment")
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Vote        Vote[]
 }
-
 
 model Vote {
   id          String     @id @default(cuid())
   voteType    VoteType
-  ImgPost     ImgPost?   @relation(fields: [imgPostId], references: [id])
   imgPostId   String?
   userId      String
-  TextPost    TextPost?  @relation(fields: [textPostId], references: [id])
   textPostId  String?
-  AudioPost   AudioPost? @relation(fields: [audioPostId], references: [id])
   audioPostId String?
-  Comment     Comment?   @relation(fields: [commentId], references: [id])
   commentId   String?
-  postType PostType
-
+  postType    PostType
+  AudioPost   AudioPost? @relation(fields: [audioPostId], references: [id])
+  Comment     Comment?   @relation(fields: [commentId], references: [id])
+  ImgPost     ImgPost?   @relation(fields: [imgPostId], references: [id])
+  TextPost    TextPost?  @relation(fields: [textPostId], references: [id])
 }
 
 enum VoteType {
@@ -183,5 +176,5 @@ enum VoteType {
 enum PostType {
   TEXT
   IMAGE
-  AUDIO // Add AUDIO type for AudioPost
+  AUDIO
 }

@@ -1,7 +1,7 @@
 import { unstable_cache } from "next/cache";
-import Welcome from "@/components/welcome";
+;
 import { db } from "@/db";
-import { auth } from "@/auth";
+
 import HomeClientSide from "@/components/homeClientSide";
 
 // Caching database queries with `unstable_cache`
@@ -51,11 +51,7 @@ export default async function Home() {
     ...audioPosts.map((post) => ({ ...post, type: "AUDIO" })),
   ];
 
-  const session = await auth();
 
-  if (!session || !session.user) {
-    return <Welcome />;
-  }
 
   return (
     <HomeClientSide
