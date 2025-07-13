@@ -1,15 +1,15 @@
-"use server";
+'use server';
 
-import { z } from "zod";
-import { db } from "@/db";
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
-import paths from "@/paths";
+import { z } from 'zod';
+import { db } from '@/db';
+import { auth } from '@/auth';
+import { redirect } from 'next/navigation';
+import paths from '@/paths';
 
 const createCommentSchema = z.object({
-  content: z.string().min(3, "Comment must be at least 3 characters long."),
-  postId: z.string().min(1, "Post ID is required."),
-  postType: z.enum(["TEXT", "IMAGE", "AUDIO"]),
+  content: z.string().min(3, 'Comment must be at least 3 characters long.'),
+  postId: z.string().min(1, 'Post ID is required.'),
+  postType: z.enum(['TEXT', 'IMAGE', 'AUDIO']),
 });
 
 interface CreateCommentPostFormState {
@@ -27,9 +27,9 @@ export async function createCommentAction(
 ): Promise<CreateCommentPostFormState> {
   // Validate input
   const result = createCommentSchema.safeParse({
-    content: formData.get("content"),
-    postId: formData.get("postId"),
-    postType: formData.get("postType"),
+    content: formData.get('content'),
+    postId: formData.get('postId'),
+    postType: formData.get('postType'),
   });
 
   if (!result.success) {
@@ -41,7 +41,7 @@ export async function createCommentAction(
 
   if (!session || !session.user) {
     return {
-      errors: { _form: ["You must be signed in to do this."] },
+      errors: { _form: ['You must be signed in to do this.'] },
     };
   }
 
@@ -53,25 +53,27 @@ export async function createCommentAction(
         userName: session.user.name as string,
         userImage: session.user.image as string,
         postType,
-        textPostId: postType === "TEXT" ? postId : null,
-        imgPostId: postType === "IMAGE" ? postId : null,
-        audioPostId: postType === "AUDIO" ? postId : null,
+        textPostId: postType === 'TEXT' ? postId : null,
+        imgPostId: postType === 'IMAGE' ? postId : null,
+        audioPostId: postType === 'AUDIO' ? postId : null,
       },
     });
   } catch (err: unknown) {
     return {
       errors: {
-        _form: [err instanceof Error ? err.message : "Failed to create comment due to an unknown error."],
+        _form: [
+          err instanceof Error ? err.message : 'Failed to create comment due to an unknown error.',
+        ],
       },
     };
   }
 
   // Redirect and return `never` type to satisfy TypeScript
-  if (postType === "TEXT") {
+  if (postType === 'TEXT') {
     redirect(paths.textPostShow(postId));
-  } else if (postType === "IMAGE") {
+  } else if (postType === 'IMAGE') {
     redirect(paths.imgPostShow(postId));
-  } else if (postType === "AUDIO") {
+  } else if (postType === 'AUDIO') {
     redirect(paths.audioPostShowPage(postId));
   }
 

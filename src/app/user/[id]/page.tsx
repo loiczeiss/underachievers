@@ -1,5 +1,5 @@
-import UserClientSide from "@/components/userClientSide";
-import { db } from "@/db";
+import UserClientSide from '@/components/userClientSide';
+import { db } from '@/db';
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -28,9 +28,9 @@ export default async function MyPost(props: Props) {
   const comments = await db.comment.findMany({ cacheStrategy: { swr: 60 } });
 
   const allPosts = [
-    ...textPosts.map((post) => ({ ...post, type: "TEXT" })),
-    ...imgPosts.map((post) => ({ ...post, type: "IMAGE" })),
-    ...audioPosts.map((post) => ({ ...post, type: "AUDIO" })),
+    ...textPosts.map((post) => ({ ...post, type: 'TEXT' })),
+    ...imgPosts.map((post) => ({ ...post, type: 'IMAGE' })),
+    ...audioPosts.map((post) => ({ ...post, type: 'AUDIO' })),
   ];
   return (
     <>

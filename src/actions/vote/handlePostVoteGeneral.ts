@@ -1,21 +1,21 @@
-"use server";
+'use server';
 
-import { auth } from "@/auth";
-import { db } from "@/db";
-import { Vote } from "@prisma/client";
+import { auth } from '@/auth';
+import { db } from '@/db';
+import { Vote } from '@prisma/client';
 
-type PostType = "IMAGE" | "AUDIO" | "TEXT";
+type PostType = 'IMAGE' | 'AUDIO' | 'TEXT';
 
 type PostFieldMap = {
-  IMAGE: "imgPostId",
-  AUDIO: "audioPostId",
-  TEXT: "textPostId",
+  IMAGE: 'imgPostId';
+  AUDIO: 'audioPostId';
+  TEXT: 'textPostId';
 };
 
 const postFieldMap: PostFieldMap = {
-  IMAGE: "imgPostId",
-  AUDIO: "audioPostId",
-  TEXT: "textPostId",
+  IMAGE: 'imgPostId',
+  AUDIO: 'audioPostId',
+  TEXT: 'textPostId',
 };
 
 export async function handlePostVote(postId: string, postType: PostType) {
@@ -24,7 +24,7 @@ export async function handlePostVote(postId: string, postType: PostType) {
   if (!session || !session.user) {
     return {
       errors: {
-        _form: ["You must be signed in to do this."],
+        _form: ['You must be signed in to do this.'],
       },
     };
   }
@@ -46,9 +46,9 @@ export async function handlePostVote(postId: string, postType: PostType) {
       const vote: Vote = await db.vote.create({
         data: {
           userId: session.user.id as string,
-          voteType: "UP",
+          voteType: 'UP',
           [field]: postId,
-          postType
+          postType,
         },
       });
       return { success: true, vote };
@@ -63,7 +63,7 @@ export async function handlePostVote(postId: string, postType: PostType) {
     } else {
       return {
         errors: {
-          _form: ["Failed to create vote due to an unknown error."],
+          _form: ['Failed to create vote due to an unknown error.'],
         },
       };
     }

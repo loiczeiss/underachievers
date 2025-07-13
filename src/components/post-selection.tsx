@@ -1,8 +1,8 @@
-import { Button, Popover, PopoverContent, PopoverTrigger } from "@heroui/react";
-import { PlusCircle } from "./plusCircleIcon";
-import { useRouter } from "next/navigation";
-import paths from "@/paths";
-import { useEffect, useState } from "react";
+import { Button, Popover, PopoverContent, PopoverTrigger } from '@heroui/react';
+import { PlusCircle } from './plusCircleIcon';
+import { useRouter } from 'next/navigation';
+import paths from '@/paths';
+import { useEffect, useState } from 'react';
 export default function PostSelection() {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
@@ -16,23 +16,23 @@ export default function PostSelection() {
         setMatches(media.matches);
       }
       const listener = () => setMatches(media.matches);
-      media.addEventListener("change", listener);
-      return () => media.removeEventListener("change", listener);
+      media.addEventListener('change', listener);
+      return () => media.removeEventListener('change', listener);
     }, [matches, query]);
 
     return matches;
   }
 
-  const isMobile = useMediaQuery("(max-width: 768px)"); // Change based on your breakpoint
+  const isMobile = useMediaQuery('(max-width: 768px)'); // Change based on your breakpoint
 
-  const placement = isMobile ? "bottom" : "left"; // Adjust placement based on screen size
+  const placement = isMobile ? 'bottom' : 'left'; // Adjust placement based on screen size
 
   const handlePostTypeSelection = (postType: string) => {
-    if (postType === "text") {
+    if (postType === 'text') {
       router.push(paths.createTextPost());
-    } else if (postType === "image") {
+    } else if (postType === 'image') {
       router.push(paths.createImgPost());
-    } else if (postType === "sound") {
+    } else if (postType === 'sound') {
       router.push(paths.createAudioPost());
     }
     setIsOpen(false);
@@ -45,39 +45,32 @@ export default function PostSelection() {
       onOpenChange={(open) => setIsOpen(open)}
     >
       <PopoverTrigger>
-        <Button
-          aria-label="new post"
-          isIconOnly
-          className="rounded-3xl "
-          variant="ghost"
-        >
+        <Button aria-label="new post" isIconOnly className="rounded-3xl " variant="ghost">
           <PlusCircle />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="p-4 bg-white/25 md:bg-transparent shadow backdrop-blur-sm mt-4 dark:bg-black/25">
+      <PopoverContent className="mt-4 bg-white/25 p-4 shadow backdrop-blur-sm md:bg-transparent dark:bg-black/25">
         <div>
-          <h2 className="dark:text-zinc-200">
-            What kind of post do you want to create ?
-          </h2>
+          <h2 className="dark:text-zinc-200">What kind of post do you want to create ?</h2>
           <div className="flex flex-col p-4">
             <Button
               aria-label="Text post creation"
               className="mt-4 bg-transparent shadow hover:bg-[#f2faff] dark:bg-black/25"
-              onPress={() => handlePostTypeSelection("text")}
+              onPress={() => handlePostTypeSelection('text')}
             >
               Text
             </Button>
             <Button
               aria-label="Image post creation"
               className="mt-4 bg-transparent shadow hover:bg-[#f2faff] dark:bg-black/25"
-              onPress={() => handlePostTypeSelection("image")}
+              onPress={() => handlePostTypeSelection('image')}
             >
               Image
             </Button>
             <Button
               aria-label="Sound post creation"
               className="mt-4 bg-transparent shadow hover:bg-[#f2faff] dark:bg-black/25"
-              onPress={() => handlePostTypeSelection("sound")}
+              onPress={() => handlePostTypeSelection('sound')}
             >
               Sound
             </Button>

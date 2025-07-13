@@ -1,4 +1,4 @@
-import CreateImgPost from "@/components/posts/images/createImgPost";
+import CreateImgPost from '@/components/posts/images/createImgPost';
 
 export default async function CreateImgPage() {
   return (

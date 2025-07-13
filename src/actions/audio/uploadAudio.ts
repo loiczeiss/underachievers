@@ -1,8 +1,7 @@
-"use server";
+'use server';
 
-import { auth } from "@/auth";
-import { db } from "@/db";
-
+import { auth } from '@/auth';
+import { db } from '@/db';
 
 interface ResultProps {
   info: {
@@ -44,7 +43,7 @@ export async function uploadAudio(result: ResultProps) {
     };
   } catch (err: unknown) {
     if (err instanceof Error) {
-      console.error("Database error:", err);
+      console.error('Database error:', err);
       return {
         errors: {
           _form: [err.message],
@@ -52,10 +51,10 @@ export async function uploadAudio(result: ResultProps) {
       };
     }
 
-    console.error("Unexpected error:", err);
+    console.error('Unexpected error:', err);
     return {
       errors: {
-        _form: ["Failed to create post"],
+        _form: ['Failed to create post'],
       },
     };
   }

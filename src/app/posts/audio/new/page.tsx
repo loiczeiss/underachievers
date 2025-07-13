@@ -2,17 +2,17 @@
 // import getCloudinary from "@/app/utils/getCloudinary";
 // import { db } from "@/db";
 
-import CreateAudioPost from "@/components/posts/audio/createAudioPost";
+import CreateAudioPost from '@/components/posts/audio/createAudioPost';
 
 // Cloudinary client
 
 // const cloudinary = getCloudinary();
-export default async function CreateAudioPage(){
-
-
-
-
-    return(<><div className="flex justify-center">
+export default async function CreateAudioPage() {
+  return (
+    <>
+      <div className="flex justify-center">
         <CreateAudioPost />
-        </div></>)
+      </div>
+    </>
+  );
 }

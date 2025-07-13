@@ -1,8 +1,8 @@
-"use server";
-import NavBar from "@/components/navLinks";
-import ImgPostList from "@/components/posts/images/imgPostList";
+'use server';
+import NavBar from '@/components/navLinks';
+import ImgPostList from '@/components/posts/images/imgPostList';
 
-import { db } from "@/db";
+import { db } from '@/db';
 
 export default async function PostsListPage() {
   const posts = await db.imgPost.findMany();
@@ -18,12 +18,12 @@ export default async function PostsListPage() {
   // Add postType to each post manually
   const postsWithType = posts.map((post) => ({
     ...post,
-    type: "IMAGE",
+    type: 'IMAGE',
   }));
 
   return (
     <>
-      <div className="flex flex-col lg:flex-row items-center lg:items-start">
+      <div className="flex flex-col items-center lg:flex-row lg:items-start">
         <NavBar />
         <ImgPostList posts={postsWithType} comments={comments} />
       </div>

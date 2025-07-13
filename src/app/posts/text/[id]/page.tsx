@@ -1,5 +1,5 @@
-import PostShow from "@/components/posts/text/PostTextShow";
-import { db } from "@/db";
+import PostShow from '@/components/posts/text/PostTextShow';
+import { db } from '@/db';
 
 interface PostShowPageProps {
   params: Promise<{ id: string }>;

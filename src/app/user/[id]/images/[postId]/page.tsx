@@ -1,6 +1,6 @@
-import { db } from "@/db";
-import * as actions from "@/actions";
-import UserImgPostShow from "@/components/posts/user/images/UserImgPostShow";
+import { db } from '@/db';
+import * as actions from '@/actions';
+import UserImgPostShow from '@/components/posts/user/images/UserImgPostShow';
 
 interface PostShowPageProps {
   params: Promise<{

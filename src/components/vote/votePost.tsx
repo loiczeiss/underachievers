@@ -1,17 +1,18 @@
-"use client";
+'use client';
 
-import { Button } from "@heroui/react";
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import * as actions from "@/actions"; // Import server actions
-import { useSession } from "next-auth/react";
-import ArrowUp from "public/Icon-up-arrow.svg";
-import ArrowDown from "public/Icon-down-arrow.svg";
-import { useTheme } from "next-themes";
+import { Button } from '@heroui/react';
+import { useState, useEffect } from 'react';
+import Image from 'next/image';
+import * as actions from '@/actions'; // Import server actions
+import { useSession } from 'next-auth/react';
+import ArrowUp from 'public/Icon-up-arrow.svg';
+import ArrowDown from 'public/Icon-down-arrow.svg';
+import { useTheme } from 'next-themes';
 
 interface VoteButtonProps {
   postId: string;
-  postType: "IMAGE" | "AUDIO" | "TEXT"; // Define allowed post types
+  postType: 'IMAGE' | 'AUDIO' | 'TEXT'; // Define allowed post types
+
 }
 
 export default function VoteButton({ postId, postType }: VoteButtonProps) {
@@ -20,7 +21,7 @@ export default function VoteButton({ postId, postType }: VoteButtonProps) {
   const [loading, setLoading] = useState(true);
   const [voted, setVoted] = useState(false);
   const session = useSession();
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
   useEffect(() => {
     if (!session.data?.user?.id) return;
 
@@ -34,19 +35,14 @@ export default function VoteButton({ postId, postType }: VoteButtonProps) {
           COMMENT: actions.getVoteDataComment,
         }[postType];
 
-        const result = await getVoteData(
-          postId,
-          session.data.user?.id as string
-        );
+        const result = await getVoteData(postId, session.data.user?.id as string);
 
-        if (typeof result.voteCount === "number") {
+        if (typeof result.voteCount === 'number') {
           setVoteCount(result.voteCount);
         }
         setVoted(!!result.existingLike);
       } catch (err) {
-        setError(
-          err instanceof Error ? err.message : "An unknown error occurred."
-        );
+        setError(err instanceof Error ? err.message : 'An unknown error occurred.');
       } finally {
         setLoading(false);
       }
@@ -73,24 +69,22 @@ export default function VoteButton({ postId, postType }: VoteButtonProps) {
         setVoted(false);
       }
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "An unknown error occurred."
-      );
+      setError(err instanceof Error ? err.message : 'An unknown error occurred.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="flex items-center">
+    <div className={`flex items-center ${session.status === 'authenticated' ? '' : 'hidden'}`}>
       <Button
-      id="Vote"
+        id="Vote"
         onPress={handleVoteClick}
         disabled={loading}
         className="bg-white/25 dark:bg-black/25 dark:hover:bg-black/75"
       >
         {loading ? (
-          "..."
+          '...'
         ) : (
           <>
             <Image
@@ -99,7 +93,7 @@ export default function VoteButton({ postId, postType }: VoteButtonProps) {
               alt="Vote"
               width={24}
               height={24}
-              className={`${theme === "dark" ? "invert" : ""}`}
+              className={`${theme === 'dark' ? 'invert' : ''}`}
             />
             <span className="">{voteCount}</span>
           </>

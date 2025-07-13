@@ -1,130 +1,114 @@
-"use client"
+'use client';
+import { Skeleton } from '@heroui/react';
 
-import { useEffect, useState } from "react"
-import { Progress, Spinner, Card, CardBody } from "@heroui/react"
+export default function LoadingPage() {
+  return (
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-purple-100 via-blue-50 to-green-100">
+      {/* Background decorative elements */}
+      <div className="absolute inset-0 opacity-20">
+        <div className="absolute left-10 top-20 size-32 rounded-full bg-purple-200 blur-xl"></div>
+        <div className="absolute right-20 top-40 size-24 rounded-full bg-blue-200 blur-lg"></div>
+        <div className="absolute bottom-32 left-1/4 size-40 rounded-full bg-green-200 blur-2xl"></div>
+        <div className="absolute bottom-20 right-1/3 size-28 rounded-full bg-pink-200 blur-lg"></div>
+      </div>
 
-export default function Loading() {
-    const [progress, setProgress] = useState(0)
-    const [loadingText, setLoadingText] = useState("Initializing creative space...")
+      {/* Header */}
+      <header className="relative z-10 flex items-center justify-between p-6">
+        <Skeleton className="h-8 w-48" />
+        <Skeleton className="h-10 w-20" />
+      </header>
 
-    const loadingMessages = [
-        "Initializing creative space...",
-        "Loading your portfolio...",
-        "Preparing artistic tools...",
-        "Almost ready to create...",
-        "Welcome to UnderAchievers!",
-    ]
+      <div className="relative z-10 flex">
+        {/* Sidebar */}
+        <aside className="w-64 space-y-4 p-6">
+          <Skeleton className="h-6 w-12" />
+          <Skeleton className="h-6 w-20" />
+          <Skeleton className="h-6 w-16" />
+          <Skeleton className="h-6 w-16" />
+        </aside>
 
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setProgress((oldProgress) => {
-                if (oldProgress === 100) {
-                    return 100
-                }
-                const diff = Math.random() * 8 + 2
-                const newProgress = Math.min(oldProgress + diff, 100)
+        {/* Main Content */}
+        <main className="flex-1 space-y-12 p-6">
+          {/* First Media Section */}
+          <div className="space-y-6 rounded-2xl bg-white/20 p-8 backdrop-blur-sm">
+            <Skeleton className="h-12 w-80" />
 
-                // Update loading text based on progress
-                const messageIndex = Math.floor((newProgress / 100) * (loadingMessages.length - 1))
-                setLoadingText(loadingMessages[messageIndex])
-
-                return newProgress
-            })
-        }, 300)
-
-        return () => {
-            clearInterval(timer)
-        }
-    }, [])
-
-    return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center relative overflow-hidden">
-            {/* Animated background elements */}
-            <div className="absolute inset-0 opacity-20">
-                <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
-                <div className="absolute top-3/4 right-1/4 w-64 h-64 bg-violet-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-2000"></div>
-                <div className="absolute bottom-1/4 left-1/2 w-64 h-64 bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-4000"></div>
+            {/* Track Info */}
+            <div className="space-y-2">
+              <Skeleton className="h-6 w-32" />
+              <div className="flex items-center space-x-4">
+                <Skeleton className="h-4 w-12" />
+                <Skeleton className="h-2 w-96" />
+                <Skeleton className="h-4 w-12" />
+              </div>
             </div>
 
-            {/* Geometric pattern overlay */}
-            <div className="absolute inset-0 opacity-10">
-                <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                    <defs>
-                        <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
-                            <path d="M 10 0 L 0 0 0 10" fill="none" stroke="currentColor" strokeWidth="0.5" />
-                        </pattern>
-                    </defs>
-                    <rect width="100" height="100" fill="url(#grid)" />
-                </svg>
+            {/* Media Controls */}
+            <div className="flex items-center justify-center space-x-6">
+              <Skeleton className="size-8 rounded" />
+              <Skeleton className="size-12 rounded-full" />
+              <Skeleton className="size-8 rounded" />
             </div>
 
-            <div className="relative z-10 text-center space-y-8 px-4 max-w-md mx-auto">
-                {/* Logo/Brand */}
-                <div className="space-y-4">
-                    <h1 className="text-4xl md:text-6xl font-bold text-white tracking-wider">
-                        Under<span className="text-purple-400">Achievers</span>
-                    </h1>
-                    <p className="text-slate-300 text-lg md:text-xl font-light">Unleashing Creative Potential</p>
-                </div>
-
-                {/* Main loading card */}
-                <Card className="bg-black/20 backdrop-blur-md border border-purple-500/20">
-                    <CardBody className="space-y-6 p-8">
-                        {/* NextUI Spinner */}
-                        <div className="flex justify-center">
-                            <Spinner
-                                size="lg"
-                                color="secondary"
-                                classNames={{
-                                    circle1: "border-b-purple-400",
-                                    circle2: "border-b-violet-400",
-                                }}
-                            />
-                        </div>
-
-                        {/* NextUI Progress */}
-                        <div className="space-y-3">
-                            <Progress
-                                size="md"
-                                value={progress}
-                                color="secondary"
-                                className="max-w-md"
-                                classNames={{
-                                    base: "max-w-md",
-                                    track: "bg-slate-700/50",
-                                    indicator: "bg-gradient-to-r from-purple-400 to-violet-400",
-                                }}
-                            />
-                            <div className="flex justify-between text-sm">
-                                <span className="text-slate-400">{loadingText}</span>
-                                <span className="text-purple-400 font-medium">{Math.round(progress)}%</span>
-                            </div>
-                        </div>
-
-                        {/* Loading dots animation */}
-                        <div className="flex justify-center space-x-1">
-                            <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce"></div>
-                            <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce animation-delay-200"></div>
-                            <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce animation-delay-400"></div>
-                        </div>
-                    </CardBody>
-                </Card>
-
-                {/* Additional info */}
-                <div className="space-y-2">
-                    <p className="text-slate-400 text-sm">Preparing your artistic journey</p>
-                    <div className="flex justify-center space-x-4 text-xs text-slate-500">
-                        <span>Drawing</span>
-                        <span>•</span>
-                        <span>Writing</span>
-                        <span>•</span>
-                        <span>Music</span>
-                    </div>
-                </div>
+            {/* Volume Control */}
+            <div className="flex items-center justify-end space-x-2">
+              <Skeleton className="size-6" />
+              <Skeleton className="h-2 w-24" />
             </div>
 
-            {/* Bottom decorative elements */}
-            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/20 to-transparent"></div>
-        </div>
-    )
+            {/* Description */}
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-3/4" />
+            </div>
+
+            {/* View Button */}
+            <div className="flex justify-end">
+              <Skeleton className="h-10 w-20" />
+            </div>
+          </div>
+
+          {/* Second Media Section */}
+          <div className="space-y-6 rounded-2xl bg-white/20 p-8 backdrop-blur-sm">
+            <Skeleton className="h-12 w-96" />
+
+            {/* Track Info */}
+            <div className="space-y-2">
+              <Skeleton className="h-6 w-28" />
+              <div className="flex items-center space-x-4">
+                <Skeleton className="h-4 w-12" />
+                <Skeleton className="h-2 w-96" />
+                <Skeleton className="h-4 w-12" />
+              </div>
+            </div>
+
+            {/* Media Controls */}
+            <div className="flex items-center justify-center space-x-6">
+              <Skeleton className="size-8 rounded" />
+              <Skeleton className="size-12 rounded-full" />
+              <Skeleton className="size-8 rounded" />
+            </div>
+
+            {/* Volume Control */}
+            <div className="flex items-center justify-end space-x-2">
+              <Skeleton className="size-6" />
+              <Skeleton className="h-2 w-24" />
+            </div>
+
+            {/* View Button */}
+            <div className="flex justify-end">
+              <Skeleton className="h-10 w-20" />
+            </div>
+          </div>
+        </main>
+      </div>
+
+      {/* Loading notification */}
+      <div className="fixed bottom-6 left-6 flex items-center space-x-2 rounded-lg bg-red-500/90 p-3 backdrop-blur-sm">
+        <div className="size-2 animate-pulse rounded-full bg-white"></div>
+        <span className="text-sm font-medium text-white">Loading content...</span>
+      </div>
+    </div>
+  );
 }

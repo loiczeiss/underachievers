@@ -1,6 +1,6 @@
-"use server";
+'use server';
 
-import { db } from "@/db";
+import { db } from '@/db';
 
 export async function getVoteDataComment(commentId: string, userId: string) {
   let voteCount: number;
@@ -21,7 +21,7 @@ export async function getVoteDataComment(commentId: string, userId: string) {
     } else {
       return {
         errors: {
-          _form: ["Failed to count vote due to an unknown error."],
+          _form: ['Failed to count vote due to an unknown error.'],
         },
       };
     }

@@ -1,25 +1,19 @@
-"use client";
+'use client';
 
-import {
-  Avatar,
-  Button,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@heroui/react";
+import { Avatar, Button, Popover, PopoverContent, PopoverTrigger } from '@heroui/react';
 
-import { useSession } from "next-auth/react";
+import { useSession } from 'next-auth/react';
 
-import * as actions from "@/actions";
-import PostSelection from "../post-selection";
-import { redirect } from "next/navigation";
-import paths from "@/paths";
+import * as actions from '@/actions';
+import PostSelection from '../post-selection';
+import { redirect } from 'next/navigation';
+import paths from '@/paths';
 
 export default function HeaderAuth() {
   const session = useSession();
 
   let authContent: React.ReactNode;
-  if (session.status === "loading") {
+  if (session.status === 'loading') {
     authContent = null;
   } else if (session.data?.user) {
     authContent = (
@@ -27,31 +21,20 @@ export default function HeaderAuth() {
         <PostSelection />
         <Popover placement="left">
           <PopoverTrigger>
-            <Avatar
-              src={session.data.user?.image || ""}
-              className="lg:ml-8 ml-4 w-8 h-8"
-            />
+            <Avatar src={session.data.user?.image || ''} className="ml-4 size-8 lg:ml-8" />
           </PopoverTrigger>
           <PopoverContent className="dark:bg-black/85">
-            <div className="p-4 flex flex-col items-center ">
-              <p className="mb-4 text-center dark:text-zinc-200">
-                {session.data.user.name}
-              </p>
+            <div className="flex flex-col items-center p-4 ">
+              <p className="mb-4 text-center dark:text-zinc-200">{session.data.user.name}</p>
               <Button
                 aria-label="My posts"
                 className="mb-4"
-                onPress={() =>
-                  redirect(paths.userPostsPage(session.data.user?.id as string))
-                }
+                onPress={() => redirect(paths.userPostsPage(session.data.user?.id as string))}
               >
                 My posts
               </Button>
               <form action={actions.signOut}>
-                <Button
-                  className="dark:text-zinc-100 "
-                  type="submit"
-                  aria-label="Sign out"
-                >
+                <Button className="dark:text-zinc-100 " type="submit" aria-label="Sign out">
                   Sign Out
                 </Button>
               </form>
@@ -65,7 +48,7 @@ export default function HeaderAuth() {
       <>
         <form action={actions.signIn}>
           <Button
-            className="dark:text-zinc-100 dark:bg-black/25"
+            className="dark:bg-black/25 dark:text-zinc-100"
             type="submit"
             color="default"
             variant="solid"
