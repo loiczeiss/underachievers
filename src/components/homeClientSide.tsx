@@ -47,13 +47,13 @@ export default function HomeClientSide(props: AllPostListprops) {
             size="sm"
             placement="center"
             className="rounded-xl shadow-xl"
+            classNames={{ closeButton: "text-white" }}
           >
-            <ModalContent className={'bg-transparent'}>
-              <Card className="p-6 text-center" isBlurred>
-                <p className="text-lg font-medium text-gray-800">
-                  To see comments and votes, please sign in
-                </p>
-              </Card>
+            <ModalContent className={'bg-transparent p-6 text-center'}>
+              <p className="text-lg font-medium text-gray-800">
+                To see comments and votes, please sign in
+              </p>
+
             </ModalContent>
           </Modal>
         )}
