@@ -63,7 +63,7 @@ export default function AllPostList(props: AllPostListprops) {
 
     const renderedImgPosts = [...props.posts]
         .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-        .map((post, index) => {
+        .map((post) => {
 
             const audio = post.audioId ? audioMap[post.audioId] : null; // Get associated audio for the post
             const postComments = props.comments.filter((comment) => {
@@ -117,7 +117,7 @@ export default function AllPostList(props: AllPostListprops) {
                     <div className="flex w-full justify-between">
                         <div className="flex">
                             {" "}
-                            <VoteButton postId={post.id} postType={post.postType}/>
+                            <VoteButton postId={post.id} postType={post.postType}  />
                             <CommentButton commentsLength={postComments.length} postId={post.id}
                                            postType={post.postType} post={post}/>
                         </div>

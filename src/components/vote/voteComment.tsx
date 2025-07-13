@@ -13,6 +13,7 @@ import { useTheme } from "next-themes";
 interface VoteButtonProps {
   commentId: string;
   postType: PostType
+  session: Session | null
 }
 
 export default function VoteCommentButton({ commentId, postType }: VoteButtonProps) {
@@ -21,7 +22,7 @@ export default function VoteCommentButton({ commentId, postType }: VoteButtonPro
   const [loading, setLoading] = useState(true); // Tracks loading state
   const [voted, setVoted] = useState(false); // Tracks if user has voted
   const session = useSession();
-  const { theme, setTheme } = useTheme()
+  const { theme } = useTheme()
 
   // Fetch vote count on initial render
   useEffect(() => {
@@ -81,7 +82,7 @@ export default function VoteCommentButton({ commentId, postType }: VoteButtonPro
   };
 
   return (
-    <div className="flex items-center">
+    <div className={`flex items-center ${session.status === "authenticated" ? "" : "hidden"}`}>
     <Button 
     id="Vote"
       onPress={handleVoteClick}

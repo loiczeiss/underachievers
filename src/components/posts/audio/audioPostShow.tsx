@@ -27,6 +27,7 @@ interface AudioPostShowProps {
   audio: AudioData;
   comments: Comment[];
   replies: Comment[]
+  session: Session | null;
 }
 interface AudioData {
   id: string;
@@ -66,10 +67,10 @@ export default function AudioPostShow(props: AudioPostShowProps) {
         <p className="mb-8">{props.post.content}</p>
         <div className="flex mb-2">
           {" "}
-          <VoteButton postId={props.post.id} postType="AUDIO" />
+          <VoteButton postId={props.post.id} postType="AUDIO" session={props.session} />
           <CommentButtonPosts commentsLength={props.comments.length} onClick={focusTextarea}/>
         </div>
-        <CommentsPost postId={props.post.id} comments={props.comments} replies={props.replies}  ref={textareaRef} postType={props.post.postType} />
+        <CommentsPost session={props.session} postId={props.post.id} comments={props.comments} replies={props.replies}  ref={textareaRef} postType={props.post.postType} />
       </Card>
       <Card isBlurred className="mb-4">
         <Button

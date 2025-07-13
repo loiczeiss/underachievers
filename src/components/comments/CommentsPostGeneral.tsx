@@ -20,13 +20,15 @@ interface CommentProps {
   comments: Comment[];
   replies: Comment[];
   postType: PostType;
+  session: Session | null
 }
 
+// eslint-disable-next-line react/display-name
 const CommentsPost = forwardRef<HTMLTextAreaElement, CommentProps>(
   ({ postId, comments, replies, postType }, ref) => {
     const router = useRouter();
     const [commentContentValue, setCommentContentValue] = useState("");
-    const [formState, action] = useActionState(actions.createCommentAction, {
+    const [action] = useActionState(actions.createCommentAction, {
       errors: {},
     });
 
@@ -67,7 +69,7 @@ const CommentsPost = forwardRef<HTMLTextAreaElement, CommentProps>(
     return (
       <>
         {" "}
-        <div className="mb-4 lg:w-full mx-4">
+        <div className={`mb-4 lg:w-full mx-4 ${session.status === "authenticated" ? "" : "hidden"}`}>
           <Card isBlurred className="bg-white/25 dark:bg-black/25">
             <Form
               action={action}
@@ -102,7 +104,7 @@ const CommentsPost = forwardRef<HTMLTextAreaElement, CommentProps>(
               <input type="hidden" name="postType" value={postType} />
               <Button
              id="Comment"
-                isDisabled={commentContentValue.length < 3 ? true : false}
+                isDisabled={commentContentValue.length < 3}
                 type="submit"
                 className="w-42 bg-white/50 self-end m-4  dark:bg-black/25 dark:text-zinc-300"
               >
@@ -185,6 +187,7 @@ const CommentsPost = forwardRef<HTMLTextAreaElement, CommentProps>(
                     <VoteCommentButton
                       commentId={comment.id}
                       postType={comment.postType}
+                      session={session}
                     />
                     <ReplyComment
                       commentId={comment.id}

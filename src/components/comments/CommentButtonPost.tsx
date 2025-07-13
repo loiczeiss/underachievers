@@ -2,6 +2,7 @@
 
 import { Button } from "@heroui/react";
 import { useTheme } from "next-themes";
+import { useSession } from "next-auth/react";
 
 interface CommentButtonProps {
   commentsLength: number;
@@ -9,8 +10,8 @@ interface CommentButtonProps {
 }
 
 export default function CommentButtonPosts(props: CommentButtonProps) {
-  const { theme, setTheme } = useTheme();
-
+  const { theme } = useTheme();
+const session = useSession()
   const CommentIcon = () => {
     return (
       <svg
@@ -34,7 +35,7 @@ export default function CommentButtonPosts(props: CommentButtonProps) {
       startContent={<CommentIcon />}
       className={`${
         theme === "dark" ? "invert" : ""
-      } rounded-2xl bg-white/25 m-0 ml-2 text-black dark:hover:bg-white/75`}
+      } ${session.status === "authenticated" ? "" : "hidden"} rounded-2xl bg-white/25 m-0 ml-2 text-black dark:hover:bg-white/75`}
       onPress={props.onClick} // Call the focus function
     >
       {props.commentsLength}

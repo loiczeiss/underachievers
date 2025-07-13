@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import paths from "@/paths";
 import { PostType } from "@prisma/client";
 import { useTheme } from "next-themes";
-
+import { useSession } from "next-auth/react";
 interface CommentButtonProps {
   commentsLength: number;
   post: {
@@ -25,8 +25,8 @@ interface CommentButtonProps {
 }
 
 export default function CommentButton(props: CommentButtonProps) {
-  const { theme, setTheme } = useTheme();
-
+  const { theme } = useTheme();
+const session = useSession();
   const handleRedirect = (post: CommentButtonProps["post"]) => {
     if (post.postType === "IMAGE") {
       return paths.imgPostShow(post.id);
@@ -59,7 +59,7 @@ export default function CommentButton(props: CommentButtonProps) {
       startContent={<CommentIcon />}
       className={`${
         theme === "dark" ? "invert" : ""
-      } dark:text-black rounded-2xl bg-white/25 m-0 ml-2`}
+      } ${session.status === "authenticated" ? "" : "hidden"} dark:text-black rounded-2xl bg-white/25 m-0 ml-2`}
       onPress={() => redirect(handleRedirect(props.post))}
     >
       {props.commentsLength}
