@@ -1,5 +1,5 @@
-import { Button } from "@heroui/react";
-import { Dispatch, SetStateAction } from "react";
+import { Button } from '@heroui/react';
+import { Dispatch, SetStateAction } from 'react';
 
 interface ReplyCommentButtonProps {
   setIsHidden: Dispatch<SetStateAction<boolean>>;
@@ -18,23 +18,19 @@ export default function ReplyComment(props: ReplyCommentButtonProps) {
   return (
     <>
       <Button
-      id="Reply"
+        id="Reply"
         className={`${
-          props.isHidden || props.commentConfirmationId !== props.commentId
-            ? "block"
-            : "hidden"
-        } bg-white/25 dark:text-zinc-300 dark:bg-black/25 dark:hover:bg-black/75`}
+          props.isHidden || props.commentConfirmationId !== props.commentId ? 'block' : 'hidden'
+        } bg-white/25 dark:bg-black/25 dark:text-zinc-300 dark:hover:bg-black/75`}
         onPress={() => openAndFocusReply()}
       >
         Reply
       </Button>
       <Button
-      id="Close"
+        id="Close"
         className={`${
-          props.isHidden || props.commentConfirmationId !== props.commentId
-            ? "hidden"
-            : "block"
-        } bg-red-400 dark:text-zinc-300 dark:bg-black/25`}
+          props.isHidden || props.commentConfirmationId !== props.commentId ? 'hidden' : 'block'
+        } bg-red-400 dark:bg-black/25 dark:text-zinc-300`}
         onPress={() => props.setIsHidden(true)}
       >
         Close

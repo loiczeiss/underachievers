@@ -1,19 +1,13 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import NavFilters from "./navFilters";
-import UserAllPostList from "./posts/user/all/UserAllPostList";
-import UserImgPostList from "./posts/user/images/UserImgPostList";
-import UserTextPostList from "./posts/user/text/UserTextPostList";
-import { Card } from "@heroui/react";
-import {
-  AudioPost,
-  Comment,
-  ImgPost,
-  PostType,
-  TextPost,
-} from "@prisma/client";
-import UserAudioPostList from "./posts/user/audio/UserAudioPostsList";
+import { useState } from 'react';
+import NavFilters from './navFilters';
+import UserAllPostList from './posts/user/all/UserAllPostList';
+import UserImgPostList from './posts/user/images/UserImgPostList';
+import UserTextPostList from './posts/user/text/UserTextPostList';
+import { Card } from '@heroui/react';
+import { AudioPost, Comment, ImgPost, PostType, TextPost } from '@prisma/client';
+import UserAudioPostList from './posts/user/audio/UserAudioPostsList';
 interface AllPostListprops {
   allPosts: {
     title: string;
@@ -51,11 +45,11 @@ export default function UserClientSide(props: AllPostListprops) {
     <>
       <Card
         isBlurred
-        className="w-10/12 mx-8 text-center py-4 mt-4 text-2xl dark:bg-black/25 dark:text-zinc-300"
+        className="mx-8 mt-4 w-10/12 py-4 text-center text-2xl dark:bg-black/25 dark:text-zinc-300"
       >
         My posts
       </Card>
-      <div className="flex flex-col lg:flex-row w-full">
+      <div className="flex w-full flex-col lg:flex-row">
         <NavFilters setMediaTypeFilter={setMediaTypeFIlter} />
         {mediaTypeFilter === 0 && (
           <UserAllPostList

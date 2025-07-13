@@ -1,6 +1,6 @@
-import { db } from "@/db";
-import * as actions from "@/actions";
-import UserAudioPostShow from "@/components/posts/user/audio/UserAudioPostShow";
+import { db } from '@/db';
+import * as actions from '@/actions';
+import UserAudioPostShow from '@/components/posts/user/audio/UserAudioPostShow';
 
 interface PostShowPageProps {
   params: Promise<{

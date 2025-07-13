@@ -1,7 +1,6 @@
-"use server";
+'use server';
 
-import { db } from "@/db";
-
+import { db } from '@/db';
 
 interface ResultProps {
   info: {
@@ -9,14 +8,12 @@ interface ResultProps {
     secure_url: string;
     height: number;
     format: string;
-    width: number
-  }
+    width: number;
+  };
 }
 export async function uploadImg(result: ResultProps) {
-  
-
   try {
-   await db.image.create({
+    await db.image.create({
       data: {
         publicId: result.info.public_id,
         url: result.info.secure_url,
@@ -29,10 +26,9 @@ export async function uploadImg(result: ResultProps) {
       url: result.info.secure_url,
       publicId: result.info.public_id,
     };
-
-}catch (err: unknown) {
+  } catch (err: unknown) {
     if (err instanceof Error) {
-      console.error("Database error:", err);
+      console.error('Database error:', err);
       return {
         errors: {
           _form: [err.message],
@@ -40,13 +36,11 @@ export async function uploadImg(result: ResultProps) {
       };
     }
 
-    console.error("Unexpected error:", err);
+    console.error('Unexpected error:', err);
     return {
       errors: {
-        _form: ["Failed to create post"],
+        _form: ['Failed to create post'],
       },
     };
   }
-
 }
-

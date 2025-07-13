@@ -1,7 +1,7 @@
-import { db } from "@/db";
-import AudioPostShow from "@/components/posts/audio/audioPostShow";
-import type { Audio } from "@prisma/client";
-import { auth } from "@/auth";
+import { db } from '@/db';
+import AudioPostShow from '@/components/posts/audio/audioPostShow';
+import type { Audio } from '@prisma/client';
+import { auth } from '@/auth';
 
 interface PostShowPageProps {
   params: Promise<{ id: string }>;
@@ -38,12 +38,10 @@ export default async function AudioPostShowPage(props: PostShowPageProps) {
     return <div className="flex justify-center">Post not found.</div>;
   }
 
-  const session = await auth()
 
   return (
     <div className="flex justify-center">
       <AudioPostShow
-        session={session}
         post={post}
         audio={audio as Audio}
         comments={comments}

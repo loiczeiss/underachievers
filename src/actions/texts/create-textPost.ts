@@ -1,17 +1,17 @@
-"use server";
+'use server';
 
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-import { z } from "zod";
-import { auth } from "@/auth";
-import { db } from "@/db";
-import paths from "@/paths";
-import { PostType } from "@prisma/client";
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
+import { z } from 'zod';
+import { auth } from '@/auth';
+import { db } from '@/db';
+import paths from '@/paths';
+import { PostType } from '@prisma/client';
 
 const createPostSchema = z.object({
   title: z.string().min(3),
   content: z.string().min(10),
-  postType: z.string().min(1)
+  postType: z.string().min(1),
 });
 
 interface CreateTextPostFormState {
@@ -27,9 +27,9 @@ export async function createTextPostAction(
   formData: FormData
 ): Promise<CreateTextPostFormState> {
   const result = createPostSchema.safeParse({
-    title: formData.get("title"),
-    content: formData.get("content"),
-    postType: formData.get("postType")
+    title: formData.get('title'),
+    content: formData.get('content'),
+    postType: formData.get('postType'),
   });
   if (!result.success) {
     return { errors: result.error.flatten().fieldErrors };
@@ -39,7 +39,7 @@ export async function createTextPostAction(
   if (!session || !session.user) {
     return {
       errors: {
-        _form: ["You must be signed in to do this"],
+        _form: ['You must be signed in to do this'],
       },
     };
   }
@@ -63,7 +63,7 @@ export async function createTextPostAction(
     } else {
       return {
         errors: {
-          _form: ["Failed to create post"],
+          _form: ['Failed to create post'],
         },
       };
     }

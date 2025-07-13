@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { Button } from "@heroui/react";
-import { redirect } from "next/navigation";
-import paths from "@/paths";
-import { PostType } from "@prisma/client";
-import { useTheme } from "next-themes";
-import { useSession } from "next-auth/react";
+import { Button } from '@heroui/react';
+import { redirect } from 'next/navigation';
+import paths from '@/paths';
+import { PostType } from '@prisma/client';
+import { useTheme } from 'next-themes';
+import { useSession } from 'next-auth/react';
 interface CommentButtonProps {
   commentsLength: number;
   post: {
@@ -26,11 +26,11 @@ interface CommentButtonProps {
 
 export default function CommentButton(props: CommentButtonProps) {
   const { theme } = useTheme();
-const session = useSession();
-  const handleRedirect = (post: CommentButtonProps["post"]) => {
-    if (post.postType === "IMAGE") {
+  const session = useSession();
+  const handleRedirect = (post: CommentButtonProps['post']) => {
+    if (post.postType === 'IMAGE') {
       return paths.imgPostShow(post.id);
-    } else if (post.postType === "AUDIO") {
+    } else if (post.postType === 'AUDIO') {
       return paths.audioPostShowPage(post.id);
     } else {
       return paths.textPostShow(post.id);
@@ -58,8 +58,8 @@ const session = useSession();
       aria-label="Comments"
       startContent={<CommentIcon />}
       className={`${
-        theme === "dark" ? "invert" : ""
-      } ${session.status === "authenticated" ? "" : "hidden"} dark:text-black rounded-2xl bg-white/25 m-0 ml-2`}
+        theme === 'dark' ? 'invert' : ''
+      } ${session.status === 'authenticated' ? '' : 'hidden'} m-0 ml-2 rounded-2xl bg-white/25 dark:text-black`}
       onPress={() => redirect(handleRedirect(props.post))}
     >
       {props.commentsLength}

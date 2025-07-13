@@ -1,5 +1,5 @@
-import { db } from "@/db";
-import ImgPostShow from "@/components/posts/images/imgPostShow";
+import { db } from '@/db';
+import ImgPostShow from '@/components/posts/images/imgPostShow';
 
 interface PostShowPageProps {
   params: Promise<{ id: string }>;

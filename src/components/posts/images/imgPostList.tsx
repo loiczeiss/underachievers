@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import CommentButton from "@/components/comments/CommentButtonLists";
-import VoteButton from "@/components/vote/votePost";
-import paths from "@/paths";
-import { Card, Button } from "@heroui/react";
-import { Comment, PostType } from "@prisma/client";
-import Image from "next/image";
-import Link from "next/link";
-import Zoom from "react-medium-image-zoom";
-import "react-medium-image-zoom/dist/styles.css";
+import CommentButton from '@/components/comments/CommentButtonLists';
+import VoteButton from '@/components/vote/votePost';
+import paths from '@/paths';
+import { Card, Button } from '@heroui/react';
+import { Comment, PostType } from '@prisma/client';
+import Image from 'next/image';
+import Link from 'next/link';
+import Zoom from 'react-medium-image-zoom';
+import 'react-medium-image-zoom/dist/styles.css';
 
 interface ImgPostListprops {
   comments: Comment[];
@@ -20,7 +20,7 @@ interface ImgPostListprops {
     imgUrl: string;
     createdAt: Date;
     updatedAt: Date;
-    postType: PostType
+    postType: PostType;
   }[];
 }
 
@@ -28,7 +28,10 @@ export const dynamicParams = true;
 
 export default function ImgPostList(props: ImgPostListprops) {
   const noPostYet = (
-    <Card isBlurred className="mx-8 mb-4 lg:mr-8 py-4 px-2 sm:px-8 dark:bg-black/25 dark:text-zinc-300">
+    <Card
+      isBlurred
+      className="mx-8 mb-4 px-2 py-4 sm:px-8 lg:mr-8 dark:bg-black/25 dark:text-zinc-300"
+    >
       <p>No posts yet.</p>
     </Card>
   );
@@ -36,13 +39,13 @@ export default function ImgPostList(props: ImgPostListprops) {
     return (
       <Card
         isBlurred
-        className="lg:mx-8 mb-4 lg:mr-8 py-4 px-2 sm:px-8  dark:bg-black/25 dark:text-zinc-300"
+        className="mb-4 px-2 py-4 sm:px-8 lg:mx-8 dark:bg-black/25  dark:text-zinc-300"
         key={post.id}
       >
         <div className="uppercase lg:text-2xl"> {post.title}</div>
         <Zoom>
           <Image
-            className="rounded-xl mb-4 "
+            className="mb-4 rounded-xl "
             width={300} // Adjust width as needed
             height={200} // Adjust height as needed
             src={post.imgUrl}
@@ -50,21 +53,26 @@ export default function ImgPostList(props: ImgPostListprops) {
             alt="Uploaded Image"
           />
         </Zoom>
-        <Card isBlurred className="mt-2 mb-4 p-2 text-sm lg:text-base dark:text-zinc-300">
+        <Card isBlurred className="mb-4 mt-2 p-2 text-sm lg:text-base dark:text-zinc-300">
           {post.content}
         </Card>
         <div className="flex w-full justify-between">
           <div className="flex">
-            {" "}
+            {' '}
             <VoteButton postId={post.id} postType={post.postType} />
-            <CommentButton commentsLength={props.comments.length} post={post} postType={post.postType}  postId={post.id}/>
+            <CommentButton
+              commentsLength={props.comments.length}
+              post={post}
+              postType={post.postType}
+              postId={post.id}
+            />
           </div>
           <div>
             <Button
-            id="View"
+              id="View"
               as={Link} // Use Link as the underlying component for the Button
               href={`${paths.imgPostShow(post.id)}`}
-              className="w-12 md:w-48 lg:w-64 bg-white/25  dark:bg-black/25 dark:text-zinc-300"
+              className="w-12 bg-white/25 md:w-48 lg:w-64  dark:bg-black/25 dark:text-zinc-300"
             >
               View
             </Button>
@@ -75,7 +83,7 @@ export default function ImgPostList(props: ImgPostListprops) {
   });
   return (
     <>
-      <div className="self-center w-5/6 lg:w-4/6 flex flex-col my-4 overscroll-contain">
+      <div className="my-4 flex w-5/6 flex-col self-center overscroll-contain lg:w-4/6">
         {props.posts.length === 0 ? noPostYet : renderedImgPosts}
       </div>
     </>
