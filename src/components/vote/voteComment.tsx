@@ -13,7 +13,7 @@ import { useTheme } from "next-themes";
 interface VoteButtonProps {
   commentId: string;
   postType: PostType
-  session: Session | null
+
 }
 
 export default function VoteCommentButton({ commentId, postType }: VoteButtonProps) {

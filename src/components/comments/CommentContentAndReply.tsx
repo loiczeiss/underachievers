@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import DeleteIcon from "public/delete.svg";
 import Image from "next/image";
 import VoteCommentButton from "../vote/voteComment";
+import {useSession} from "next-auth/react";
 
 interface CommentContentAndReplyProps {
     comment: Comment;
@@ -11,7 +12,7 @@ interface CommentContentAndReplyProps {
     parentId?: string;
     commentId: string;
     postType: string;
-    session: Session | null,
+
     handleDeleteComment: (
         arg0: string,
         arg1: string,
@@ -19,9 +20,10 @@ interface CommentContentAndReplyProps {
     ) => void;
 }
 
-export default function commentContentAndReply(
+export default function CommentContentAndReply(
     props: CommentContentAndReplyProps
 ) {
+    const session = useSession();
     return (
         <>
             <div
@@ -33,7 +35,7 @@ export default function commentContentAndReply(
                 .map((reply) => (
                     (<>
                         <div
-                            className={`flex items-center pb-2 pl-12 ${props.session?.status === "authentificated" ? "" : "hidden"}`}>
+                            className={`flex items-center pb-2 pl-12 ${ session.status !== "unauthenticated" ? "" : "hidden"}`}>
                             <Avatar
                                 src={reply.userImage || ""} className="w-4 h-4  md:w-8 md:h-8 mr-4"/>
                             <p className="text-gray-800 text-[8px] md:text-base dark:text-zinc-300">{reply.userName}</p>
@@ -50,11 +52,11 @@ export default function commentContentAndReply(
                                         reply.postType
                                     )
                                 }
-                                className={`$ {
-                              session.data?.user?.id === comment.userId
-                                ? "block"
-                                : "hidden"
-                            } min-w-[4px] h-8 rounded-3xl  ml-auto bg-white/25 rounded-3xl ml-4 hover:bg-red-400 `}
+                                className={`${
+                                    session?.data?.user?.id === reply.userId
+                                        ? "block"
+                                        : "hidden"
+                                } min-w-[4px] h-8 rounded-3xl ml-auto bg-white/25 ml-4 hover:bg-red-400`}
                             >
                                 <Image
                                     src={DeleteIcon}
@@ -72,10 +74,11 @@ export default function commentContentAndReply(
                             <p className="text-xs md:text-base dark:text-zinc-300">{reply.content}</p>
 
                         </div>
-                        <div className="flex justify-end mb-2"><VoteCommentButton
-                            commentId={reply.id}
-                            postType={reply.postType}
-                        /></div>
+                        <div className="flex justify-end mb-2">
+                            <VoteCommentButton
+                                commentId={reply.id}
+                                postType={reply.postType}
+                            /></div>
                     </>)
                 ))}
         </>
