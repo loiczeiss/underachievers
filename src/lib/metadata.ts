@@ -1,5 +1,6 @@
 export const defaultMeta = {
   title: 'UnderAchievers',
+  icon: '../app/favicon.ico',
   description: 'Underachievers is a space for forgotten ideas to evolve — share old sketches, drafts, or writings and let others bring them to life.',
   openGraph: {
     title: 'UnderAchievers',
