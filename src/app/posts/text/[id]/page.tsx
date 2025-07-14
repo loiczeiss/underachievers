@@ -1,9 +1,15 @@
 import PostShow from '@/components/posts/text/PostTextShow';
 import { db } from '@/db';
+import { Metadata } from 'next';
+import { generateMeta } from '@/lib/metadata';
 
 interface PostShowPageProps {
   params: Promise<{ id: string }>;
 }
+
+export const metadata: Metadata = generateMeta({
+  title: 'Writings | UnderAchievers',
+});
 
 export default async function PostShowPage(props: PostShowPageProps) {
   const params = await props.params;

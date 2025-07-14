@@ -1,8 +1,13 @@
-'use server';
 import NavBar from '@/components/navLinks';
 import ImgPostList from '@/components/posts/images/imgPostList';
 
 import { db } from '@/db';
+import { Metadata } from 'next';
+import { generateMeta } from '@/lib/metadata';
+
+export const metadata: Metadata = generateMeta({
+  title: 'Drawings | UnderAchievers',
+});
 
 export default async function PostsListPage() {
   const posts = await db.imgPost.findMany();

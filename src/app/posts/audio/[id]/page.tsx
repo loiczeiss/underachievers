@@ -2,10 +2,16 @@ import { db } from '@/db';
 import AudioPostShow from '@/components/posts/audio/audioPostShow';
 import type { Audio } from '@prisma/client';
 import { auth } from '@/auth';
+import { generateMeta } from '@/lib/metadata';
+import { Metadata } from 'next';
 
 interface PostShowPageProps {
   params: Promise<{ id: string }>;
 }
+
+export const metadata: Metadata = generateMeta({
+  title: 'Audio | UnderAchievers',
+});
 
 export default async function AudioPostShowPage(props: PostShowPageProps) {
   const params = await props.params;

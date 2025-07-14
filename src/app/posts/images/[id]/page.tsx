@@ -1,9 +1,14 @@
 import { db } from '@/db';
 import ImgPostShow from '@/components/posts/images/imgPostShow';
+import { Metadata } from 'next';
+import { generateMeta } from '@/lib/metadata';
 
 interface PostShowPageProps {
   params: Promise<{ id: string }>;
 }
+export const metadata: Metadata = generateMeta({
+  title: 'Drawings | UnderAchievers',
+});
 
 export default async function ImgPostShowPage(props: PostShowPageProps) {
   const params = await props.params;

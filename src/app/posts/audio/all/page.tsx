@@ -3,6 +3,12 @@ import NavLinks from '@/components/navLinks';
 import AudioPostList from '@/components/posts/audio/audioPostsList';
 
 import { db } from '@/db';
+import { Metadata } from 'next';
+import { generateMeta } from '@/lib/metadata';
+
+export const metadata: Metadata = generateMeta({
+  title: 'Audio | UnderAchievers',
+});
 
 export default async function PostsListPage() {
   const posts = await db.audioPost.findMany();

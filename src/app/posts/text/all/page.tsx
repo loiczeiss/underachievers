@@ -1,6 +1,11 @@
 import NavBar from '@/components/navLinks';
 import PostList from '@/components/posts/text/PostTextList';
 import { db } from '@/db';
+import { Metadata } from 'next';
+import { generateMeta } from '@/lib/metadata';
+export const metadata: Metadata = generateMeta({
+  title: 'Writings | UnderAchievers',
+});
 
 export default async function PostsListPage() {
   const posts = await db.textPost.findMany();

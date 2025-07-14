@@ -1,12 +1,11 @@
-// import CreateImgPost from "@/components/posts/images/createImgPost";
-// import getCloudinary from "@/app/utils/getCloudinary";
-// import { db } from "@/db";
-
 import CreateAudioPost from '@/components/posts/audio/createAudioPost';
+import { Metadata } from 'next';
+import { generateMeta } from '@/lib/metadata';
 
-// Cloudinary client
+export const metadata: Metadata = generateMeta({
+  title: 'Audio | UnderAchievers',
+});
 
-// const cloudinary = getCloudinary();
 export default async function CreateAudioPage() {
   return (
     <>
