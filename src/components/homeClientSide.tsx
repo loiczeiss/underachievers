@@ -4,8 +4,10 @@ import AllPostList from './posts/all/AllPostsList';
 import NavLinks from './navLinks';
 import { Audio, AudioPost, Comment, ImgPost, PostType, TextPost } from '@prisma/client';
 import { useSession } from 'next-auth/react';
-import { Modal, ModalContent, useDisclosure, Card } from '@heroui/react';
+import { Modal, ModalContent, useDisclosure } from '@heroui/react';
 import { useEffect } from 'react';
+import Image from 'next/image';
+import CharaPng from 'public/charaDS.png';
 
 interface AllPostListprops {
   audios: Audio[];
@@ -47,13 +49,23 @@ export default function HomeClientSide(props: AllPostListprops) {
             size="sm"
             placement="center"
             className="rounded-xl shadow-xl"
-            classNames={{ closeButton: "text-white" }}
+            classNames={{ closeButton: 'text-white' }}
           >
-            <ModalContent className={'bg-transparent p-6 text-center'}>
-              <p className="text-lg font-medium text-gray-800">
+            <ModalContent
+              className={'flex flex-col items-center space-y-4 bg-transparent p-6 text-center'}
+            >
+              <h1 className={'text-2xl underline'}>Let&#39;s walk together</h1>
+              <div className={' relative h-[350px] w-64'}>
+                <Image
+                  src={CharaPng.src}
+                  alt={'Sam Porter Bridges logo'}
+                  className={'object-cover'}
+                  fill
+                />
+              </div>
+              <p className="text-lg font-medium text-gray-800 ">
                 To see comments and votes, please sign in
               </p>
-
             </ModalContent>
           </Modal>
         )}
