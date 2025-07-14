@@ -60,6 +60,7 @@ export default function HomeClientSide(props: AllPostListprops) {
                   src={CharaPng.src}
                   alt={'Sam Porter Bridges logo'}
                   className={'object-cover'}
+                  priority
                   fill
                 />
               </div>
